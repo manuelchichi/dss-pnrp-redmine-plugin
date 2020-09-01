@@ -1,12 +1,12 @@
 # dss-pnrp-redmine-plugin
 
-##Requerimientos.
+## Requerimientos.
 
 [Docker](https://docs.docker.com/engine/install/ubuntu/)
 
 [Docker-Compose](https://docs.docker.com/compose/install/)
 
-##Guia como crear la imagen docker en local (plantear usar un registry).
+## Guia como crear la imagen docker en local (plantear usar un registry).
 
 ```
 cd docker
@@ -14,7 +14,7 @@ docker build . -t redmine-dss-pnrp:x.x.x
 ```
 Donde estan las x reemplazar por la version actual.
 
-##Guia como correr el contenedor de Redmine para realizar las pruebas.
+## Guia como correr el contenedor de Redmine para realizar las pruebas.
 
 ```
 cd docker
@@ -23,13 +23,13 @@ docker-compose up -d
 
 Una vez que esto esta iniciado accedemos a la aplicacion de Redmine en la [url](http://localhost:8080) .
 
-###Ingreso al sistema.
+### Ingreso al sistema.
 
 Default user/password.
 * user: user
 * password: bitnami1
 
-###Guia como ingresar al contenedor para ejecutar comandos.
+### Guia como ingresar al contenedor para ejecutar comandos.
 
 Para ingresar al contenedor.
 ```
