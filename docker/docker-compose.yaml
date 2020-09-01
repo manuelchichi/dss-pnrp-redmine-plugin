@@ -11,7 +11,7 @@ services:
       - 'mariadb_data:/bitnami'
   redmine:
     restart: always
-    image: 'bitnami/redmine'
+    image: 'redmine-dss-pnrp:0.0.1'
     environment:
       - REDMINE_DB_USERNAME=bn_redmine
       - REDMINE_DB_NAME=bitnami_redmine
