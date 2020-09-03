@@ -6,11 +6,11 @@
 
 [Docker-Compose](https://docs.docker.com/compose/install/)
 
-## Guia como crear la imagen docker en local (plantear usar un registry).
+## Guia como crear la imagen docker en local.
 
 ```
 cd docker
-docker build . -t redmine-dss-pnrp:x.x.x 
+docker build --build-arg DUMMY=`date +%s` . -t redmine-dss-pnrp:0.0.1 
 ```
 Donde estan las x reemplazar por la version actual.
 
@@ -31,9 +31,18 @@ Default user/password.
 
 ### Guia como ingresar al contenedor para ejecutar comandos.
 
+En el siguiente link vemos el [tutorial](https://www.redmine.org/projects/redmine/wiki/Plugin_Tutorial) para crear plugins en Redmine.
+
 Para ingresar al contenedor.
 ```
 docker exec -it <Nombre-Contenedor> /bin/bash
+
+docker exec -it docker_redmine_1 /bin/bash
+```
+
+Una vez dentro debemos ejecutar el siguiente comando.
+```
+export RAILS_ENV="production" 
 ```
 
 Para generar modelos.
@@ -41,11 +50,35 @@ Para generar modelos.
 bundle exec rails generate redmine_plugin_model <plugin_name> <model_name> [field[:type][:index] field[:type][:index] ...]
 ```
 
+Para instalar cambios en el plugin.
+```
+bundle exec rake redmine:plugins:migrate
+```
+
+Para utilizar la consola. 
+
+```
+bundle exec rails console
+```
+
 Para generar controladores.
 ```
 bundle exec rails generate redmine_plugin_controller <plugin_name> <controller_name> [<actions>]
 ```
 
+Para extraer los archivos generados.
+```
+./copy-linux.sh
+```
+
+### Guia como extraer archivos desde el contenedor hacia repositorio (linux).
+
+```
+./copy-linux.sh
+git add .
+git commit -m '<Mensaje commit>'
+git push
+```
 
 
 
