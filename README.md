@@ -80,6 +80,20 @@ git commit -m '<Mensaje commit>'
 git push
 ```
 
+## Resumen guia de trabajo.
+
+1. Crear controladores y modelos dentro del contenedor.
+
+1. Sacarlos fuera del contenedor (./copy-linux.sh).
+
+1. Trabajarlos/Modificarlos segun corresponda.
+
+1. git push de los cambios.
+
+1. Buildear nueva imagen en Docker.
+
+
+
 
 
 
