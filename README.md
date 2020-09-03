@@ -92,6 +92,8 @@ git push
 
 1. Buildear nueva imagen en Docker.
 
+1. Eliminar el contenedor viejo. Crear uno nuevo en base a la nueva imagen.
+
 
 
 
