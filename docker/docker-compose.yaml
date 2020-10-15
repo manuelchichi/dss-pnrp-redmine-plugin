@@ -18,12 +18,10 @@ services:
     ports:
       - '8080:3000'
     volumes:
-      - 'redmine_data:/bitnami'
+      - '~/redmine_data/:/bitnami'
     depends_on:
       - mariadb
 
 volumes:
   mariadb_data:
-    driver: local
-  redmine_data:
     driver: local
