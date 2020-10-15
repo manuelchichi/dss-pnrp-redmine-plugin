@@ -6,13 +6,12 @@
 
 [Docker-Compose](https://docs.docker.com/compose/install/)
 
-## Guia como crear la imagen docker en local.
+## Guia como crear la imagen docker en local (solo descargar la carpeta docker)
 
 ```
 cd docker
-docker build --build-arg DUMMY=`date +%s` . -t redmine-dss-pnrp:0.0.1 
+./build
 ```
-Donde estan las x reemplazar por la version actual.
 
 ## Guia como correr el contenedor de Redmine para realizar las pruebas.
 
@@ -22,6 +21,16 @@ docker-compose up -d
 ```
 
 Una vez que esto esta iniciado accedemos a la aplicacion de Redmine en la [url](http://localhost:8080) .
+
+## Guia como abrir el repositorio.
+
+Con su IDE favorito abrimos la carpeta ~/redmine_data/redmine/plugins/dss_nprp. 
+
+Para realizar modificaciones hay que cambiar los permisos de dicha carpeta. Cada vez que se generen nuevos archivos dentro del contenedor (al ejecutar un comando) se deberan ejecutar la siguiente sentencia.
+
+```
+sudo chown $(USER) -R ~/redmine_data/
+```
 
 ### Ingreso al sistema.
 
@@ -66,25 +75,11 @@ Para generar controladores.
 bundle exec rails generate redmine_plugin_controller <plugin_name> <controller_name> [<actions>]
 ```
 
-Para extraer los archivos generados.
-```
-./copy-linux.sh
-```
-
-### Guia como extraer archivos desde el contenedor hacia repositorio (linux).
-
-```
-./copy-linux.sh
-git add .
-git commit -m '<Mensaje commit>'
-git push
-```
-
 ## Resumen guia de trabajo.
 
-1. Crear controladores y modelos dentro del contenedor.
+1. git pull de los cambios.
 
-1. Sacarlos fuera del contenedor (./copy-linux.sh).
+1. Crear controladores y modelos dentro del contenedor.
 
 1. Trabajarlos/Modificarlos segun corresponda.
 
