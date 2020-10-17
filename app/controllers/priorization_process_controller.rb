@@ -1,5 +1,10 @@
 class PriorizationProcessController < ApplicationController
+
   def index
+    @project = Project.find(params[:project_id])
+
+    @issues = Issue.all
+
   end
   
   def init
