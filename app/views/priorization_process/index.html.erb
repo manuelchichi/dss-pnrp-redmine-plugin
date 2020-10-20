@@ -4,8 +4,9 @@ Testing asdasdasd asdasdasdasd
 
 <% @issues.each do |issue| %>
     <p> 
-      <%= issue.subject %> 
-      <%= issue.priority %>
+      Project   - <%= issue.project %>  -
+      Subject   - <%= issue.subject %>  -
+      Priority  - <%= issue.priority %> -
     </p>
 <% end %>
 
