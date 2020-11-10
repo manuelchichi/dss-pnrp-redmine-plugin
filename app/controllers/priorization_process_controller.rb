@@ -5,11 +5,15 @@ class PriorizationProcessController < ApplicationController
   include QueriesHelper
   
   def index
-    use_session = !request.format.csv?
-    retrieve_query(IssueQuery, use_session)
+    retrieve_query(IssueQuery, true)
+    ## Hay que hacer un comando que sea: retrive_query_prp
+    ## Este debe traer los issues, board_columns y issue_board
 
     if @query.valid?
         @issues = @query.issues()
+        #@issue_board = @query.issue_board
+        #@board_columns = @query.board_statuses
+
         render :layout => !request.xhr?
     else
         render :layout => !request.xhr?

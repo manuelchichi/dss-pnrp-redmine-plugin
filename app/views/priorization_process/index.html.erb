@@ -1,14 +1,6 @@
 <h2>PriorizationProcessController#index</h2>
 
-Testing asdasdasd :: asdasdasdasd
-
-<% @issues.each do |issue| %>
-    <p> 
-      Project   - <%= issue.project %>  -
-      Subject   - <%= issue.subject %>  -
-      Priority  - <%= issue.priority %> -
-      Tracker - <%= issue.tracker %> -
-    </p>
-
-<% end %>
+<%= render 'index' %>
+<%= init_agile_tooltip_info %>
+<%= call_hook(:view_agile_board_bottom, { :issues => @issues, :project => @project, :query => @query }) %>
 
