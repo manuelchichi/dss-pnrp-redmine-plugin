@@ -1,6 +1,7 @@
 class PriorizationProcessController < ApplicationController
   require 'net/http'
   require 'json'
+  
   before_action :find_project, :authorize, only: :index
 
   helper :queries
@@ -31,11 +32,16 @@ class PriorizationProcessController < ApplicationController
       
       @alternatives << [ alternative['alternative_id'], @issues ]
     end
+   
 
   end
 
   def index
     retrive_query_prp
+  end
+
+  def find_project
+    @project = Project.find(params[:project_id])
   end
   
   def init
