@@ -1,0 +1,60 @@
+{
+    "id":1,
+    "prp_process_id":1,
+    "alternatives":
+    [
+        {
+            "alternative_id":1,
+            "issues":
+            [
+                {
+                    "issue_id":1,
+                    "priority_id": 1
+                },
+                {
+                    "issue_id":2,
+                    "priority_id": 2
+                },
+                {
+                    "issue_id":3,
+                    "priority_id": 1
+                },
+                {
+                    "issue_id":4,
+                    "priority_id": 2
+                },
+                {
+                    "issue_id":5,
+                    "priority_id": 3
+                }
+            ]
+        },
+        {
+            "alternative_id":2,
+            "issues":
+            [
+                {
+                    "issue_id":1,
+                    "priority_id": 3
+                },
+                {
+                    "issue_id":2,
+                    "priority_id": 2
+                },
+                {
+                    "issue_id":3,
+                    "priority_id": 2
+                },
+                {
+                    "issue_id":4,
+                    "priority_id": 1
+                },
+                {
+                    "issue_id":5,
+                    "priority_id": 1
+                }
+            ]
+        }
+    ]
+         
+}

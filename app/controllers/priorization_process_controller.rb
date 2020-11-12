@@ -1,29 +1,41 @@
 class PriorizationProcessController < ApplicationController
+  require 'net/http'
+  require 'json'
   before_action :find_project, :authorize, only: :index
 
   helper :queries
   include QueriesHelper
   
-  def index
-    retrieve_query(IssueQuery, true)
-    ## Hay que hacer un comando que sea: retrive_query_prp
-    ## Este debe traer los issues, board_columns y issue_board
+  def retrive_query_prp
+    
+    ## result = Net::HTTP.get(URI.parse('http://www.example.com/about.html'))
+    
 
-    if @query.valid?
-        @issues = @query.issues()
-        #@issue_board = @query.issue_board
-        #@board_columns = @query.board_statuses
+    data_hash = {}
 
-        render :layout => !request.xhr?
-    else
-        render :layout => !request.xhr?
+    File.open('/bitnami/redmine/plugins/dss_pnrp/app/controllers/prp_issues_result.json') do |f|
+      data_hash = JSON.parse(f.read)
     end
-  rescue ActiveRecord::RecordNotFound
-    render_404
+    
+    returned_alternatives = data_hash['alternatives']
+
+    @alternatives = Array.new
+    returned_alternatives.each do |alternative|
+
+      @issues = Array.new
+      alternative['issues'].each do |issue|
+        new_member = Issue.find(issue['issue_id']) #Esto deberia hashearse en una tabla
+        new_member.priority_id = issue['priority_id']
+        @issues << new_member
+      end
+      
+      @alternatives << [ alternative['alternative_id'], @issues ]
+    end
+
   end
 
-  def find_project
-    @project = Project.find(params[:project_id])
+  def index
+    retrive_query_prp
   end
   
   def init
