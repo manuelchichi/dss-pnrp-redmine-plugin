@@ -1,14 +1,40 @@
 <h2>PriorizationProcessController#index</h2>
 
-<% @alternatives.each do |alternative| %>
-  <p> 
-    Alternative number   - <%= alternative[0] %>  -
-  </p>
-  <% alternative[1].each do |issue| %>
-      <p> 
-        Subject   - <%= issue.subject %>  -
-        Priority  - <%= issue.priority %> -
-      </p>
+<div class="pr-board box">
+  <% @alternatives.each do |alternative| %>
+    <div class="alternative list">
+      <div class="alternative-option"> 
+        Alternative number - <%= alternative[0] %>
+      </div>
+      <div class="alternative-issues"> 
+        <% alternative[1].each do |column| %>
+        <div class ="issues-column"> 
+          <div class="issue-column-priority">
+            <%= column[:name] %>
+          </div>
+
+          <% column[:issues].each do |row| %>
+            <div class="issue-column-subject">
+              <%= row.subject %>
+            </div>
+          <% end %>
+        </div>
+        <% end %>
+        
+      </div>
+    </div>
   <% end %>
+</div>
+
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag "tables", plugin: "dss_pnrp" %>
 <% end %>
+  
+
+
+
+
+
+
+
 

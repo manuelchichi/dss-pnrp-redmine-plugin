@@ -1,0 +1,25 @@
+.pr-board {
+
+}
+
+.alternative {
+}
+
+.alternative-issues {
+}
+
+.issues-column{
+    display: inline-grid;
+    justify-items: center;
+    box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+}
+
+.issue-column-priority {
+    font-weight: bold;
+    grid-auto-flow: column;
+}
+
+
+.issue-column-subject {
+    grid-auto-flow: row;   
+}

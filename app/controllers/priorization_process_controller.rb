@@ -20,20 +20,39 @@ class PriorizationProcessController < ApplicationController
     
     returned_alternatives = data_hash['alternatives']
 
-    @alternatives = Array.new
+    #Ordenar la board aca. Issues 
+
+    priorities = IssuePriority.all
+
+    @alternatives = []
     returned_alternatives.each do |alternative|
 
-      @issues = Array.new
-      alternative['issues'].each do |issue|
-        new_member = Issue.find(issue['issue_id']) #Esto deberia hashearse en una tabla
-        new_member.priority_id = issue['priority_id']
-        @issues << new_member
+      board = []
+      priorities.each do |priority|
+        #Inicializar prioridades.
+        board_element = Hash.new
+        board_element[:id] = priority.id
+        board_element[:name] = priority.name
+        board_element[:issues] = []
+        board << board_element 
       end
-      
-      @alternatives << [ alternative['alternative_id'], @issues ]
-    end
-   
 
+      alternative['issues'].each do |issue|
+        
+        new_issue = Issue.find(issue['issue_id']) #Esto deberia hashearse en una tabla, si existe no se busca.
+        new_issue.priority_id = issue['priority_id']
+
+        #Agregar al diccionario ordenado por prioridad. 
+        board.each do |board_element|
+          if (board_element[:id] == new_issue.priority_id)
+            board_element[:issues] = board_element[:issues] << new_issue
+          end
+        end
+
+      end
+      @alternatives << [ alternative['alternative_id'], board ]
+    end
+    
   end
 
   def index
