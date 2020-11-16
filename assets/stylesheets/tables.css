@@ -1,25 +1,51 @@
 .pr-board {
-
+    display: grid;
+    grid-gap: 5px;
 }
 
 .alternative {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 100px auto;
+    background-color: aliceblue;
+}
+
+.alternative-option {
 }
 
 .alternative-issues {
+    display: grid;
+    grid-auto-flow: column;
+    grid-gap: 5px;
+    grid-auto-columns: auto;
+    justify-content: space-between;
+    overflow-x: auto;
 }
 
 .issues-column{
-    display: inline-grid;
-    justify-items: center;
+    width: 200px;
+    text-align: center;
+    margin-bottom: 10%;
     box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+    background-color: rgb(250, 182, 157);
 }
+
+@media only screen 
+and (max-device-width : 400px) {
+    .alternative-issues {
+        grid-auto-flow: row;
+        overflow-x: hidden;
+    }
+}
+
 
 .issue-column-priority {
     font-weight: bold;
-    grid-auto-flow: column;
+    
 }
 
 
-.issue-column-subject {
-    grid-auto-flow: row;   
+.issue-column-subject { 
+    
+
 }

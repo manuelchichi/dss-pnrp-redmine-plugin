@@ -16,6 +16,7 @@
           <% column[:issues].each do |row| %>
             <div class="issue-column-subject">
               <%= row.subject %>
+              <%= link_to "#{'#' + row.id.to_s}", issue_path(row) %>
             </div>
           <% end %>
         </div>
