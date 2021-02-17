@@ -6,7 +6,7 @@ Redmine::Plugin.register :dss_pnrp do
   url 'http://example.com/path/to/plugin'
   author_url 'http://example.com/about'
   
-  permission :priorization_process, { priorization_process: [:index, :vote] }, public: true
+  permission :priorization_process, { priorization_process: [:index, :vote, :get] }, public: true
 
   #Usar PROC para que solo se pueda ver si es el raiz. 
   # :if => Proc.new { Project.current.root? }
