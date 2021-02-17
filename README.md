@@ -22,7 +22,7 @@ Con su IDE favorito abrimos la carpeta ./docker/redmine_data/redmine/plugins/dss
 Para realizar modificaciones hay que cambiar los permisos de dicha carpeta. Cada vez que se generen nuevos archivos dentro del contenedor (al ejecutar un comando) se deberan ejecutar la siguiente sentencia.
 
 ```
-sudo chown $(USER) -R ./redmine_data/
+sudo chown $USER -R redmine_data/
 ```
 
 ### Ingreso al sistema.
