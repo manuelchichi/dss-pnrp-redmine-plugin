@@ -6,13 +6,6 @@
 
 [Docker-Compose](https://docs.docker.com/compose/install/)
 
-## Guia como crear la imagen docker en local (solo descargar la carpeta docker)
-
-```
-cd docker
-./build
-```
-
 ## Guia como correr el contenedor de Redmine para realizar las pruebas.
 
 ```
@@ -24,12 +17,12 @@ Una vez que esto esta iniciado accedemos a la aplicacion de Redmine en la [url](
 
 ## Guia como abrir el repositorio.
 
-Con su IDE favorito abrimos la carpeta ~/redmine_data/redmine/plugins/dss_nprp. 
+Con su IDE favorito abrimos la carpeta ./docker/redmine_data/redmine/plugins/dss_nprp. 
 
 Para realizar modificaciones hay que cambiar los permisos de dicha carpeta. Cada vez que se generen nuevos archivos dentro del contenedor (al ejecutar un comando) se deberan ejecutar la siguiente sentencia.
 
 ```
-sudo chown $(USER) -R ~/redmine_data/
+sudo chown $(USER) -R ./redmine_data/
 ```
 
 ### Ingreso al sistema.
