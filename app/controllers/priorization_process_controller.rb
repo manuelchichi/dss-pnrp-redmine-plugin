@@ -7,6 +7,7 @@ class PriorizationProcessController < ApplicationController
   helper :queries
   include QueriesHelper
   
+
   def retrive_query_prp
     
     ## result = Net::HTTP.get(URI.parse('http://www.example.com/about.html'))
@@ -55,6 +56,10 @@ class PriorizationProcessController < ApplicationController
     
   end
 
+  def decisiontaker
+    @name = "Proceso de priorización"
+  end
+
   def index
     retrive_query_prp
   end
@@ -70,6 +75,8 @@ class PriorizationProcessController < ApplicationController
   end
 
   def get
+    decisiontaker
+    @people = User.all  #Invocar el objeto que tiene todas las personas
   end
 
   def change
