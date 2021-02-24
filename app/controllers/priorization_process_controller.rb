@@ -81,4 +81,8 @@ class PriorizationProcessController < ApplicationController
 
   def change
   end
+
+  def algorithms
+    @name = "Algoritmos"
+  end
 end
