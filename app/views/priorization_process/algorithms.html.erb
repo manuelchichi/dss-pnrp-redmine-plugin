@@ -1,3 +1,33 @@
 <h2>PriorizationProcessController#algorithms</h2>
 
-<%= "Hello!" %>
+<form>
+  <div class="pr-board box">
+    <table class="table w-50 mt-5">
+        <thead class="thead-dark"
+         <tr>
+           <th> Algoritmos </th>
+         </tr>
+        </thead>
+            
+        <tbody>
+            <% @algorithms.each do |algorithm| %>
+            <tr>
+                <td>        
+                 <input type="radio" name="selectAlgorithm" value="algorithm<%= algorithm['id'] %>">
+                 <label for="algorithm<%= algorithm['id'] %>"> <%= algorithm['id'] %>. </label>
+                 <%= algorithm['name'] + ' ' + algorithm['version']%> 
+                </td>
+            </tr>
+            <% end %>
+        </tbody>
+
+    </table>
+  </div>
+        
+    
+    <div class='buttons'>
+      <input type="submit" value='Seleccionar'>
+    </div>
+  </div>
+
+</form>

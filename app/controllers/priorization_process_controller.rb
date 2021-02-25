@@ -58,7 +58,7 @@ class PriorizationProcessController < ApplicationController
 
   def decisiontaker
     @name = "Proceso de priorización"
-  end
+  end 
 
   def index
     retrive_query_prp
@@ -82,7 +82,24 @@ class PriorizationProcessController < ApplicationController
   def change
   end
 
+  def retrieve_algorithms_prp
+    ## result = Net::HTTP.get(URI.parse('http://www.example.com/about.html'))
+        
+    @algorithms = []
+    data_hash = {}
+
+    File.open('/bitnami/redmine/plugins/dss_pnrp/app/controllers/algorithms_result.json') do |f|
+      data_hash = JSON.parse(f.read)
+    end
+
+    returned_algorithms = data_hash['algorithms'] #Por ahora lo dejo de esta forma por si hay que modificar algo.
+    returned_algorithms.each do |algorithm| #Aqui lo mismo, por si hay que agregarle cosas.
+        @algorithms << algorithm
+    end 
+  end
+
   def algorithms
+    retrieve_algorithms_prp
     @name = "Algoritmos"
   end
 end

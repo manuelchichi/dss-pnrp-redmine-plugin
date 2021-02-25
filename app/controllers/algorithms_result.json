@@ -1,0 +1,15 @@
+{   
+    "algorithms":
+    [
+        {
+            "id": 1,
+            "name": "NSGA-II",
+            "version": "1.0"
+        },
+        {
+            "id": 2,
+            "name": "MOPSO",
+            "version": "1.0"
+        }
+    ]
+}
