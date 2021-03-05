@@ -77,6 +77,13 @@ class PriorizationProcessController < ApplicationController
   def get
     decisiontaker
     @people = User.all  #Invocar el objeto que tiene todas las personas
+
+    if params[:search].blank?  
+    else  
+      @parameter = params[:search].downcase  
+      @results = User.all.where("lower(firstname) LIKE :search", search: "%#{@parameter}%")  
+    end 
+
   end
 
   def change
