@@ -21,11 +21,29 @@
 
     </table>
   </div>
-        
+
+  
+<%= form_tag('/priorization_process_get', :method => "get") do %>  
+    <div class="input-group">  
+      <%= search_field_tag :search, params[:search], placeholder: "Search", class: "form-control" %>  
+      <div class="input-group-btn">  
+        <%= button_tag "", :class => 'btn btn-info glyphicon glyphicon-search',:name => nil%>  
+      </div>  
+  </div>  
+<% end %>
+
+<% if @results.present? %>  
+  <% @results.each do |result| %>  
+    <%= result.firstname + result.lastname %>  <br>
+  <% end %>
+<% end %>  
+
     
     <div class='buttons'>
       <input type="submit" value='Seleccionar'>
     </div>
   </div>
+
+
 
 </form>
