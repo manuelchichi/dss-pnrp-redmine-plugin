@@ -4,12 +4,36 @@
         {
             "id": 1,
             "name": "NSGA-II",
-            "version": "1.0"
+            "version": "1.0",
+            "parameters":
+            [
+                {"name": "Poblacion",
+                 "defaultValue": 100},
+                {"name": "Generaciones",
+                 "defaultValue": 50},
+                {"name": "Probabilidad de mutacion",
+                 "defaultValue": 0.2},
+                {"name": "Ratio de Cruce",
+                 "defaultValue": 0.8}
+            ]
         },
         {
             "id": 2,
             "name": "MOPSO",
-            "version": "1.0"
+            "version": "1.0",
+            "parameters":
+            [
+                {"name": "Poblacion",
+                 "defaultValue": 100},
+                {"name": "Generaciones",
+                 "defaultValue": 70},
+                {"name": "Probabilidad de mutacion",
+                 "defaultValue": 0.4},
+                {"name": "Ratio de Cruce",
+                 "defaultValue": 0.8},
+                {"name": "Ratio de deterioro",
+                 "defaultValue": 2}
+            ]
         }
     ]
 }

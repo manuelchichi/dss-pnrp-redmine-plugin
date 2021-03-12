@@ -17,6 +17,17 @@
                  <label for="algorithm<%= algorithm['id'] %>"> <%= algorithm['id'] %>. </label>
                  <%= algorithm['name'] + ' ' + algorithm['version']%> 
                 </td>
+                <table>
+                <tr>
+                 <% algorithm['parameters'].each do |param| %>
+                  <td>
+                    <%= param['name'] %>
+                    <input type="number" name= <%= param['name'] %> placeholder="<%= param['defaultValue']%>" value= "<%=param['defaultValue']%>" >
+                  </td>
+                </tr>
+                <% end %>
+              </table>
+                
             </tr>
             <% end %>
         </tbody>
