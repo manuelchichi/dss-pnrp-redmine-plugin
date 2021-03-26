@@ -109,4 +109,11 @@ class PriorizationProcessController < ApplicationController
     retrieve_algorithms_prp
     @name = "Algoritmos"
   end
+
+  def view
+    @name  = "Vista de procesos y proximas entregas"
+    @issues = []
+    @issues << Issue.find(3)
+  end
+  
 end

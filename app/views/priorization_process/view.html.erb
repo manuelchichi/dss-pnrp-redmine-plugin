@@ -1,0 +1,11 @@
+<h2>PriorizationProcessController#view</h2>
+
+<p>
+    <% @issues.each do |issue|%>
+        issue id:
+        <%= issue['id'] %> \n
+        issue description:
+        <%= issue['description'] %>
+    <% end %>
+
+</p>

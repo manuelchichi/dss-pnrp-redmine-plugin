@@ -4,6 +4,7 @@
 
 get '/priorization_process_get', to: 'priorization_process#get'
 get '/priorization_process_algorithms', to: 'priorization_process#algorithms'
+get '/priorization_process_view', to: 'priorization_process#view'
 
 get '/priorization_process', to: 'priorization_process#index'
 get '/priorization_process/:id', to: 'priorization_process#show'
