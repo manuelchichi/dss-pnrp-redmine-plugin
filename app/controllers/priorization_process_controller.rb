@@ -60,8 +60,11 @@ class PriorizationProcessController < ApplicationController
     @name = "Proceso de priorización"
   end 
 
-  def index
+  def alternatives
     retrive_query_prp
+  end
+
+  def index
   end
 
   def find_project
@@ -74,7 +77,7 @@ class PriorizationProcessController < ApplicationController
   def run
   end
 
-  def get
+  def persons
     decisiontaker
     @people = User.all  #Invocar el objeto que tiene todas las personas
 
@@ -83,7 +86,9 @@ class PriorizationProcessController < ApplicationController
       @parameter = params[:search].downcase  
       @results = User.all.where("lower(firstname) LIKE :search", search: "%#{@parameter}%")  
     end 
+  end
 
+  def get
   end
 
   def change

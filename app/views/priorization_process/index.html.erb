@@ -1,48 +1,5 @@
 <h2>PriorizationProcessController#index</h2>
 
-<%= link_to "Menu personas", "/priorization_process_get" %>
-<%= link_to "Menu algoritmos", "/priorization_process_algorithms" %>
-<%= link_to "Vista procesos y proximas entregas", "/priorization_process_view" %>
-
-<form>
-  <div class="pr-board box">
-    <% @alternatives.each do |alternative| %>
-      <div class="alternative list">
-        <div class="alternative-option"> 
-          <input type="radio" name="selectAlternative" value="alternative<%= alternative[0] %>">
-          <label for="alternative<%= alternative[0] %>"> Alt. <%= alternative[0] %> </label>
-        </div>
-        <div class="alternative-issues"> 
-          <% alternative[1].each do |column| %>
-          <div class ="issues-column"> 
-            <div class="issue-column-priority">
-              <%= column[:name] %>
-            </div>
-
-            <% column[:issues].each do |row| %>
-              <div class="issue-column-subject">
-                <%= row.subject %>
-                <%= link_to "#{'#' + row.id.to_s}", issue_path(row) %>
-              </div>
-            <% end %>
-          </div>
-          <% end %>
-          
-        </div>
-
-      </div>
-    <% end %>
-    <div class='buttons'>
-      <input type="submit" value='Seleccionar'>
-    </div>
-  </div>
-
-</form>
-
-<% content_for :header_tags do %>
-  <%= stylesheet_link_tag "tables", plugin: "dss_pnrp" %>
-<% end %>
-  
 
 
 
