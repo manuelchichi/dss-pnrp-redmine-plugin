@@ -7,6 +7,8 @@ get '/projects/:project_id/requeriment_engineering/index', to: 'requeriment_engi
 get '/priorization_process_persons', to: 'priorization_process#persons'
 get '/priorization_process_algorithms', to: 'priorization_process#algorithms'
 get '/priorization_process_alternatives', to: 'priorization_process#alternatives'
+get '/priorization_process_criteria', to: 'priorization_process#criteria'
+
 
 get '/priorization_process', to: 'priorization_process#index'
 get '/priorization_process/:id', to: 'priorization_process#show'
