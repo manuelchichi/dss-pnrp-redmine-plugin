@@ -3,3 +3,72 @@
 <%= link_to "Menu personas", "/priorization_process_persons" %>
 <%= link_to "Menu algoritmos", "/priorization_process_algorithms" %>
 <%= link_to "Menu alternativas", "/priorization_process_alternatives" %>
+
+
+<hr>
+<!--Cabecera-->
+    <div class="pr-board box">
+        Project 1 <%= @project['project_id'] %> <!-- Aun no consigo que esto funcione -->
+    </div> 
+
+<hr>
+<!--Tabla de Priorizacion -->
+<table>
+<tr>
+  <th> Priorizacion </th>
+<tr>
+<tr>
+    <th> id </th>
+    <th> status </th>
+    <th> start date </th>
+    <th> description </th>
+</tr>
+    <% @issues1.each do |issue|%>
+      <tr>   
+        <td align ="center">
+         <%= issue['id'] %>
+        </td>
+        <td>
+         <%= issue['status_id'] %>
+        </td>
+        <td>
+         <%= issue['start_date'] %>
+        </td>
+        <td>
+         <%= issue['description'] %>
+        </td>
+       </tr>
+    <% end %>
+
+</table>
+
+<hr>
+<!--Tabla de Proximos lanzamientos-->
+<table>
+<tr>
+  <th> Proximos lanzamientos </th>
+<tr>
+<tr>
+    <th> id </th>
+    <th> status </th>
+    <th> start date </th>
+    <th> description </th>
+</tr>
+    <% @issues2.each do |issue|%>
+      <tr>   
+        <td align="center">
+         <%= issue['id'] %>
+        </td>
+        <td>
+         <%= issue['status_id'] %>
+        </td>
+        <td>
+         <%= issue['start_date'] %>
+        </td>
+        <td>
+         <%= issue['description'] %>
+        </td>
+       </tr>
+    <% end %>
+
+</table>
