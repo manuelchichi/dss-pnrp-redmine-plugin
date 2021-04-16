@@ -10,18 +10,20 @@ services:
     volumes:
       - 'mariadb_data:/bitnami'
   redmine:
-    restart: always
-    build: .
+    image: 'bitnami/redmine:4.2.0'
     environment:
       - REDMINE_DB_USERNAME=bn_redmine
       - REDMINE_DB_NAME=bitnami_redmine
     ports:
       - '8080:3000'
     volumes:
-      - './redmine_data/:/bitnami'
+      - 'redmine_data:/bitnami'
+      - '../:/bitnami/redmine/plugins/dss_pnrp'
     depends_on:
       - mariadb
 
 volumes:
+  redmine_data:
+    driver: local
   mariadb_data:
     driver: local

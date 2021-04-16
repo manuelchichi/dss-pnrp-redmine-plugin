@@ -1,4 +1,4 @@
-FROM bitnami/redmine
+FROM bitnami/redmine:4.2.0
 
 WORKDIR /opt/bitnami/redmine/
 

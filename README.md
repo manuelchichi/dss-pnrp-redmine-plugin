@@ -12,12 +12,13 @@
 cd docker
 docker-compose up -d 
 ```
+En el caso de que haya errores en algun lado de la aplicacion se deberan chequear si se corrieron las migraciones del plugin (en una seccion mas adelante se explica como realizarlo). (Refactorizar para que lo haga cuando arranca)
 
 Una vez que esto esta iniciado accedemos a la aplicacion de Redmine en la [url](http://localhost:8080) .
 
 ## Guia como abrir el repositorio.
 
-Con su IDE favorito abrimos la carpeta ./docker/redmine_data/redmine/plugins/dss_nprp. 
+Con su IDE favorito abrimos la carpeta del proyecto actual. 
 
 Para realizar modificaciones hay que cambiar los permisos de dicha carpeta. Cada vez que se generen nuevos archivos dentro del contenedor (al ejecutar un comando) se deberan ejecutar la siguiente sentencia.
 
@@ -42,17 +43,18 @@ docker exec -it <Nombre-Contenedor> /bin/bash
 docker exec -it docker_redmine_1 /bin/bash
 ```
 
-Una vez dentro debemos ejecutar el siguiente comando.
+Una vez dentro debemos ejecutar los siguientes comandos para poder utilizar bundle.
 ```
 export RAILS_ENV="production" 
+cd /opt/bitnami/redmine
 ```
-
+#### Lista comandos utiles
 Para generar modelos.
 ```
 bundle exec rails generate redmine_plugin_model <plugin_name> <model_name> [field[:type][:index] field[:type][:index] ...]
 ```
 
-Para instalar cambios en el plugin.
+Para realizar las migraciones del plugin.
 ```
 bundle exec rake redmine:plugins:migrate
 ```
@@ -67,20 +69,6 @@ Para generar controladores.
 ```
 bundle exec rails generate redmine_plugin_controller <plugin_name> <controller_name> [<actions>]
 ```
-
-## Resumen guia de trabajo.
-
-1. git pull de los cambios.
-
-1. Crear controladores y modelos dentro del contenedor.
-
-1. Trabajarlos/Modificarlos segun corresponda.
-
-1. git push de los cambios.
-
-1. Buildear nueva imagen en Docker.
-
-1. Eliminar el contenedor viejo. Crear uno nuevo en base a la nueva imagen.
 
 
 
