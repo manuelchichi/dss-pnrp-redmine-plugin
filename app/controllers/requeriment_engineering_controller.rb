@@ -3,7 +3,7 @@ class RequerimentEngineeringController < ApplicationController
 
   def index
     @name  = "Vista de procesos y proximas entregas"
-    @issues1 = Issue.all  #Priorizacion # Cambiar el all al Where con el proyecto correspondiente
+    @issues1 = PriorizationProcess.all  #Priorizacion # Cambiar el all al Where con el proyecto correspondiente
     @issues2 = Issue.all  #ProximoLanzamiento
   end
 

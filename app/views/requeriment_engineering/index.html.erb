@@ -8,7 +8,7 @@
 <hr>
 <!--Cabecera-->
     <div class="pr-board box">
-        Project 1 <%= @project['id'] %> <!-- Aun no consigo que esto funcione -->
+        Project <%= @project['id'] %>
     </div> 
 
 <hr>
@@ -21,7 +21,7 @@
     <th> id </th>
     <th> status </th>
     <th> start date </th>
-    <th> description </th>
+    <th> updated date </th>
 </tr>
     <% @issues1.each do |issue|%>
       <tr>   
@@ -29,13 +29,13 @@
          <%= issue['id'] %>
         </td>
         <td>
-         <%= issue['status_id'] %>
+         <%= issue['status'] %>
         </td>
         <td>
-         <%= issue['start_date'] %>
+         <%= issue['created_on'] %>
         </td>
         <td>
-         <%= issue['description'] %>
+         <%= issue['updated_on'] %>
         </td>
        </tr>
     <% end %>
