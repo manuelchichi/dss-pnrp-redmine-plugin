@@ -1,8 +1,17 @@
 class Inits < ActiveRecord::Migration[5.2]
   def up
+    #PP1
+    PriorizationProcess.create(project_id: 1, created_on: Time.now.to_i, updated_on: Time.now.to_i, status: 1)
+    #PP2
     PriorizationProcess.create(project_id: 1, created_on: Time.now.to_i, updated_on: Time.now.to_i, status: 1)
 
-    PpRelatedIssue.create(priorization_process_id: 1,issue_id: 1, old_priority: 1, new_priority: 3, status:1)
+    #Para el PP1
+    PpRelatedIssue.create(priorization_process_id: 1,issue_id: 1, old_priority: 3, new_priority: 2, status:1)
+    PpRelatedIssue.create(priorization_process_id: 1,issue_id: 2, old_priority: 3, new_priority: 2, status:1)
+    #Para el PP2
+    PpRelatedIssue.create(priorization_process_id: 2,issue_id: 3, old_priority: 2, new_priority: 4, status:1)
+    PpRelatedIssue.create(priorization_process_id: 2,issue_id: 4, old_priority: 3, new_priority: 2, status:1)
+
 
     #PpCriteria.create(priorization_process_id: 1, name: "Criteria Test",description: "This is a criteria",field_id: 1, default_value: 5)
   

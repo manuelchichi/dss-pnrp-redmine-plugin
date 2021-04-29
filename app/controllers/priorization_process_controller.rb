@@ -114,5 +114,12 @@ class PriorizationProcessController < ApplicationController
     retrieve_algorithms_prp
     @name = "Algoritmos"
   end
-  
+
+  def show
+    @name = "Show"
+    @pp = PriorizationProcess.find(1)
+    @pprIssues = PpRelatedIssue.find(1)
+    puts "foo: #{(@pprIssues).inspect}"
+    @issues = Issue.all
+  end
 end

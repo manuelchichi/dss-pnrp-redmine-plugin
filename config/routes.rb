@@ -8,6 +8,9 @@ get '/priorization_process_persons', to: 'priorization_process#persons'
 get '/priorization_process_algorithms', to: 'priorization_process#algorithms'
 get '/priorization_process_alternatives', to: 'priorization_process#alternatives'
 
+#Esta hecho asi para usarlo desde el menu principal.
+get '/priorization_process_show', to: 'priorization_process#show'
+
 get '/priorization_process', to: 'priorization_process#index'
 get '/priorization_process/:id', to: 'priorization_process#show'
 post '/priorization_process', to: 'priorization_process#add'

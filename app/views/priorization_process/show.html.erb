@@ -1,0 +1,70 @@
+<h2>PriorizationProcessController#show</h2>
+
+<table>
+<tr>
+  <th> Proceso de Priorizacion </th>
+<tr>
+<tr>
+    <th> id </th>
+    <th> status </th>
+    <th> start date </th>
+    <th> updated date </th>
+</tr>
+      <tr>   
+        <td align ="center">
+         <%= @pp['id'] %>
+        </td>
+        <td>
+         <%= @pp['status'] %>
+        </td>
+        <td>
+         <%= @pp['created_on'] %>
+        </td>
+        <td>
+         <%= @pp['updated_on'] %>
+        </td>
+       </tr>
+
+</table>
+
+<hr>
+
+
+<hr>
+
+<table>
+<tr>
+  <th> Issues del proceso de priorización </th>
+<tr>
+<tr>
+    <th> id </th>
+    <th> name </th>
+    <th> status </th>
+    <th> priority </th>
+    <th> start date </th>
+    <th> description </th>
+</tr>
+    <% @issues.each do |issue|%>
+      <tr>   
+        <td align="center">
+        <%= link_to "#{'Issue#' + issue.id.to_s}", issue_path(issue) %>
+        </td>
+        <td>
+         <%= issue['subject'] %>
+        </td>
+        <td>
+         <%= issue['status_id']%>
+        </td>
+        <td>
+         <%= issue['priority_id']%>
+        </td>
+        <td>
+         <%= issue['start_date'] %>
+        </td>
+        <td>
+         <%= issue['description'] %>
+        </td>
+       </tr>
+    <% end %>
+
+</table>
