@@ -1,7 +1,7 @@
 class CreatePpCriterias < ActiveRecord::Migration[5.2]
   def change
     create_table :pp_criterias do |t|
-      t.belongs_to :priorization_process_id
+      t.belongs_to :priorization_process
       t.string :name
       t.string :description
       t.integer :field_id

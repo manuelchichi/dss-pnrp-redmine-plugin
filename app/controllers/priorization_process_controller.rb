@@ -118,7 +118,11 @@ class PriorizationProcessController < ApplicationController
   def show
     @name = "Show"
     @pp = PriorizationProcess.find(1)
-    @pprIssues = PpRelatedIssue.find(1)
+    @ppRIssues = PpRelatedIssue.where(priorization_process_id: 1)
+    ## Solucionar el problema del merge del pprIssue con cada Issue.
+    #for 
+    #  @ppIssues.append()= Issue.find(@ppRIssues[i].issue_id)
+    #end
     puts "foo: #{(@pprIssues).inspect}"
     @issues = Issue.all
   end
