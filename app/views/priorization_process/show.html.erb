@@ -44,25 +44,25 @@
     <th> start date </th>
     <th> description </th>
 </tr>
-    <% @issues.each do |issue|%>
+    <% @ppRIssues.each do |pr|%>
       <tr>   
         <td align="center">
-        <%= link_to "#{'Issue#' + issue.id.to_s}", issue_path(issue) %>
+        <%= link_to "#{'Issue#' + pr.issue['id'].to_s}", issue_path(pr.issue) %>
         </td>
         <td>
-         <%= issue['subject'] %>
+         <%= pr.issue['subject'] %>
         </td>
         <td>
-         <%= issue['status_id']%>
+         <%= pr.issue['status_id']%>
         </td>
         <td>
-         <%= issue['priority_id']%>
+         <%= pr.issue['priority_id']%>
         </td>
         <td>
-         <%= issue['start_date'] %>
+         <%= pr.issue['start_date'] %>
         </td>
         <td>
-         <%= issue['description'] %>
+         <%= pr.issue['description'] %>
         </td>
        </tr>
     <% end %>
