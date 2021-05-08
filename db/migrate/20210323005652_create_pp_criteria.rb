@@ -1,6 +1,6 @@
-class CreatePpCriterias < ActiveRecord::Migration[5.2]
+class CreatePpCriteria < ActiveRecord::Migration[5.2]
   def change
-    create_table :pp_criterias do |t|
+    create_table :pp_criteria do |t|
       t.belongs_to :priorization_process
       t.string :name
       t.string :description

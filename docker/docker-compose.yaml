@@ -1,7 +1,6 @@
 version: '3'
 services:
   mariadb:
-    restart: always
     image: 'bitnami/mariadb:10.3'
     environment:
       - ALLOW_EMPTY_PASSWORD=yes

@@ -2,7 +2,7 @@ Redmine::Plugin.register :dss_pnrp do
   name 'Requirement engineering plugin'
   author 'GICIIS'
   description 'Decision Support System'
-  version '0.0.3'
+  version '0.0.5'
   url 'http://example.com/path/to/plugin'
   author_url 'http://example.com/about'
   
