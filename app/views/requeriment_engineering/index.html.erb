@@ -24,11 +24,11 @@
     <th> start date </th>
     <th> updated date </th>
 </tr>
-    <% @issues1.each do |issue|%>
-      <tr>   
-        <td align ="center">
-         <%= issue['id'] %>
-        </td>
+    <% @pps.each do |pp|%>
+      <tr>
+        <td align="center">
+          <%= link_to "#{'PriorizationProcess#' + pp['id'].to_s}", pp_path(pp) %>
+        </td>   
         <td>
          <%= issue['status'] %>
         </td>
