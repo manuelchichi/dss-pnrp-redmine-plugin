@@ -115,8 +115,29 @@ class PriorizationProcessController < ApplicationController
     @name = "Algoritmos"
   end
 
+  
+  def retrieve_criteria_prp
+      @criterias = []
+      data_hash = {}
+
+      File.open('/bitnami/redmine/plugins/dss_pnrp/app/controllers/criteria_result.json') do |f|
+        data_hash = JSON.parse(f.read)
+      end
+
+      returned_criteria = data_hash['criteria']
+      returned_criteria.each do |criteria| 
+        @criterias << criteria 
+      end
+  end
+
+  def criteria
+    retrieve_criteria_prp
+    @name = "Criterios"
+  end
+
   def show
     @name = "Show"
-    @ppRIssues = PpRelatedIssue.where(priorization_process_id: @pp['id'])
+    @pp = PriorizationProcess.find(1)
+    @ppRIssues = PpRelatedIssue.where(priorization_process_id: 2) # @pp['id']
   end
 end

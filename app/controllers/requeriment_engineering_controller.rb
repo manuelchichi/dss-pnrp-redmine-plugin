@@ -3,9 +3,11 @@ class RequerimentEngineeringController < ApplicationController
 
   def index
     @name  = "Vista de procesos y proximas entregas"
-    @pps = PriorizationProcess.where(project_id: @project['id'])  #Priorizacion # Cambiar el all al Where con el proyecto correspondiente
+    @pps = PriorizationProcess.where(project_id: @project['id'])  
     @issues2 = Issue.all  #ProximoLanzamiento
   end
+
+  #En el controlador de donde listo los criterios 
 
   def find_project
     @project = Project.find(params[:project_id])

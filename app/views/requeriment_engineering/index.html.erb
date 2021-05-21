@@ -4,6 +4,7 @@
 <%= link_to "Menu algoritmos", "/priorization_process_algorithms" %>
 <%= link_to "Menu alternativas", "/priorization_process_alternatives" %>
 <%= link_to "Menu listado", "/priorization_process_show" %>
+<%= link_to "Menu criterios", "/priorization_process_criteria" %>
 
 
 <hr>
@@ -27,16 +28,16 @@
     <% @pps.each do |pp|%>
       <tr>
         <td align="center">
-          <%= link_to "#{'PriorizationProcess#' + pp['id'].to_s}", pp_path(pp) %>
+          <%= link_to "#{pp['id'].to_s}", "priorization_process_show" %>
         </td>   
         <td>
-         <%= issue['status'] %>
+         <%= pp['status'] %>
         </td>
         <td>
-         <%= issue['created_on'] %>
+         <%= pp['created_on'] %>
         </td>
         <td>
-         <%= issue['updated_on'] %>
+         <%= pp['updated_on'] %>
         </td>
        </tr>
     <% end %>
