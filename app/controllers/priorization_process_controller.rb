@@ -2,11 +2,7 @@ class PriorizationProcessController < ApplicationController
   require 'net/http'
   require 'json'
   
-  before_action :find_priorization_process, :authorize, only: :index
-
-  helper :queries
-  include QueriesHelper
-  
+  before_action :find_priorization_process, only: [:show] 
 
   def retrive_query_prp
     
@@ -68,7 +64,7 @@ class PriorizationProcessController < ApplicationController
   end
 
   def find_priorization_process
-    @pp = PriorizationProcess.find(params[:priorization_process_id])
+    @pp = PriorizationProcess.find(params[:id])
   end
   
   def init
@@ -137,7 +133,6 @@ class PriorizationProcessController < ApplicationController
 
   def show
     @name = "Show"
-    @pp = PriorizationProcess.find(1)
-    @ppRIssues = PpRelatedIssue.where(priorization_process_id: 2) # @pp['id']
+    @ppRIssues = PpRelatedIssue.where(priorization_process_id: @pp['id'])
   end
 end

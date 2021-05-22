@@ -28,7 +28,7 @@
     <% @pps.each do |pp|%>
       <tr>
         <td align="center">
-          <%= link_to "#{pp['id'].to_s}", "priorization_process_show" %>
+          <%= link_to "#{'Priorization Process' + pp['id'].to_s}", priorization_process_path(pp) %>
         </td>   
         <td>
          <%= pp['status'] %>
