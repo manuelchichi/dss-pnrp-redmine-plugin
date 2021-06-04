@@ -28,7 +28,15 @@
 </table>
 
 <hr>
-
+<div class= "options">
+  <a href="#" class="button">Replanificar</a>
+  <a href="#" class="button">Iniciar proceso</a>
+  <a href="#" class="button">Seleccionar tomadores de decision</a>
+  <a href="#" class="button">Seleccionar alternativas</a>
+  <a href="#" class="button">Ver progreso del proceso actual</a>
+  <a href="#" class="button">Ver requerimientos involucrados</a>
+  <a href="#" class="button">Rechazar proceso actual</a>
+</div>
 
 <hr>
 
@@ -68,3 +76,7 @@
     <% end %>
 
 </table>
+
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag "options", plugin: "dss_pnrp" %>
+<% end %>
