@@ -1,3 +1,3 @@
 class PriorizationProcess < ActiveRecord::Base
-    has_one :project
+    belongs_to :project
 end
