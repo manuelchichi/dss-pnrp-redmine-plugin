@@ -3,6 +3,8 @@ class PriorizationProcessController < ApplicationController
   require 'json'
   
   before_action :find_priorization_process, only: [:show] 
+  before_action :find_project, only: [:new] 
+  
 
   def retrive_query_prp
     
@@ -60,17 +62,12 @@ class PriorizationProcessController < ApplicationController
     retrive_query_prp
   end
 
-  def index
-  end
-
   def find_priorization_process
     @pp = PriorizationProcess.find(params[:id])
   end
-  
-  def init
-  end
 
-  def run
+  def find_project
+    @project = Project.find(params[:project_id])
   end
 
   def persons
@@ -82,12 +79,6 @@ class PriorizationProcessController < ApplicationController
       @parameter = params[:search].downcase  
       @results = User.all.where("lower(firstname) LIKE :search", search: "%#{@parameter}%")  
     end 
-  end
-
-  def get
-  end
-
-  def change
   end
 
   def retrieve_algorithms_prp
@@ -135,4 +126,14 @@ class PriorizationProcessController < ApplicationController
     @name = "Show"
     @ppRIssues = PpRelatedIssue.where(priorization_process_id: @pp['id'])
   end
+
+  def execute
+    retrieve_algorithms_prp
+    retrieve_criteria_prp
+  end
+
+  def new
+    @people = User.find(@project.members.map(&:user_id))
+  end
+
 end

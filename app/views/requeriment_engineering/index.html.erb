@@ -1,4 +1,4 @@
-<h2>RequerimentEngineeringController#index</h2>
+<h2>Ingenieria de requerimientos</h2>
 
 <%= link_to "Menu personas", "/priorization_process_persons" %>
 <%= link_to "Menu algoritmos", "/priorization_process_algorithms" %>
@@ -15,9 +15,12 @@
 
 <hr>
 <!--Tabla de Priorizacion -->
+
+<%= link_to "Nuevo proceso", new_project_priorization_process_path(@project) %>
+
 <table>
 <tr>
-  <th> Priorizacion </th>
+  <th> Procesos de Priorizacion </th>
 <tr>
 <tr>
     <th> id </th>
@@ -48,7 +51,7 @@
 <!--Tabla de Proximos lanzamientos-->
 <table>
 <tr>
-  <th> Proximos lanzamientos </th>
+  <th> Procesos de Proximos lanzamientos </th>
 <tr>
 <tr>
     <th> id </th>

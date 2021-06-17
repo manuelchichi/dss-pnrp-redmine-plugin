@@ -1,0 +1,30 @@
+<h2>Nuevo proceso de priorización</h2>
+
+<form>
+    <div class="pr-board box">
+        <h2>Seleccionar tomadores de decisiones</h2>
+        <table class="table w-50 mt-5">
+            <thead class="thead-dark"
+                <tr>
+                    <th> Nombre  </th>
+                    <th> Apellido </th>
+                </tr>
+            </thead>
+                
+            <tbody>
+                <% @people.each do |person| %>
+                    <tr>
+                        <td> <%= person.firstname %> </td>
+                        <td> <%= person.lastname %> </td>                    
+                        <td> <input type="checkbox" name="selectedPerson" value="persons<%= person['id'] %>"> </td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class='buttons'>
+        <input type="submit" value='Crear'>
+    </div>
+</form>

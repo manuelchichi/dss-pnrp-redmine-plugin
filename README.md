@@ -38,7 +38,6 @@ En el siguiente link vemos el [tutorial](https://www.redmine.org/projects/redmin
 
 Para ingresar al contenedor.
 ```
-docker exec -it <Nombre-Contenedor> /bin/bash
 
 docker exec -it docker_redmine_1 /bin/bash
 ```

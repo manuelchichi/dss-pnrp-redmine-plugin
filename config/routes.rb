@@ -9,5 +9,12 @@ get '/priorization_process_criteria', to: 'priorization_process#criteria'
 
 # Ruteos produccion
 get '/projects/:project_id/requeriment_engineering/index', to: 'requeriment_engineering#index'
-resources :priorization_process
+
+resources :projects do
+    resources :priorization_process, only: [:new, :create ]
+  end
+resources :priorization_process, only: [:show, :edit, :update, :destroy]
+
+get '/priorization_process/:id/execute', to: 'priorization_process#execute' , as: :execute_priorization_process
+
 resources :next_release_process

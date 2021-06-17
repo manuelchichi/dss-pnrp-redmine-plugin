@@ -1,5 +1,5 @@
 class RequerimentEngineeringController < ApplicationController
-  before_action :find_project
+  before_action :find_project, only: [:index] 
 
   def index
     @name  = "Vista de procesos y proximas entregas"
@@ -11,7 +11,6 @@ class RequerimentEngineeringController < ApplicationController
 
   def find_project
     @project = Project.find(params[:project_id])
-    puts "foo: #{(@project).inspect}"
   end
 
   def show
