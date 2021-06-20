@@ -3,7 +3,7 @@ class PriorizationProcessController < ApplicationController
   require 'json'
   
   before_action :find_priorization_process, only: [:show] 
-  before_action :find_project, only: [:new] 
+  before_action :find_project, only: [:new, :create] 
   
 
   def retrive_query_prp
@@ -127,13 +127,13 @@ class PriorizationProcessController < ApplicationController
 
   def create
     # Si ya existe uno inicializado que de error.
-    pp = PriorizationProcess.create(project_id: params[:project_id], created_on: Time.now.to_i, updated_on: Time.now.to_i, status: 1)
-    # Crear campos en los issues en vez de tener que relacionar.
-    # Crear Issues relacionados.
-    # Crear miembro por cada persona.
+    pp = PriorizationProcess.create(project_id: @project.id, created_on: Time.now.to_i, updated_on: Time.now.to_i, status: 1)
+    # Falta crear campos en los issues en vez de tener que relacionar.
+    # Falta crear Issues relacionados.
     params[:persons_ids].each do | id |
       PpDecisionMaker.create(priorization_process_id: pp.id, user_id: id, admin: false)
     end
+  
     redirect_to(index_requeriment_engineering_path())
   end
 

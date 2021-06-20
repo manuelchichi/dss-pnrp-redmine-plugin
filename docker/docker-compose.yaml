@@ -13,6 +13,7 @@ services:
     environment:
       - REDMINE_DB_USERNAME=bn_redmine
       - REDMINE_DB_NAME=bitnami_redmine
+      - RAILS_ENV=production 
     ports:
       - '8080:3000'
     volumes:
