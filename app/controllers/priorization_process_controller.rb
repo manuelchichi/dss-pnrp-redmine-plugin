@@ -96,12 +96,6 @@ class PriorizationProcessController < ApplicationController
         @algorithms << algorithm
     end 
   end
-
-  def algorithms
-    retrieve_algorithms_prp
-    @name = "Algoritmos"
-  end
-
   
   def retrieve_criteria_prp
       @criterias = []
@@ -117,11 +111,6 @@ class PriorizationProcessController < ApplicationController
       end
   end
 
-  def criteria
-    retrieve_criteria_prp
-    @name = "Criterios"
-  end
-
   def show
     @name = "Show"
     @ppRIssues = PpRelatedIssue.where(priorization_process_id: @pp['id'])
@@ -134,6 +123,18 @@ class PriorizationProcessController < ApplicationController
 
   def new
     @people = User.find(@project.members.map(&:user_id))
+  end
+
+  def create
+    # Si ya existe uno inicializado que de error.
+    pp = PriorizationProcess.create(project_id: params[:project_id], created_on: Time.now.to_i, updated_on: Time.now.to_i, status: 1)
+    # Crear campos en los issues en vez de tener que relacionar.
+    # Crear Issues relacionados.
+    # Crear miembro por cada persona.
+    params[:persons_ids].each do | id |
+      PpDecisionMaker.create(priorization_process_id: pp.id, user_id: id, admin: false)
+    end
+    redirect_to(index_requeriment_engineering_path())
   end
 
 end
