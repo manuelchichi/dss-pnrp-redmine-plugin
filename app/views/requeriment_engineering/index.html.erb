@@ -12,7 +12,7 @@
 <hr>
 <!--Tabla de Priorizacion -->
 
-<%= link_to "Nuevo proceso", new_project_priorization_process_path(@project) %>
+<%= link_to "Nuevo proceso de priorizacion", new_project_priorization_process_path(@project) %>
 
 <table>
 <tr>
@@ -55,7 +55,7 @@
     <th> start date </th>
     <th> description </th>
 </tr>
-    <% @issues2.each do |issue|%>
+    <% @nrp.each do |issue|%>
       <tr>   
         <td align="center">
          <%= issue['id'] %>

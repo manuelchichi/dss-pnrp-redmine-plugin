@@ -54,10 +54,6 @@ class PriorizationProcessController < ApplicationController
     
   end
 
-  def decisiontaker
-    @name = "Proceso de priorización"
-  end 
-
   def alternatives
     retrive_query_prp
   end
@@ -68,17 +64,6 @@ class PriorizationProcessController < ApplicationController
 
   def find_project
     @project = Project.find(params[:project_id])
-  end
-
-  def persons
-    decisiontaker
-    @people = User.all  #Invocar el objeto que tiene todas las personas
-
-    if params[:search].blank?  
-    else  
-      @parameter = params[:search].downcase  
-      @results = User.all.where("lower(firstname) LIKE :search", search: "%#{@parameter}%")  
-    end 
   end
 
   def retrieve_algorithms_prp
@@ -122,14 +107,23 @@ class PriorizationProcessController < ApplicationController
   end
 
   def new
-    @people = User.find(@project.members.map(&:user_id))
+    @persons = User.find(@project.members.map(&:user_id))
+    @issues = Issue.find(@project.issue_ids)
   end
 
   def create
     # Si ya existe uno inicializado que de error.
     pp = PriorizationProcess.create(project_id: @project.id, created_on: Time.now.to_i, updated_on: Time.now.to_i, status: 1)
-    # Falta crear campos en los issues en vez de tener que relacionar.
-    # Falta crear Issues relacionados.
+    # Falta crear campos de criterios en los issues en vez de tener que relacionar.
+    
+    #params[:criterias].each do | id |
+    #  PpCriteria.create(priorization_process_id: pp.id, name: "Criteria Test",description: "This is a criteria", default_value: 5)
+    #end
+    
+    params[:issues_ids].each do | id |
+      PpRelatedIssue.create(priorization_process_id: pp.id, issue_id: id, old_priority: 0, new_priority: 0, status:0)
+    end
+
     params[:persons_ids].each do | id |
       PpDecisionMaker.create(priorization_process_id: pp.id, user_id: id, admin: false)
     end

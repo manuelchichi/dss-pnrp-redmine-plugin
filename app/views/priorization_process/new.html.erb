@@ -2,7 +2,7 @@
 
 <%= form_with url: project_priorization_process_index_path(), method: :post do |form| %>
     <div class="pr-board box">
-        <h2>Seleccionar tomadores de decisiones</h2>
+        <h3>Seleccionar tomadores de decisiones</h2>
         <table class="table w-50 mt-5">
             <thead class="thead-dark"
                 <tr>
@@ -12,11 +12,56 @@
             </thead>
                 
             <tbody>
-                <% @people.each do |person| %>
+                <% @persons.each do |person| %>
                     <tr>
                         <td> <%= person.firstname %> </td>
                         <td> <%= person.lastname %> </td>
                         <td> <%= check_box_tag "persons_ids[]", person['id'], false, :id => "persons_ids_#{person['id']}"  %> </td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="pr-board box">
+        <h3>Criterios del proceso</h2>
+        <table class="table w-50 mt-5">
+            <thead class="thead-dark"
+                <tr>
+                    <th> Criterio </th>
+                    <th> Descripcion </th>
+                    <th> Valor por defecto </th>
+                </tr>
+            </thead>
+                
+            <tbody>
+                <tr>
+                    <td> <%=  text_field_tag "criteria_name[]"  %> </td>
+                    <td> <%=  text_field_tag "criteria_description[]", '' , size: 50  %> </td>
+                    <td> <%=  number_field_tag "criteria_value[]"  %> </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="pr-board box">
+        <h3>Seleccionar requerimientos</h2>
+        <table class="table w-50 mt-5">
+            <thead class="thead-dark"
+                <tr>
+                    <th> ID </th>
+                    <th> Asunto </th>
+                    <th> Descripcion </th>
+                </tr>
+            </thead>
+                
+            <tbody>
+                <% @issues.each do |issue| %>
+                    <tr>
+                        <td> <%= issue.id %> </td>
+                        <td> <%= issue.subject %> </td>
+                        <td> <%= issue.description %> </td>
+                        <td> <%= check_box_tag "issues_ids[]", issue['id'], false, :id => "issues_ids_#{issue['id']}"  %> </td>
                     </tr>
                 <% end %>
             </tbody>

@@ -44,7 +44,6 @@ docker exec -it docker_redmine_1 /bin/bash
 
 Una vez dentro debemos ejecutar los siguientes comandos para poder utilizar bundle.
 ```
-export RAILS_ENV="production" 
 cd /opt/bitnami/redmine
 ```
 #### Lista comandos utiles
