@@ -24,8 +24,8 @@
     </div>
 
     <div class="pr-board box">
-        <h3>Criterios del proceso</h2>
-        <table class="table w-50 mt-5">
+        <h3>Criterios del proceso</h2> <button type="button" id="add-btn">Agregar</button>   
+        <table id="criteria-table" class="table w-50 mt-5">
             <thead class="thead-dark"
                 <tr>
                     <th> Criterio </th>
@@ -36,9 +36,10 @@
                 
             <tbody>
                 <tr>
-                    <td> <%=  text_field_tag "criteria_name[]"  %> </td>
-                    <td> <%=  text_field_tag "criteria_description[]", '' , size: 50  %> </td>
-                    <td> <%=  number_field_tag "criteria_value[]"  %> </td>
+                    <td> <%=  text_field_tag "criterias[][name]" %> </td>
+                    <td> <%=  text_field_tag "criterias[][description]", '' , size: 50 %> </td>
+                    <td> <%=  number_field_tag "criterias[][value]"  %> </td>
+                    <td> <button type="button" id="delete-btn">X</button> </td>
                 </tr>
             </tbody>
         </table>
@@ -68,7 +69,20 @@
         </table>
     </div>
 
+
     <div class='buttons'>
         <%= form.submit "Crear" %>
     </div>
 <% end %>
+
+
+<script>
+$("#add-btn").click(function() {
+    $('#criteria-table > tbody:last-child').append('<tr><td> <%=  text_field_tag "criterias[][name]" %> </td><td> <%=  text_field_tag "criterias[][description]", '' , size: 50 %> </td><td> <%=  number_field_tag "criterias[][value]"  %> </td><td> <button type="button" id="delete-btn">X</button> </td></tr>');
+});
+
+
+$("#criteria-table").on("click", "#delete-btn", function() {
+    $(this).closest('tr').remove(); 
+});
+</script>

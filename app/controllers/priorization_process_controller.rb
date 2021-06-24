@@ -116,9 +116,9 @@ class PriorizationProcessController < ApplicationController
     pp = PriorizationProcess.create(project_id: @project.id, created_on: Time.now.to_i, updated_on: Time.now.to_i, status: 1)
     # Falta crear campos de criterios en los issues en vez de tener que relacionar.
     
-    #params[:criterias].each do | id |
-    #  PpCriteria.create(priorization_process_id: pp.id, name: "Criteria Test",description: "This is a criteria", default_value: 5)
-    #end
+    params[:criterias].each do | criteria |
+      PpCriteria.create(priorization_process_id: pp.id, name: criteria[:name] ,description: criteria[:description], default_value: criteria[:value])
+    end
     
     params[:issues_ids].each do | id |
       PpRelatedIssue.create(priorization_process_id: pp.id, issue_id: id, old_priority: 0, new_priority: 0, status:0)
