@@ -1,75 +1,103 @@
-<h2>Ingenieria de requerimientos</h2>
+<h2>Ingeniería de requerimientos</h2>
 
-<%= link_to "Menu personas", "/priorization_process_persons" %>
-<%= link_to "Menu alternativas", "/priorization_process_alternatives" %>
 
-<hr>
+
 <!--Cabecera-->
-    <div class="pr-board box">
-        Project <%= @project['id'] %>
-    </div> 
+ <!-- 
+  <div class="pr-board box">
+          Project <%= @project['id'] %>
+      </div> 
+ -->   
 
 <hr>
+
 <!--Tabla de Priorizacion -->
 
-<%= link_to "Nuevo proceso de priorizacion", new_project_priorization_process_path(@project) %>
+<table class="table table-striped">
+ <thead class="thead-light">
+    <h5 style="text-align center"> 
+    Procesos de Priorización 
+    
+     <button type="button" class="btn btn-success" style="
+            border-radius: 20px;
+            width: 26px;
+            text-align: center;
+            line-height: 0px;
+            padding: 0px;
+            ">
+            <%= link_to "+", new_project_priorization_process_path(@project), class: "text-light font-weight-bold" %>
+          </button>
+    </h5>
+ </thead>
 
-<table>
-<tr>
-  <th> Procesos de Priorizacion </th>
-<tr>
-<tr>
-    <th> id </th>
-    <th> status </th>
-    <th> start date </th>
-    <th> updated date </th>
-</tr>
-    <% @pps.each do |pp|%>
-      <tr>
-        <td align="center">
-          <%= link_to "#{'Priorization Process' + pp['id'].to_s}", priorization_process_path(pp) %>
-        </td>   
-        <td>
-         <%= pp['status'] %>
-        </td>
-        <td>
-         <%= pp['created_on'] %>
-        </td>
-        <td>
-         <%= pp['updated_on'] %>
-        </td>
-       </tr>
-    <% end %>
+ <tbody>
+  <tr>
+      <th class="text-center"> ID </th>
+      <th class="text-center"> Estado (Status) </th>
+      <th class="text-center"> Fecha de Inicio (Start date) </th>
+      <th class="text-center"> Fecha de Actualización (Updated date) </th>
+  </tr>
+      <% @pps.each do |pp|%>
+        <tr>
+          <td align="center">
+            <%= link_to "#{'Priorization Process' + ' ' + pp['id'].to_s}", priorization_process_path(pp) %>
+          </td>   
+          <td align="center">
+          <%= pp['status'] %>
+          </td>
+          <td align="center">
+          <%= pp['created_on'] %>
+          </td>
+          <td align="center">
+          <%= pp['updated_on'] %>
+          </td>
+        </tr>
+      <% end %>
+  </tbody>
+</table>
+
+<hr>
+
+<!--Tabla de Proximos lanzamientos-->
+<table class="table table-striped">
+  <thead class="thead-light">
+    <h5> Procesos de Próximos Lanzamientos </h5>
+  </thead>
+
+  <tbody> 
+    <tr>
+        <th class="text-center"> ID </th>
+        <th class="text-center"> Estado (Status) </th>
+        <th class="text-center"> Fecha de Inicio (Start date) </th>
+        <th> Descripción (Description) </th>
+    </tr>
+        <% @nrp.each do |issue|%>
+          <tr>   
+            <td align="center">
+            <%= issue['id'] %>
+            </td>
+            <td align="center">
+            <%= issue['status_id'] %>
+            </td>
+            <td align="center">
+            <%= issue['start_date'] %>
+            </td>
+            <td>
+            <%= issue['description'] %>
+            </td>
+          </tr>
+        <% end %>
+  </tbody>
 
 </table>
 
 <hr>
-<!--Tabla de Proximos lanzamientos-->
-<table>
-<tr>
-  <th> Procesos de Proximos lanzamientos </th>
-<tr>
-<tr>
-    <th> id </th>
-    <th> status </th>
-    <th> start date </th>
-    <th> description </th>
-</tr>
-    <% @nrp.each do |issue|%>
-      <tr>   
-        <td align="center">
-         <%= issue['id'] %>
-        </td>
-        <td>
-         <%= issue['status_id'] %>
-        </td>
-        <td>
-         <%= issue['start_date'] %>
-        </td>
-        <td>
-         <%= issue['description'] %>
-        </td>
-       </tr>
-    <% end %>
 
-</table>
+<div>
+  <%= link_to "Menú personas", "/priorization_process_persons" %>
+  <%= link_to "Menú alternativas", "/priorization_process_alternatives" %>
+</div>
+
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag "bootstrap", plugin: "dss_pnrp" %>
+<% end %>
