@@ -3,7 +3,7 @@
 <%= form_with url: project_priorization_process_index_path(), method: :post do |form| %>
     <div class="pr-board box">
         <h3>Seleccionar tomadores de decisiones</h2>
-        <table class="table w-50 mt-5">
+        <table id="decision-maker-table" class="table w-50 mt-5">
             <thead class="thead-dark"
                 <tr>
                     <th> Nombre  </th>
@@ -47,12 +47,13 @@
 
     <div class="pr-board box">
         <h3>Seleccionar requerimientos</h2>
-        <table class="table w-50 mt-5">
+        <table id="requirement-table" class="table w-50 mt-5">
             <thead class="thead-dark"
                 <tr>
                     <th> ID </th>
                     <th> Asunto </th>
                     <th> Descripcion </th>
+                    <td> <input type="checkbox" id="select-all-chk">Seleccionar todos</button> </td>
                 </tr>
             </thead>
                 
@@ -85,4 +86,20 @@ $("#add-btn").click(function() {
 $("#criteria-table").on("click", "#delete-btn", function() {
     $(this).closest('tr').remove(); 
 });
+
+$('#select-all-chk').click(function() {
+    var checkboxes = $('#requirement-table tbody input:checkbox ');
+    $(checkboxes).each(
+        function(){
+            this.checked = $('#select-all-chk').prop('checked');
+        }
+    );
+});
+
+$('#requirement-table tbody input:checkbox').click(function() {
+    var checkAll = $('#select-all-chk');
+    if ($(checkAll).is(':checked') && !($(this).is(':checked')))
+        { $(checkAll).removeAttr('checked'); }
+});
+
 </script>
