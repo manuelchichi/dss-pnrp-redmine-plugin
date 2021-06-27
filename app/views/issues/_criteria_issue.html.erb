@@ -1,0 +1,21 @@
+<%  if !@issue.blank? && @issue.pp_criteria_issues.any? %>
+<div id="pp_criteria_issue">
+    <div class="label"> Criterios </div>
+    <div>
+        <div> Proceso de priorizacion </div>
+        <div> Nombre del criterio </div>
+        <div> Descripcion del criterio </div>
+        <div> Valor </div>
+    </div>
+    <% @issue.pp_criteria_issues.each do |criteria| %>
+        <%  if criteria.pp_criteria.priorization_process.status == 1 %>
+            <div>
+                <%= criteria.pp_criteria.priorization_process.id  %> 
+                <%= criteria.pp_criteria.name  %> 
+                <%= criteria.pp_criteria.description  %> 
+                <%= criteria.value  %>
+            </div>
+        <% end %>
+    <% end %>
+</div>
+<% end %>

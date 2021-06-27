@@ -2,7 +2,7 @@ class PriorizationProcessController < ApplicationController
   require 'net/http'
   require 'json'
   
-  before_action :find_priorization_process, only: [:show] 
+  before_action :find_priorization_process, only: [:show, :execute] 
   before_action :find_project, only: [:new, :create] 
   
 
@@ -83,21 +83,10 @@ class PriorizationProcessController < ApplicationController
   end
   
   def retrieve_criteria_prp
-      @criterias = []
-      data_hash = {}
-
-      File.open('/bitnami/redmine/plugins/dss_pnrp/app/controllers/criteria_result.json') do |f|
-        data_hash = JSON.parse(f.read)
-      end
-
-      returned_criteria = data_hash['criteria']
-      returned_criteria.each do |criteria| 
-        @criterias << criteria 
-      end
+    @criterias = PpCriteria.where(priorization_process_id: @pp['id'])
   end
 
   def show
-    @name = "Show"
     @ppRIssues = PpRelatedIssue.where(priorization_process_id: @pp['id'])
   end
 
@@ -116,12 +105,17 @@ class PriorizationProcessController < ApplicationController
     pp = PriorizationProcess.create(project_id: @project.id, created_on: Time.now.to_i, updated_on: Time.now.to_i, status: 1)
     # Falta crear campos de criterios en los issues en vez de tener que relacionar.
     
+    arrayOfCriterias = []
+
     params[:criterias].each do | criteria |
-      PpCriteria.create(priorization_process_id: pp.id, name: criteria[:name] ,description: criteria[:description], default_value: criteria[:value])
+      arrayOfCriterias << PpCriteria.create(priorization_process_id: pp.id, name: criteria[:name] ,description: criteria[:description], default_value: criteria[:value])
     end
     
     params[:issues_ids].each do | id |
       PpRelatedIssue.create(priorization_process_id: pp.id, issue_id: id, old_priority: 0, new_priority: 0, status:0)
+      arrayOfCriterias.each do | criteria |
+        PpCriteriaIssue.create(issue_id: id,pp_criteria_id: criteria.id,value: criteria.default_value)
+      end
     end
 
     params[:persons_ids].each do | id |
