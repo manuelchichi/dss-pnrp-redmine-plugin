@@ -1,5 +1,10 @@
 <%  if !@issue.blank? && @issue.pp_criteria_issues.any? %>
 <div id="pp_criteria_issue">
-TEST
+    <% @issue.pp_criteria_issues.each do |criteria| %>
+        <%= criteria.pp_criteria.priorization_process.id %>
+        <%= criteria.pp_criteria.name %>
+        <%= criteria.pp_criteria.description %>
+        Value: <%= number_field_tag "pp_criteria_issue[#{criteria.id}][value]", criteria['value'] %>
+    <% end %>
 </div>
 <% end %>
