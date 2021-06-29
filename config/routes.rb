@@ -14,5 +14,6 @@ resources :projects do
 resources :priorization_process, only: [:show, :edit, :update, :destroy]
 
 get '/priorization_process/:id/execute', to: 'priorization_process#execute' , as: :execute_priorization_process
+get '/priorization_process/:id/alternatives', to: 'priorization_process#alternatives' , as: :alternatives_priorization_process
 
 resources :next_release_process
