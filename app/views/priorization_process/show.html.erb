@@ -14,13 +14,13 @@
         <td align ="center">
          <%= @pp['id'] %>
         </td>
-        <td>
+        <td align="center">
          <%= @pp['status'] %>
         </td>
-        <td>
+        <td align="center">
          <%= @pp['created_on'] %>
         </td>
-        <td>
+        <td align="center">
          <%= @pp['updated_on'] %>
         </td>
        </tr>
@@ -56,25 +56,87 @@
         <td align="center">
         <%= link_to "#{'Issue#' + pr.issue['id'].to_s}", issue_path(pr.issue) %>
         </td>
-        <td>
+        <td align="center">
          <%= pr.issue['subject'] %>
         </td>
-        <td>
+        <td align="center">
          <%= pr.issue['status_id']%>
         </td>
-        <td>
+        <td align="center">
          <%= pr.issue['priority_id']%>
         </td>
-        <td>
+        <td align="center">
          <%= pr.issue['start_date'] %>
         </td>
-        <td>
+        <td align="center">
          <%= pr.issue['description'] %>
         </td>
        </tr>
     <% end %>
 
 </table>
+
+<hr>
+
+<table>
+<tr>
+  <th> Tomadores de decision </th>
+<tr>
+<tr>
+    <th> id </th>
+    <th> nombre </th>
+    <th> apellido </th>
+    <th> admin </th>
+</tr>
+    <% @PpDecisionMakers.each do |pdm|%>
+      <tr>   
+        <td align="center">
+         <%=link_to "#{'User#' + pdm['user_id'].to_s}", user_path(pdm.user)  %>
+        </td>
+        <td align="center">
+         <%= pdm.user['firstname'] %>
+        </td>
+        <td align="center">
+        <%= pdm.user['lastname'] %>
+       </td>
+       <td align="center">
+        <%= pdm['admin'] %>
+       </td>
+       </tr>
+    <% end %>
+
+</table>
+
+<table>
+<tr>
+  <th> Criterios </th>
+<tr>
+<tr>
+    <th> id </th>
+    <th> nombre </th>
+    <th> descripcion </th>
+    <th> valor por defecto </th>
+</tr>
+    <% @criterias.each do |cr|%>
+      <tr>   
+        <td align="center">
+         <%= cr['id'] %>
+        </td>
+        <td align="center">
+        <%= cr['name'] %>
+       </td>
+       <td align="center">
+        <%= cr['description'] %>
+       </td>
+       <td align="center">
+       <%= cr['default_value'] %>
+      </td>
+       </tr>
+    <% end %>
+
+</table>
+
+
 
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag "options", plugin: "dss_pnrp" %>

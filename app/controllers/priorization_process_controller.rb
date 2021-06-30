@@ -87,6 +87,8 @@ class PriorizationProcessController < ApplicationController
   end
 
   def show
+    retrieve_criteria_prp
+    @PpDecisionMakers = PpDecisionMaker.where(priorization_process_id: @pp['id'])
     @ppRIssues = PpRelatedIssue.where(priorization_process_id: @pp['id'])
   end
 
