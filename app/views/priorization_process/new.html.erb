@@ -1,12 +1,12 @@
-<h2>Nuevo proceso de priorización</h2>
+<h2> Nuevo proceso de priorización </h2>
 
 <%= form_with url: project_priorization_process_index_path(), method: :post do |form| %>
-    <div class="pr-board box">
-        <h3>Seleccionar tomadores de decisiones</h2>
-        <table id="decision-maker-table" class="table w-50 mt-5">
-            <thead class="thead-dark"
-                <tr>
-                    <th> Nombre  </th>
+    <div class="pr-board box row justify-content-center">
+        <h3>Tomadores de decisiones</h2>
+        <table id="decision-maker-table" class="table table-striped w-50 mt-10">
+            <thead class="thead-light">
+                <tr style="text-align: center">
+                    <th> Nombre </th>
                     <th> Apellido </th>
                 </tr>
             </thead>
@@ -23,11 +23,11 @@
         </table>
     </div>
 
-    <div class="pr-board box">
-        <h3>Criterios del proceso</h2> <button type="button" id="add-btn">Agregar</button>   
-        <table id="criteria-table" class="table w-50 mt-5">
-            <thead class="thead-dark"
-                <tr>
+    <div class="pr-board box  row justify-content-center">
+        <h3> Criterios del proceso <button type="button" id="add-btn" class="text-light btn btn-info">Agregar</button></h3>   
+        <table id="criteria-table" class="table w-50 mt-10">
+            <thead class="thead-light">
+                <tr style="text-align: center">
                     <th> Criterio </th>
                     <th> Descripcion </th>
                     <th> Valor por defecto </th>
@@ -35,21 +35,21 @@
             </thead>
                 
             <tbody>
-                <tr>
+                <tr style="text-align: center">
                     <td> <%=  text_field_tag "criterias[][name]" %> </td>
                     <td> <%=  text_field_tag "criterias[][description]", '' , size: 50 %> </td>
                     <td> <%=  number_field_tag "criterias[][value]"  %> </td>
-                    <td> <button type="button" id="delete-btn">X</button> </td>
+                    <td> <button type="button" id="delete-btn" class="btn btn-success"> <i class="fas fa-times"></i> </button> </td>
                 </tr>
             </tbody>
         </table>
     </div>
 
-    <div class="pr-board box">
+    <div class="pr-board box row justify-content-center">
         <h3>Seleccionar requerimientos</h2>
-        <table id="requirement-table" class="table w-50 mt-5">
-            <thead class="thead-dark"
-                <tr>
+        <table id="requirement-table" class="table w-50 mt-10">
+            <thead class="thead-light">
+                <tr style="text-align: center">
                     <th> ID </th>
                     <th> Asunto </th>
                     <th> Descripcion </th>
@@ -59,7 +59,7 @@
                 
             <tbody>
                 <% @issues.each do |issue| %>
-                    <tr>
+                    <tr style="text-align: center">
                         <td> <%= issue.id %> </td>
                         <td> <%= issue.subject %> </td>
                         <td> <%= issue.description %> </td>
@@ -76,6 +76,10 @@
     </div>
 <% end %>
 
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag "bootstrap", plugin: "dss_pnrp" %>
+  <%= stylesheet_link_tag "fontawesome", plugin: "dss_pnrp" %>
+<% end %>
 
 <script>
 $("#add-btn").click(function() {
