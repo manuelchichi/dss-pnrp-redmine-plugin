@@ -1,0 +1,21 @@
+<div class="pr-board box  row justify-content-center">
+        <h3> Criterios del proceso <button type="button" id="add-btn" class="text-light btn btn-info" style=" padding: 0%; height: fit-content; width: 6%;">Agregar</button></h3>   
+        <table id="criteria-table" class="table w-50 mt-10">
+            <thead class="thead-light">
+                <tr style="text-align: center">
+                    <th> Criterio </th>
+                    <th> Descripcion </th>
+                    <th> Valor por defecto </th>
+                </tr>
+            </thead>
+                
+            <tbody>
+                <tr style="text-align: center">
+                    <td> <%=  text_field_tag "criterias[][name]" %> </td>
+                    <td> <%=  text_field_tag "criterias[][description]", '' , size: 50 %> </td>
+                    <td> <%=  number_field_tag "criterias[][value]"  %> </td>
+                    <td> <button type="button" id="delete-btn" class="btn btn-success" style="padding-top:5px"> <i class="fas fa-times" style="vertical-align: top;font-size: 16px;"></i> </button> </td>
+                </tr>
+            </tbody>
+        </table>
+</div>

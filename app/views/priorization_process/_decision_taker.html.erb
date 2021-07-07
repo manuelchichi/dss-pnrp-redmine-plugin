@@ -1,0 +1,21 @@
+<div class="pr-board box row justify-content-center">
+        <h3>Tomadores de decisiones</h2>
+        <table id="decision-maker-table" class="table table-striped w-50 mt-10">
+            <thead class="thead-light">
+                <tr style="text-align: center">
+                    <th> Nombre </th>
+                    <th> Apellido </th>
+                </tr>
+            </thead>
+                
+            <tbody>
+                <% @persons.each do |person| %>
+                    <tr>
+                        <td> <%= person.firstname %> </td>
+                        <td> <%= person.lastname %> </td>
+                        <td> <%= check_box_tag "persons_ids[]", person['id'], false, :id => "persons_ids_#{person['id']}"  %> </td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+</div>

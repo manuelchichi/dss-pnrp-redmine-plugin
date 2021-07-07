@@ -5,18 +5,18 @@
 }
 
 a.button{
-    background-color: #49e24e;
-    border: 2px solid #4CAF50;
-    border-radius: 2px;
+    background-color: #898ac3;
+    border: 2px solid #2e60bb;
+    border-radius: 3px;
     padding: 2px 5px;
     text-align: center;
     color: black;
-    font-size: 16px;
+    font-size: 14px;
     text-decoration: none;
     transition-duration: 0.3s;
 }
 
 a.button:hover {
-    background-color: #309c31;
+    background-color: #37309c;
     text-decoration: none;
   }
