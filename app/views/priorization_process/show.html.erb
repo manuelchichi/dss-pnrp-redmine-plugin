@@ -1,143 +1,184 @@
 <h2>Ingenieria de requerimientos</h2>
 
-<table>
-<tr>
-  <th> Proceso de Priorizacion </th>
-<tr>
-<tr>
-    <th> id </th>
-    <th> status </th>
-    <th> start date </th>
-    <th> updated date </th>
-</tr>
-      <tr>   
-        <td align ="center">
-         <%= @pp['id'] %>
-        </td>
-        <td align="center">
-         <%= @pp['status'] %>
-        </td>
-        <td align="center">
-         <%= @pp['created_on'] %>
-        </td>
-        <td align="center">
-         <%= @pp['updated_on'] %>
-        </td>
-       </tr>
-
-</table>
+<hr>
+  <div class="options">
+    <div class="div1">
+       <%= link_to '<button type="button" class="btn btn-info optionbutton"> Iniciar proceso </button>'.html_safe, execute_priorization_process_path(@pp) %> 
+    </div>
+    <div class="div2">
+      <%= link_to '<button type="button" class="btn btn-info optionbutton"> Seleccionar alternativas </button>'.html_safe, alternatives_priorization_process_path(@pp) %> 
+    </div>
+    <div class="div3">
+      <a href="#" class="button">Seleccionar tomadores de decision</a>
+    </div>
+    <div class="div4">
+     <a href="#" class="button">Ver progreso del proceso actual</a>
+    </div>
+    <div class="div5">
+      <a href="#" class="button">Rechazar proceso actual</a>
+    </div>
+    <div class="div6">
+        <a href="#" class="button">Replanificar </a>
+    </div>
+  </div>
 
 <hr>
-<div class= "options">
-  <%= link_to "Iniciar proceso", execute_priorization_process_path(@pp), :class=>"button" %> 
-  <a href="#" class="button">Seleccionar tomadores de decision</a>
-  <%= link_to "Seleccionar alternativas", alternatives_priorization_process_path(@pp), :class=>"button" %> 
-  <a href="#" class="button">Ver progreso del proceso actual</a>
-  <a href="#" class="button">Rechazar proceso actual</a>
-  <a href="#" class="button">Replanificar </a>
+
+<div class="pr-board box row justify-content-center">
+  <table class="table table-striped">
+
+    <thead class="thead-light">
+      <h5 style="text-align center"> 
+        Proceso de priorización 
+      </h5>
+    </thead>
+
+    <tbody>
+      <tr align="center">
+          <th> ID </th>
+          <th> Estado </th>
+          <th> Fecha de inicio </th>
+          <th> Fecha de actualización </th>
+      </tr>
+            <tr align="center">   
+              <td>
+                <%= @pp['id'] %>
+              </td>
+              <td>
+                <%= @pp['status'] %>
+              </td>
+              <td>
+                <%= @pp['created_on'] %>
+              </td>
+              <td>
+                <%= @pp['updated_on'] %>
+              </td>
+            </tr>
+    </tbody>
+  </table>
+</div> 
+
+<hr>
+<div class="pr-board box  row justify-content-center">
+  <table class="table table-striped">
+    
+    <thead class="thead-light">
+      <h5 style="text-align center"> 
+        Requerimientos del proceso de priorización 
+      </h5>
+    </thead>
+
+  <tbody>
+    <tr align="center">
+        <th> ID </th>
+        <th> Nombre </th>
+        <th> Estado </th>
+        <th> Prioridad </th>
+        <th> Fecha de inicio </th>
+        <th> Descripción </th>
+    </tr>
+        <% @ppRIssues.each do |pr|%>
+          <tr align="center">   
+            <td>
+            <%= link_to "#{'Issue#' + pr.issue['id'].to_s}", issue_path(pr.issue) %>
+            </td>
+            <td>
+            <%= pr.issue['subject'] %>
+            </td>
+            <td >
+            <%= pr.issue['status_id']%>
+            </td>
+            <td>
+            <%= pr.issue['priority_id']%>
+            </td>
+            <td>
+            <%= pr.issue['start_date'] %>
+            </td>
+            <td>
+            <%= pr.issue['description'] %>
+            </td>
+          </tr>
+        <% end %>
+    </tbody>
+  </table>
+</div>
+
+<hr>
+  <div class="pr-board box  row justify-content-center">
+  <table class="table table-striped">
+
+  <thead class="thead-light">
+      <h5 style="text-align center"> 
+        Tomadores de decision
+      </h5>
+  </thead>
+    
+  <tbody>
+    <tr align="center">
+        <th> ID </th>
+        <th> Nombre </th>
+        <th> Apellido </th>
+        <th> Administrador </th>
+    </tr align="center">
+        <% @PpDecisionMakers.each do |pdm|%>
+          <tr>   
+            <td>
+            <%=link_to "#{'User#' + pdm['user_id'].to_s}", user_path(pdm.user)  %>
+            </td>
+            <td>
+            <%= pdm.user['firstname'] %>
+            </td>
+            <td>
+            <%= pdm.user['lastname'] %>
+          </td>
+          <td>
+            <%= pdm['admin'] %>
+          </td>
+          </tr>
+        <% end %>
+    </tbody>
+  </table>
 </div>
 
 <hr>
 
-<table>
-<tr>
-  <th> Requerimientos del proceso de priorización </th>
-<tr>
-<tr>
-    <th> id </th>
-    <th> name </th>
-    <th> status </th>
-    <th> priority </th>
-    <th> start date </th>
-    <th> description </th>
-</tr>
-    <% @ppRIssues.each do |pr|%>
-      <tr>   
-        <td align="center">
-        <%= link_to "#{'Issue#' + pr.issue['id'].to_s}", issue_path(pr.issue) %>
-        </td>
-        <td align="center">
-         <%= pr.issue['subject'] %>
-        </td>
-        <td align="center">
-         <%= pr.issue['status_id']%>
-        </td>
-        <td align="center">
-         <%= pr.issue['priority_id']%>
-        </td>
-        <td align="center">
-         <%= pr.issue['start_date'] %>
-        </td>
-        <td align="center">
-         <%= pr.issue['description'] %>
-        </td>
-       </tr>
-    <% end %>
+  <div class="pr-board box  row justify-content-center">
+  <table class="table table-striped">
 
-</table>
+    <thead class="thead-light">
+      <h5 style="text-align center"> 
+        Criterios
+      </h5>
+  </thead>
 
-<hr>
-
-<table>
-<tr>
-  <th> Tomadores de decision </th>
-<tr>
-<tr>
-    <th> id </th>
-    <th> nombre </th>
-    <th> apellido </th>
-    <th> admin </th>
-</tr>
-    <% @PpDecisionMakers.each do |pdm|%>
-      <tr>   
-        <td align="center">
-         <%=link_to "#{'User#' + pdm['user_id'].to_s}", user_path(pdm.user)  %>
-        </td>
-        <td align="center">
-         <%= pdm.user['firstname'] %>
-        </td>
-        <td align="center">
-        <%= pdm.user['lastname'] %>
-       </td>
-       <td align="center">
-        <%= pdm['admin'] %>
-       </td>
-       </tr>
-    <% end %>
-
-</table>
-
-<table>
-<tr>
-  <th> Criterios </th>
-<tr>
-<tr>
-    <th> id </th>
-    <th> nombre </th>
-    <th> descripcion </th>
-    <th> valor por defecto </th>
-</tr>
-    <% @criterias.each do |cr|%>
-      <tr>   
-        <td align="center">
-         <%= cr['id'] %>
-        </td>
-        <td align="center">
-        <%= cr['name'] %>
-       </td>
-       <td align="center">
-        <%= cr['description'] %>
-       </td>
-       <td align="center">
-       <%= cr['default_value'] %>
-      </td>
-       </tr>
-    <% end %>
-
-</table>
-
-
+  <tbody>
+    <tr align="center">
+        <th> ID </th>
+        <th> Nombre </th>
+        <th> Descripción </th>
+        <th> Valor por defecto </th>
+    </tr align="center">
+        <% @criterias.each do |cr|%>
+          <tr>   
+            <td>
+            <%= cr['id'] %>
+            </td>
+            <td>
+            <%= cr['name'] %>
+          </td>
+          <td>
+            <%= cr['description'] %>
+          </td>
+          <td>
+          <%= cr['default_value'] %>
+          </td>
+          </tr>
+        <% end %>
+    </tbody>
+  </table>
+</div>
 
 <% content_for :header_tags do %>
+  <%= stylesheet_link_tag "bootstrap", plugin: "dss_pnrp" %>
   <%= stylesheet_link_tag "options", plugin: "dss_pnrp" %>
 <% end %>
