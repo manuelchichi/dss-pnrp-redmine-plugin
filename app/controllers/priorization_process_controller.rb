@@ -1,10 +1,27 @@
 class PriorizationProcessController < ApplicationController
   require 'net/http'
+  require 'uri'
   require 'json'
   
   before_action :find_priorization_process, only: [:show, :execute] 
   before_action :find_project, only: [:new, :create] 
-  
+
+  def posttest
+   
+    uri = URI.parse("http://flaskapp:80/post")
+    request = Net::HTTP::Post.new(uri)
+    request.content_type = "application/json"
+    request.body = JSON.dump({
+      "key1" => "value1",
+      "key2" => "value2"
+    })
+    
+    req_options = {}
+    
+    response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+      http.request(request)
+    end
+  end
 
   def retrive_query_prp
     
@@ -67,14 +84,21 @@ class PriorizationProcessController < ApplicationController
   end
 
   def retrieve_algorithms_prp
-    ## result = Net::HTTP.get(URI.parse('http://www.example.com/about.html'))
-        
+    uri = URI.parse("http://flaskapp:80/get")
+    request = Net::HTTP::Get.new(uri)
+    request.content_type = "application/json"
+    request["Accept"] = "application/json"
+
+    req_options = {}
+
+    response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+      http.request(request)
+    end
+
     @algorithms = []
     data_hash = {}
 
-    File.open('/bitnami/redmine/plugins/dss_pnrp/app/controllers/algorithms_result.json') do |f|
-      data_hash = JSON.parse(f.read)
-    end
+    data_hash = JSON.parse(response.body)
 
     returned_algorithms = data_hash['algorithms'] #Por ahora lo dejo de esta forma por si hay que modificar algo.
     returned_algorithms.each do |algorithm| #Aqui lo mismo, por si hay que agregarle cosas.
@@ -93,6 +117,7 @@ class PriorizationProcessController < ApplicationController
   end
 
   def execute
+    posttest
     retrieve_algorithms_prp
     retrieve_criteria_prp
   end
