@@ -2,7 +2,7 @@ class PriorizationProcessController < ApplicationController
   require 'net/http'
   require 'json'
   
-  before_action :find_priorization_process, only: [:show, :execute] 
+  before_action :find_priorization_process, only: [:show, :execute, :execute_create ] 
   before_action :find_project, only: [:new, :create] 
   
 
@@ -97,6 +97,13 @@ class PriorizationProcessController < ApplicationController
     retrieve_criteria_prp
   end
 
+  def execute_create
+    ppe = PpExecution.create(user: User.current, priorization_process: @pp)
+
+    
+    redirect_to(priorization_process_path(@pp))
+  end
+
   def new
     @persons = User.find(@project.members.map(&:user_id))
     @issues = Issue.find(@project.issue_ids)
@@ -104,9 +111,8 @@ class PriorizationProcessController < ApplicationController
 
   def create
     # Si ya existe uno inicializado que de error.
-    pp = PriorizationProcess.create(project_id: @project.id, created_on: Time.now.to_i, updated_on: Time.now.to_i, status: 1)
-    # Falta crear campos de criterios en los issues en vez de tener que relacionar.
-    
+    pp = PriorizationProcess.create(project_id: @project.id, status: 1)
+        
     arrayOfCriterias = []
 
     params[:criterias].each do | criteria |

@@ -1,6 +1,6 @@
 <h2>Ejecutar proceso de priorizacion</h2>
 
-<form>
+<%= form_with url: execute_create_priorization_process_path(), method: :post do |form| %>
     <div class="pr-board box">
         <h2>Seleccionar algoritmo</h2>
         <table class="table w-50 mt-5">
@@ -23,7 +23,9 @@
                         <% algorithm['parameters'].each do |param| %>
                             <td>
                                 <%= param['name'] %>
-                                <input type="number" name= <%= param['name'] %> placeholder="<%= param['defaultValue']%>" value= "<%=param['defaultValue']%>" >
+                                <%=  number_field_tag "algorithm['parameters'][#{param['name']}]", '#{param['defaultValue']}'  %>
+                                <!--  <input type="number" name= <%= param['name'] %> placeholder="<%= param['defaultValue']%>" value= "<%=param['defaultValue']%>" > %> -->
+                             
                             </td>
                     </tr>
                     <% end %>
@@ -52,7 +54,7 @@
                 <tr>
                     <td> <%= criteria['name']%> </td>
                     <td> <%= criteria['description']%> </td>
-                    <td> <input type="number" value=0 > </td>
+                    <td> <%=  number_field_tag "criterias[#{criteria['name']}][value]"  %> </td>
                 </tr>
                 <% end %>
                 
@@ -61,6 +63,7 @@
     </div>
 
     <div class='buttons'>
-        <input type="submit" value='Crear'>
+        <%= form.submit "Crear" %>
     </div>
-</form>
+    
+<% end %>

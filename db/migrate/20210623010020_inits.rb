@@ -13,9 +13,9 @@ class Inits < ActiveRecord::Migration[5.2]
     Issue.create(tracker_id: 2, project_id: 1, subject: "Issue 6", description: "El sexto issue. Puede esperar de ser necesario", status_id: 1, priority_id: 1, author_id: 1, start_date: Date.today)
     
     #PP1
-    PriorizationProcess.create(project_id: 1, created_on: Time.now.to_i, updated_on: Time.now.to_i, status: 1)
+    PriorizationProcess.create(project_id: 1, status: 1)
     #PP2
-    PriorizationProcess.create(project_id: 1, created_on: Time.now.to_i, updated_on: Time.now.to_i, status: 1)
+    PriorizationProcess.create(project_id: 1, status: 1)
 
     #Issue del PP1
     PpRelatedIssue.create(priorization_process_id: 1,issue_id: 1, old_priority: 3, new_priority: 2, status:1)
