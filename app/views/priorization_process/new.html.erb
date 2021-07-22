@@ -17,15 +17,3 @@
   <%= stylesheet_link_tag "fontawesome", plugin: "dss_pnrp" %>
   <%= javascript_include_tag "new_process", plugin: "dss_pnrp" %>
 <% end %>
-
-<%= javascript_tag do %>
-      $("#add-btn").click(function() {
-        let html = "";
-        html += '<tr style="text-align: center">';
-        html += '<td> <%=  text_field_tag "criterias[][name]" %> </td> '; 
-        html += '<td> <%=  text_field_tag "criterias[][description]", " " , size: 50 %></td>';
-        html += ' <td> <%=  number_field_tag "criterias[][value]"  %> </td> ';
-        html += ' <td> <button type="button" id="delete-btn" class="btn btn-success" style="padding-top:0px"> <i class="fas fa-times style="vertical-align: top;font-size: 16px;"></i> </button> </td></tr>';
-        $('#criteria-table > tbody:last-child').append(html);
-    });
-<% end %>

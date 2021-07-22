@@ -1,14 +1,5 @@
 <h2>Ingeniería de requerimientos</h2>
 
-
-
-<!--Cabecera-->
- <!-- 
-  <div class="pr-board box">
-          Project <%= @project['id'] %>
-      </div> 
- -->   
-
 <hr>
 
 <!--Tabla de Priorizacion -->
@@ -18,15 +9,14 @@
     <h5 style="text-align center"> 
     Procesos de Priorización 
     
-     <button type="button" class="btn btn-success" style="
+    <%= link_to '<button type="button" class="btn btn-info" style="
             border-radius: 20px;
             width: 26px;
             text-align: center;
             line-height: 0px;
             padding: 0px;
-            ">
-            <%= link_to "+", new_project_priorization_process_path(@project), class: "text-light font-weight-bold" %>
-          </button>
+            color: white;">+</button>'.html_safe, new_project_priorization_process_path(@project), class: "text-light font-weight-bold" %>
+    
     </h5>
  </thead>
 
