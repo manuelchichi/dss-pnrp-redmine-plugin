@@ -124,7 +124,16 @@ class PriorizationProcessController < ApplicationController
 
   def execute_create
     ppe = PpExecution.create(user: User.current, priorization_process: @pp)
+    
+    params[:algorithms].each do | algorithm |
+      if algorithm['selected'] == "true"
+        ppa = PpAlgorithm.create(pp_execution_id: ppe.id, name: algorithm['name'], version: algorithm['version'])
+        algorithm['parameters'].each do | param |
+          PpAlgorithmParameter.create(pp_algorithm_id: ppa.id,name: param['name'], value: param['value'])
+        end
 
+      end 
+    end
     
     redirect_to(priorization_process_path(@pp))
   end
@@ -141,7 +150,7 @@ class PriorizationProcessController < ApplicationController
     arrayOfCriterias = []
 
     params[:criterias].each do | criteria |
-      arrayOfCriterias << PpCriteria.create(priorization_process_id: pp.id, name: criteria[:name] ,description: criteria[:description], default_value: criteria[:value])
+      arrayOfCriterias << PpCriteria.create(priorization_process_id: pp.id, name: criteria[:name], description: criteria[:description], default_value: criteria[:value])
     end
     
     params[:issues_ids].each do | id |
