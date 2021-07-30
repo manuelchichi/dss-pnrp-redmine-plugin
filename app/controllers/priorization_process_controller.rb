@@ -125,14 +125,10 @@ class PriorizationProcessController < ApplicationController
   def execute_create
     ppe = PpExecution.create(user: User.current, priorization_process: @pp)
     
-    params[:algorithms].each do | algorithm |
-      if algorithm['selected'] == "true"
-        ppa = PpAlgorithm.create(pp_execution_id: ppe.id, name: algorithm['name'], version: algorithm['version'])
-        algorithm['parameters'].each do | param |
-          PpAlgorithmParameter.create(pp_algorithm_id: ppa.id,name: param['name'], value: param['value'])
-        end
-
-      end 
+    alg = params[:algorithms].select { | algorithm, value | value.has_key?('selected') }
+    ppa = PpAlgorithm.create(pp_execution_id: ppe.id, name: alg['name'], version: alg['version'])
+    alg['parameters'].each do | param |
+        PpAlgorithmParameter.create(pp_algorithm_id: ppa.id,name: param['name'], value: param['value'])
     end
     
     redirect_to(priorization_process_path(@pp))
