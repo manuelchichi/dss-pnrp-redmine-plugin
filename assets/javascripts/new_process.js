@@ -18,7 +18,3 @@ $(function(){
             { $(checkAll).removeAttr('checked'); }
     });
 })
-
-$(function(){
-    
-})
