@@ -14,7 +14,7 @@
                 <% @algorithms.each do |algorithm| %>
                 <tr>
                     <td>        
-                        <%= radio_button_tag "algorithms[#{algorithm['name']}][selected]", true %>
+                        <%= radio_button_tag "selected", algorithm['name'] %>
                         <%= hidden_field_tag "algorithms[#{algorithm['name']}][name]", algorithm['name'] %>
                         <%= hidden_field_tag "algorithms[#{algorithm['name']}][version]", algorithm['version'] %>
                         <%= algorithm['name'] + ' ' + algorithm['version']%> 
