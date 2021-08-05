@@ -15,6 +15,7 @@
                 <tr>
                     <td>        
                         <%= radio_button_tag "selected", algorithm['name'] %>
+                        <%= hidden_field_tag "algorithms[#{algorithm['name']}][id]", algorithm['id'] %>
                         <%= hidden_field_tag "algorithms[#{algorithm['name']}][name]", algorithm['name'] %>
                         <%= hidden_field_tag "algorithms[#{algorithm['name']}][version]", algorithm['version'] %>
                         <%= algorithm['name'] + ' ' + algorithm['version']%> 
@@ -24,7 +25,7 @@
                         <% algorithm['parameters'].each do |param| %>
                             <td>
                                 <%= param['name'] %>
-                                <%=  number_field_tag "algorithms[#{algorithm['name']}][parameters][#{param['name']}]", param['defaultValue']  %>
+                                <%=  number_field_tag "algorithms[#{algorithm['name']}][parameters][#{param['name']}]", param['defaultValue'], :step => 'any'  %>
                             </td>
                     </tr>
                     <% end %>
@@ -53,7 +54,7 @@
                 <tr>
                     <td> <%= criteria['name']%> </td>
                     <td> <%= criteria['description']%> </td>
-                    <td> <%=  number_field_tag "criterias[#{criteria['name']}]"  %> </td>
+                    <td> <%=  number_field_tag "criterias[#{criteria['id']}]"  %> </td>
                 </tr>
                 <% end %>
                 

@@ -4,7 +4,7 @@ class CreatePpCriteria < ActiveRecord::Migration[5.2]
       t.belongs_to :priorization_process
       t.string :name
       t.string :description
-      t.integer :default_value
+      t.float :default_value
     end
   end
 end

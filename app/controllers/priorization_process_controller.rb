@@ -123,15 +123,31 @@ class PriorizationProcessController < ApplicationController
   end
 
   def execute_create
-    ppe = PpExecution.create(user: User.current, priorization_process: @pp)
+
+    arrayOfPonderations = []
+    arrayOfParameters = []
+
+    ppe = PpExecution.create(user: User.current, priorization_process: @pp, created_at: Time.now, updated_at: Time.now)
     
     alg = params[:algorithms][params[:selected]]
-    ppa = PpAlgorithm.create(pp_execution_id: ppe.id, name: alg["name"], version: alg["version"])
+
+    ppa = PpAlgorithm.find_or_create_by(id: alg["id"]) do | newAlg |
+       newAlg.pp_execution_id = ppe.id
+       newAlg.name = alg["name"]
+       newAlg.version = alg["version"]
+    end
+
     alg["parameters"].each do | param |
-        PpAlgorithmParameter.create(pp_algorithm_id: ppa.id,name: param[0], value: param[1])
+      arrayOfParameters << PpAlgorithmParameter.create(pp_algorithm_id: ppa.id,name: param[0], value: param[1])
     end
     
+    params[:criterias].each do | criteria |
+      arrayOfPonderations << PpCriteriaPonderation.create(pp_execution_id: ppe.id,pp_criteria_id: criteria[0],value: criteria[1])
+    end
 
+    postJson = {:execution_id => ppe.id, :user_id => User.current.id, :algorithm => {id: ppa.id, parameters: arrayOfParameters}, :ponderations => arrayOfPonderations }.to_json
+
+    puts postJson
 
     redirect_to(priorization_process_path(@pp))
   end
@@ -143,7 +159,7 @@ class PriorizationProcessController < ApplicationController
 
   def create
     # Si ya existe uno inicializado que de error.
-    pp = PriorizationProcess.create(project_id: @project.id, status: 1)
+    pp = PriorizationProcess.create(project_id: @project.id, status: 1, created_at: Time.now, updated_at: Time.now)
         
     arrayOfCriterias = []
 

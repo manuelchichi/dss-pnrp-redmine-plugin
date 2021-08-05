@@ -3,7 +3,7 @@ class CreatePpAlgorithmParameter < ActiveRecord::Migration[5.2]
     create_table :pp_algorithm_parameters do |t|
       t.belongs_to :pp_algorithm
       t.string :name
-      t.integer :value
+      t.float :value
     end
   end
 end
