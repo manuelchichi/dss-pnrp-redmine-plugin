@@ -126,6 +126,8 @@ class PriorizationProcessController < ApplicationController
 
     arrayOfPonderations = []
     arrayOfParameters = []
+    arrayOfIssuePonderations = []
+    arrayOfCriteriaPonderations = []
 
     ppe = PpExecution.create(user: User.current, priorization_process: @pp, created_at: Time.now, updated_at: Time.now)
     
@@ -138,14 +140,20 @@ class PriorizationProcessController < ApplicationController
     end
 
     alg["parameters"].each do | param |
-      arrayOfParameters << PpAlgorithmParameter.create(pp_algorithm_id: ppa.id,name: param[0], value: param[1])
+      PpAlgorithmParameter.create(pp_algorithm_id: ppa.id, name: param[0], value: param[1]["value"])
+      arrayOfParameters << { param[1]["id"] => param[1]["value"] }
     end
     
     params[:criterias].each do | criteria |
-      arrayOfPonderations << PpCriteriaPonderation.create(pp_execution_id: ppe.id,pp_criteria_id: criteria[0],value: criteria[1])
+      PpCriteriaPonderation.create(pp_execution_id: ppe.id,pp_criteria_id: criteria[0],value: criteria[1])
+      arrayOfCriteriaPonderations << { criteria[0] => criteria[1] }
+      criteriaIssues = PpCriteriaIssue.where(pp_criteria_id: criteria[0])
+      criteriaIssues.each do | criteriaIssue |
+        arrayOfIssuePonderations << { criteria_id: criteriaIssue['pp_criteria_id'], issue_id: criteriaIssue['issue_id'], value: criteriaIssue['value'] }
+      end
     end
-
-    postJson = {:execution_id => ppe.id, :user_id => User.current.id, :algorithm => {id: ppa.id, parameters: arrayOfParameters}, :ponderations => arrayOfPonderations }.to_json
+    
+    postJson = {:execution_id => ppe.id,:issue_ponderation => arrayOfIssuePonderations , :algorithm => {id: ppa.id, parameters: arrayOfParameters}, :ponderations => arrayOfCriteriaPonderations }.to_json
 
     puts postJson
 

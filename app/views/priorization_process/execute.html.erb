@@ -25,7 +25,8 @@
                         <% algorithm['parameters'].each do |param| %>
                             <td>
                                 <%= param['name'] %>
-                                <%=  number_field_tag "algorithms[#{algorithm['name']}][parameters][#{param['name']}]", param['defaultValue'], :step => 'any'  %>
+                                <%= hidden_field_tag "algorithms[#{algorithm['name']}][parameters][#{param['name']}][id]", param['id'] %>
+                                <%= number_field_tag "algorithms[#{algorithm['name']}][parameters][#{param['name']}][value]", param['defaultValue'], :step => 'any'  %>
                             </td>
                     </tr>
                     <% end %>
