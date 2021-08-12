@@ -51,10 +51,20 @@ Para generar modelos.
 bundle exec rails generate redmine_plugin_model <plugin_name> <model_name> [field[:type][:index] field[:type][:index] ...]
 ```
 
+Para recrear las bases de datos.
+```
+export DISABLE_DATABASE_ENVIRONMENT_CHECK=1
+bundle exec rake db:drop
+bundle exec rake db:create
+bundle exec rake db:migrate
+```
+
 Para realizar las migraciones del plugin.
 ```
 bundle exec rake redmine:plugins:migrate
 ```
+
+
 
 Para utilizar la consola. 
 
