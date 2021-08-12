@@ -8,7 +8,7 @@ class PriorizationProcessController < ApplicationController
 
   def posttest
    
-    uri = URI.parse("http://flaskapp:80/post")
+    uri = URI.parse("http://flask:80/post")
     request = Net::HTTP::Post.new(uri)
     request.content_type = "application/json"
     request.body = JSON.dump({
@@ -84,7 +84,7 @@ class PriorizationProcessController < ApplicationController
   end
 
   def retrieve_algorithms_prp
-    uri = URI.parse("http://flaskapp:80/get")
+    uri = URI.parse("http://flask:80/get")
     request = Net::HTTP::Get.new(uri)
     request.content_type = "application/json"
     request["Accept"] = "application/json"
@@ -154,7 +154,7 @@ class PriorizationProcessController < ApplicationController
     
     postJson = {:execution_id => ppe.id,:issue_ponderation => arrayOfIssuePonderations , :algorithm => {id: ppa.id, parameters: arrayOfParameters}, :ponderations => arrayOfCriteriaPonderations }.to_json
 
-    uri = URI.parse("http://flaskapp:80/execution")
+    uri = URI.parse("http://flask:80/execution")
     request = Net::HTTP::Post.new(uri)
     request.content_type = "application/json"
     request.body = postJson

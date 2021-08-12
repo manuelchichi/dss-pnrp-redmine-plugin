@@ -18,7 +18,7 @@ services:
       - '8080:3000'
     volumes:
       - 'redmine_data:/bitnami'
-      - '../:/bitnami/redmine/plugins/dss_pnrp'
+      - './:/bitnami/redmine/plugins/dss_pnrp'
     depends_on:
       - mariadb
 

@@ -9,7 +9,6 @@
 ## Guia como correr el contenedor de Redmine para realizar las pruebas.
 
 ```
-cd docker
 docker-compose up -d 
 ```
 En el caso de que haya errores en algun lado de la aplicacion se deberan chequear si se corrieron las migraciones del plugin (en una seccion mas adelante se explica como realizarlo). (Refactorizar para que lo haga cuando arranca)
@@ -38,7 +37,7 @@ En el siguiente link vemos el [tutorial](https://www.redmine.org/projects/redmin
 
 Para ingresar al contenedor.
 ```
-docker exec -it docker_redmine_1 /bin/bash
+docker exec -it dss-pnrp-redmine-plugin_redmine_1 /bin/bash
 ```
 
 Una vez dentro debemos ejecutar los siguientes comandos para poder utilizar bundle.
@@ -54,9 +53,11 @@ bundle exec rails generate redmine_plugin_model <plugin_name> <model_name> [fiel
 Para recrear las bases de datos.
 ```
 export DISABLE_DATABASE_ENVIRONMENT_CHECK=1
+export REDMINE_LANG=en
 bundle exec rake db:drop
 bundle exec rake db:create
 bundle exec rake db:migrate
+bundle exec rake redmine:load_default_data
 ```
 
 Para realizar las migraciones del plugin.
@@ -64,10 +65,7 @@ Para realizar las migraciones del plugin.
 bundle exec rake redmine:plugins:migrate
 ```
 
-
-
 Para utilizar la consola. 
-
 ```
 bundle exec rails console
 ```
