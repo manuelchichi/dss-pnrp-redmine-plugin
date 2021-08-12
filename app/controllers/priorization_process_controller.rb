@@ -117,7 +117,6 @@ class PriorizationProcessController < ApplicationController
   end
 
   def execute
-    posttest
     retrieve_algorithms_prp
     retrieve_criteria_prp
   end
@@ -155,7 +154,15 @@ class PriorizationProcessController < ApplicationController
     
     postJson = {:execution_id => ppe.id,:issue_ponderation => arrayOfIssuePonderations , :algorithm => {id: ppa.id, parameters: arrayOfParameters}, :ponderations => arrayOfCriteriaPonderations }.to_json
 
-    puts postJson
+    uri = URI.parse("http://flaskapp:80/execution")
+    request = Net::HTTP::Post.new(uri)
+    request.content_type = "application/json"
+    request.body = postJson
+    req_options = {}
+    
+    response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+      http.request(request)
+    end
 
     redirect_to(priorization_process_path(@pp))
   end
