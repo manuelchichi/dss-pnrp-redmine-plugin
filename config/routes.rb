@@ -17,4 +17,5 @@ get '/priorization_process/:id/execute', to: 'priorization_process#execute' , as
 post '/priorization_process/:id/execute', to: 'priorization_process#execute_create' , as: :execute_create_priorization_process
 get '/priorization_process/:id/alternatives', to: 'priorization_process#alternatives' , as: :alternatives_priorization_process
 
+post '/priorization_process/:id/solution', to: 'priorization_process#solution_create' , as: :solution_create_priorization_process
 resources :next_release_process

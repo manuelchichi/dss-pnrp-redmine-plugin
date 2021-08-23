@@ -152,7 +152,9 @@ class PriorizationProcessController < ApplicationController
       end
     end
     
-    postJson = {:execution_id => ppe.id,:issue_ponderation => arrayOfIssuePonderations , :algorithm => {id: ppa.id, parameters: arrayOfParameters}, :ponderations => arrayOfCriteriaPonderations }.to_json
+    priorities = IssuePriority.all
+
+    postJson = {:execution_id => ppe.id, :issue_ponderation => arrayOfIssuePonderations, :priorization_process_id => @pp.id, :priorities => priorities.pluck(:id,:name,:position,:active)  ,:algorithm => {id: ppa.id, parameters: arrayOfParameters}, :ponderations => arrayOfCriteriaPonderations }.to_json
 
     uri = URI.parse("http://flask:80/execution")
     request = Net::HTTP::Post.new(uri)
@@ -165,6 +167,14 @@ class PriorizationProcessController < ApplicationController
     end
 
     redirect_to(priorization_process_path(@pp))
+  end
+
+  def solution_create
+    solution = PpSolution.create(pp_execution_id: params[:pp_execution_id])
+    sol_issues = params[:sol_issues]
+    sol_issue.each do |issue|
+      new_sol_issue = PpSolutionIssue.create(issue_id: issue["issue_id"], pp_solution_id: solution["id"] ,priority: issue["priority"])
+
   end
 
   def new
