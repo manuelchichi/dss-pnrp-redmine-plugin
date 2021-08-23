@@ -151,7 +151,6 @@ class PriorizationProcessController < ApplicationController
         arrayOfIssuePonderations << { criteria_id: criteriaIssue['pp_criteria_id'], issue_id: criteriaIssue['issue_id'], value: criteriaIssue['value'] }
       end
     end
-    
     priorities = IssuePriority.all
 
     postJson = {:execution_id => ppe.id, :issue_ponderation => arrayOfIssuePonderations, :priorization_process_id => @pp.id, :priorities => priorities.pluck(:id,:name,:position,:active)  ,:algorithm => {id: ppa.id, parameters: arrayOfParameters}, :ponderations => arrayOfCriteriaPonderations }.to_json

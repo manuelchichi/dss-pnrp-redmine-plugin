@@ -44,6 +44,7 @@ Una vez dentro debemos ejecutar los siguientes comandos para poder utilizar bund
 ```
 cd /opt/bitnami/redmine
 ```
+
 #### Lista comandos utiles
 Para generar modelos.
 ```
