@@ -173,7 +173,7 @@ class PriorizationProcessController < ApplicationController
     sol_issues = params[:sol_issues]
     sol_issue.each do |issue|
       new_sol_issue = PpSolutionIssue.create(issue_id: issue["issue_id"], pp_solution_id: solution["id"] ,priority: issue["priority"])
-
+    end
   end
 
   def new
