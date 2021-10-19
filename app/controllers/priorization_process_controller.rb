@@ -24,15 +24,20 @@ class PriorizationProcessController < ApplicationController
   end
 
   def retrive_query_prp
-    
-    ## result = Net::HTTP.get(URI.parse('http://www.example.com/about.html'))
-    
+    uri = URI.parse("http://flask:80/getSolutions/1")
+    request = Net::HTTP::Get.new(uri)
+    request.content_type = "application/json"
+    request["Accept"] = "application/json"
+
+    req_options = {}
+
+    response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+      http.request(request)
+    end
 
     data_hash = {}
 
-    File.open('/bitnami/redmine/plugins/dss_pnrp/app/controllers/prp_issues_result.json') do |f|
-      data_hash = JSON.parse(f.read)
-    end
+    data_hash = JSON.parse(response.body)
     
     returned_alternatives = data_hash['alternatives']
 
@@ -84,7 +89,7 @@ class PriorizationProcessController < ApplicationController
   end
 
   def retrieve_algorithms_prp
-    uri = URI.parse("http://flask:80/get")
+    uri = URI.parse("http://flask:80/getAlgorithms")
     request = Net::HTTP::Get.new(uri)
     request.content_type = "application/json"
     request["Accept"] = "application/json"
