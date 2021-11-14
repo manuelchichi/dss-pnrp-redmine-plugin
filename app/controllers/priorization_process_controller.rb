@@ -3,7 +3,7 @@ class PriorizationProcessController < ApplicationController
   require 'uri'
   require 'json'
   
-  before_action :find_priorization_process, only: [:show, :execute, :execute_create ] 
+  before_action :find_priorization_process, only: [:show, :execute, :execute_create, :retrive_query_prp ] 
   before_action :find_project, only: [:new, :create] 
 
   def posttest
@@ -24,7 +24,9 @@ class PriorizationProcessController < ApplicationController
   end
 
   def retrive_query_prp
-    uri = URI.parse("http://flask:80/getSolutions/1")
+    # + @pp['id']
+    urlString = "http://flask:80/getSolutions/1" 
+    uri = URI.parse(urlString)
     request = Net::HTTP::Get.new(uri)
     request.content_type = "application/json"
     request["Accept"] = "application/json"
@@ -39,39 +41,42 @@ class PriorizationProcessController < ApplicationController
 
     data_hash = JSON.parse(response.body)
     
-    returned_alternatives = data_hash['alternatives']
+    returned_executions = data_hash['executions']
 
     #Ordenar la board aca. Issues 
 
     priorities = IssuePriority.all
 
     @alternatives = []
-    returned_alternatives.each do |alternative|
+    returned_executions.each do |returned_alternatives|
+      alternatives = returned_alternatives['alternatives']
+      alternatives.each do |alternative|
 
-      board = []
-      priorities.each do |priority|
-        #Inicializar prioridades.
-        board_element = Hash.new
-        board_element[:id] = priority.id
-        board_element[:name] = priority.name
-        board_element[:issues] = []
-        board << board_element 
-      end
-
-      alternative['issues'].each do |issue|
-        
-        new_issue = Issue.find(issue['issue_id']) #Esto deberia hashearse en una tabla, si existe no se busca.
-        new_issue.priority_id = issue['priority_id']
-
-        #Agregar al diccionario ordenado por prioridad. 
-        board.each do |board_element|
-          if (board_element[:id] == new_issue.priority_id)
-            board_element[:issues] = board_element[:issues] << new_issue
-          end
+        board = []
+        priorities.each do |priority|
+          #Inicializar prioridades.
+          board_element = Hash.new
+          board_element[:id] = priority.id
+          board_element[:name] = priority.name
+          board_element[:issues] = []
+          board << board_element 
         end
 
+        alternative['issues'].each do |issue|
+          
+          new_issue = Issue.find(issue['issue_id']) #Esto deberia hashearse en una tabla, si existe no se busca.
+          new_issue.priority_id = issue['priority_id']
+
+          #Agregar al diccionario ordenado por prioridad. 
+          board.each do |board_element|
+            if (board_element[:id] == new_issue.priority_id)
+              board_element[:issues] = board_element[:issues] << new_issue
+            end
+          end
+
+        end
+        @alternatives << [ returned_alternatives['id'], alternative['alternative_id'], board ]
       end
-      @alternatives << [ alternative['alternative_id'], board ]
     end
     
   end

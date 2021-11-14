@@ -1,15 +1,18 @@
-<h5>PriorizationProcessController#alternatives</h5>
+<h5>Alternativas</h5>
 
 <form>
   <div class="pr-board box">
     <% @alternatives.each do |alternative| %>
       <div class="alternative list">
+        Ejecucion <%= alternative[0] %>
+      </div>
+      <div class="alternative list">
         <div class="alternative-option"> 
-          <input type="radio" name="selectAlternative" value="alternative<%= alternative[0] %>">
-          <label for="alternative<%= alternative[0] %>"> Alt. <%= alternative[0] %> </label>
+          <input type="radio" name="selectAlternative" value="alternative<%= alternative[1] %>">
+          <label for="alternative<%= alternative[1] %>"> Alt <%= alternative[1] %> </label>
         </div>
         <div class="alternative-issues"> 
-          <% alternative[1].each do |column| %>
+          <% alternative[2].each do |column| %>
           <div class ="issues-column"> 
             <div class="issue-column-priority">
               <%= column[:name] %>
@@ -22,9 +25,7 @@
             <% end %>
           </div>
           <% end %>
-          
         </div>
-
       </div>
     <% end %>
     <div class='buttons'>
