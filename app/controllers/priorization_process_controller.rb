@@ -75,7 +75,7 @@ class PriorizationProcessController < ApplicationController
           end
 
         end
-        @alternatives << [ returned_alternatives['id'], alternative['alternative_id'], board ]
+        @alternatives << [ returned_alternatives['id'], returned_alternatives['status'], alternative['alternative_id'], board ]
       end
     end
     
