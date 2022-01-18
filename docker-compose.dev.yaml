@@ -2,6 +2,6 @@ version: '3'
 services:
   redmine:
     environment:
-      - RAILS_ENV=development 
+      - RAILS_ENV=production 
     volumes:
       - './:/bitnami/redmine/plugins/dss_pnrp'
