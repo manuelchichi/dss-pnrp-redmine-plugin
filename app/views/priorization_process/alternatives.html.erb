@@ -2,6 +2,27 @@
 
 <form>
   <div class="pr-board box">
+      <div class="alternative list">
+        <div class="alternative-issues"> 
+          <% @returned_solution.each do |issue| %>
+            <div class="issue-column-priority">
+              <%= issue[:issue_id] %>
+            </div>
+            <div class="issue-column-subject">
+              <%= issue[:position] %>
+            </div>
+          <% end %>
+        </div>            
+      </div>
+    <div class='buttons'>
+      <input type="submit" value='Seleccionar'>
+    </div>
+  </div>
+</form>
+
+<% if false %>
+<form>
+  <div class="pr-board box">
     <% @alternatives.each do |alternative| %>
       <div class="alternative list">
         <div class="alternative-option"> 
@@ -39,6 +60,7 @@
   </div>
 
 </form>
+<% end %>
 
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag "tables", plugin: "dss_pnrp" %>

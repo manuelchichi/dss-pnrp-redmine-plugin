@@ -25,7 +25,7 @@ class PriorizationProcessController < ApplicationController
 
   def retrive_query_prp
     # + @pp['id']
-    urlString = "http://flask:80/getSolutions/1" 
+    urlString = "http://flask:80/getExecution/1" 
     uri = URI.parse(urlString)
     request = Net::HTTP::Get.new(uri)
     request.content_type = "application/json"
@@ -41,10 +41,11 @@ class PriorizationProcessController < ApplicationController
 
     data_hash = JSON.parse(response.body)
     
-    returned_executions = data_hash['executions']
+    @returned_solution = data_hash['solution']
 
-    #Ordenar la board aca. Issues 
+    puts @returned_solution
 
+=begin
     priorities = IssuePriority.all
 
     @alternatives = []
@@ -78,7 +79,7 @@ class PriorizationProcessController < ApplicationController
         @alternatives << [ returned_alternatives['id'], returned_alternatives['status'], alternative['alternative_id'], board ]
       end
     end
-    
+=end
   end
 
   def alternatives
