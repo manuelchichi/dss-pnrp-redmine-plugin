@@ -7,7 +7,7 @@
           <% @returned_solution.each do |issue| %>
             <div>
               <div class="issue-column-priority">
-                <%= issue["issue_id"] %>
+                <%= link_to "#{'Issue#' + issue["issue_id"].to_s}", issue_path(issue["issue_id"])   %>
               </div>
               <div class="issue-column-subject">
                 <%= issue["position"] %>

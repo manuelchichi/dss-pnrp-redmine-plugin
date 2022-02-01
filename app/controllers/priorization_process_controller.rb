@@ -25,7 +25,7 @@ class PriorizationProcessController < ApplicationController
 
   def retrive_query_prp
     # + @pp['id']
-    urlString = "http://fastapi:80/getExecution/1" 
+    urlString = "http://fastapi:80/execution/1" 
     uri = URI.parse(urlString)
     request = Net::HTTP::Get.new(uri)
     request.content_type = "application/json"
@@ -40,9 +40,8 @@ class PriorizationProcessController < ApplicationController
     data_hash = {}
 
     @returned_solution = JSON.parse(response.body)["solution"]
-    
-    puts @returned_solution
-    #puts @returned_solution[0]["issue_id"]
+    #Rails.logger.debug "Values"
+    #Rails.logger.debug "#{response.body}"
 
 =begin
     priorities = IssuePriority.all
