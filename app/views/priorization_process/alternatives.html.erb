@@ -5,11 +5,13 @@
       <div class="alternative list">
         <div class="alternative-issues"> 
           <% @returned_solution.each do |issue| %>
-            <div class="issue-column-priority">
-              <%= issue[:issue_id] %>
-            </div>
-            <div class="issue-column-subject">
-              <%= issue[:position] %>
+            <div>
+              <div class="issue-column-priority">
+                <%= issue["issue_id"] %>
+              </div>
+              <div class="issue-column-subject">
+                <%= issue["position"] %>
+              </div>
             </div>
           <% end %>
         </div>            

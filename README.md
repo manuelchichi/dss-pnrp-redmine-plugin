@@ -9,14 +9,18 @@
 ## Ejecutar proyecto en modo desarrollo.
 ```
 docker-dev up -d 
+
+# Una vez que finalizamos el trabajo
+
+docker-dev down -v
 ```
 
 Una vez que esto esta iniciado accedemos a la aplicacion de Redmine en la [url](http://localhost:8080) .
 
 ## Ingreso al sistema
 Default user/password.
-* user: user
-* password: bitnami1
+* user: admin
+* password: admin
 
 ## Lista comandos utiles
 Estos deben ejecutarse una vez que se ingresa a la carpeta del proyecto y se suben las variables de ambiente de direnv.
@@ -28,8 +32,6 @@ bundle exec rake redmine:plugins:migrate
 
 ### Para recrear las bases de datos.
 ```
-export DISABLE_DATABASE_ENVIRONMENT_CHECK=1
-export REDMINE_LANG=en
 bundle exec rake db:drop
 bundle exec rake db:create
 bundle exec rake db:migrate
