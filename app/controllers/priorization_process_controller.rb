@@ -39,7 +39,7 @@ class PriorizationProcessController < ApplicationController
 
     data_hash = {}
 
-    @returned_solution = JSON.parse(response.body)["solution"]
+    @returned_solution = JSON.parse(response.body)["solution"].sort_by { |hash| hash['position'].to_i }
     #Rails.logger.debug "Values"
     #Rails.logger.debug "#{response.body}"
 

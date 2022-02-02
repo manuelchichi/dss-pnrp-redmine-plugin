@@ -2,20 +2,26 @@
 
 <form>
   <div class="pr-board box">
-      <div class="alternative list">
-        <div class="alternative-issues"> 
-          <% @returned_solution.each do |issue| %>
-            <div>
-              <div class="issue-column-priority">
-                <%= link_to "#{'Issue#' + issue["issue_id"].to_s}", issue_path(issue["issue_id"])   %>
-              </div>
-              <div class="issue-column-subject">
-                <%= issue["position"] %>
-              </div>
+      <div class="rank-issues"> 
+        <% @returned_solution.each do |issue| %>
+          <div class="rank-column" >
+            <div class="rank-column-issue">
+              <%= link_to "#{'Issue ' + issue["issue_id"].to_s}", issue_path(issue["issue_id"])   %>
             </div>
-          <% end %>
-        </div>            
-      </div>
+            <div class="rank-column-position">
+              Posicion <%= issue["position"] %>
+            </div>
+            <div class="rank-column-option">
+              <select name="plan" id="plan">
+                <option value="free">Free</option>
+                <option value="starter" selected>Starter </option>
+                <option value="professional">Professional</option>
+                <option value="corporate">Corporate</option>
+              </select>
+            </div>
+          </div>
+        <% end %>
+      </div>            
     <div class='buttons'>
       <input type="submit" value='Seleccionar'>
     </div>
