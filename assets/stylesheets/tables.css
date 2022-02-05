@@ -5,12 +5,10 @@
 /* RANKS */
 
 .rank-issues {
-    display: grid;
-    grid-auto-flow: row;
-    grid-template-columns: auto;
-    grid-auto-columns: minmax(100px, auto);
+    display: table;
     justify-content: space-between;
     overflow-x: hidden;
+    
 }
 
 .rank-column{
@@ -18,7 +16,7 @@
     width: auto;
     text-align: center;
     grid-auto-flow: column;
-    margin-bottom: 5%;
+    margin-bottom: 0.5%;
     box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
     background-color: rgb(250, 182, 157);
 }

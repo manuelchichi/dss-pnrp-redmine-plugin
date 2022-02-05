@@ -1,0 +1,38 @@
+<h5>Ejecucion</h5>
+
+<%= form_with url: solution_create_priorization_process_path(), method: :post do |form| %>
+  <div class="pr-board box">
+      <h6>Ranking</h6>
+      <div class="rank-issues"> 
+        <% @sorted_solution.each do |issue| %>
+          <div class="rank-column" >
+            <div class="rank-column-issue">
+              <%= link_to "#{'Issue ' + issue["issue_id"].to_s}", issue_path(issue["issue_id"])   %>
+            </div>
+            <div class="rank-column-position">
+              Posicion <%= issue["position"] %>
+            </div>
+            <div class="rank-column-option">
+              <%= form.select "priority[[#{issue['issue_id']}][priority]", @priorities %>
+            </div>
+          </div>
+        <% end %>
+      </div>   
+      <div class='buttons'>
+        <%= form.submit "Crear" %>
+      </div>         
+  </div>
+<% end %>
+
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag "tables", plugin: "dss_pnrp" %>
+<% end %>
+  
+
+
+
+
+
+
+
+

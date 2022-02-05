@@ -6,25 +6,7 @@ class PriorizationProcessController < ApplicationController
   before_action :find_priorization_process, only: [:show, :execute, :execute_create, :retrive_query_prp ] 
   before_action :find_project, only: [:new, :create] 
 
-  def posttest
-   
-    uri = URI.parse("http://flask:80/post")
-    request = Net::HTTP::Post.new(uri)
-    request.content_type = "application/json"
-    request.body = JSON.dump({
-      "key1" => "value1",
-      "key2" => "value2"
-    })
-    
-    req_options = {}
-    
-    response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
-      http.request(request)
-    end
-  end
-
   def retrive_query_prp
-    # + @pp['id']
     urlString = "http://fastapi:80/execution/1" 
     uri = URI.parse(urlString)
     request = Net::HTTP::Get.new(uri)
@@ -37,9 +19,16 @@ class PriorizationProcessController < ApplicationController
       http.request(request)
     end
 
-    data_hash = {}
+    solution = JSON.parse(response.body)["solution"]
+    issues = Issue.find(solution.map { |x| x['issue_id'] })
+    Rails.logger.debug "#{issues}"
+    @sorted_solution = solution.sort_by{ |hash| hash['position'].to_i }
+    
 
-    @returned_solution = JSON.parse(response.body)["solution"].sort_by { |hash| hash['position'].to_i }
+
+    priorities = IssuePriority.all
+    
+    
     #Rails.logger.debug "Values"
     #Rails.logger.debug "#{response.body}"
 
@@ -93,7 +82,7 @@ class PriorizationProcessController < ApplicationController
   end
 
   def retrieve_algorithms_prp
-    uri = URI.parse("http://flask:80/getAlgorithms")
+    uri = URI.parse("http://fastapi:80/algorithms")
     request = Net::HTTP::Get.new(uri)
     request.content_type = "application/json"
     request["Accept"] = "application/json"
@@ -123,6 +112,16 @@ class PriorizationProcessController < ApplicationController
     retrieve_criteria_prp
     @PpDecisionMakers = PpDecisionMaker.where(priorization_process_id: @pp['id'])
     @ppRIssues = PpRelatedIssue.where(priorization_process_id: @pp['id'])
+  end
+
+  def execution
+    retrieve_algorithms_prp
+    retrieve_criteria_prp
+  end
+
+  def executions
+    retrieve_algorithms_prp
+    retrieve_criteria_prp
   end
 
   def execute
@@ -164,7 +163,7 @@ class PriorizationProcessController < ApplicationController
 
     postJson = {:execution_id => ppe.id, :issue_ponderation => arrayOfIssuePonderations, :priorization_process_id => @pp.id, :priorities => priorities.pluck(:id,:name,:position,:active)  ,:algorithm => {id: ppa.id, parameters: arrayOfParameters}, :ponderations => arrayOfCriteriaPonderations }.to_json
 
-    uri = URI.parse("http://flask:80/execution")
+    uri = URI.parse("http://fastapi:80/execution")
     request = Net::HTTP::Post.new(uri)
     request.content_type = "application/json"
     request.body = postJson
