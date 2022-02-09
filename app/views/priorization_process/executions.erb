@@ -1,6 +1,34 @@
-<h5>Ejecuciones disponibles</h5>
+<div class="pr-board box  row justify-content-center">
+  <table class="table table-striped">
+    
+    <thead class="thead-light">
+      <h5 style="text-align center"> 
+        Ejecuciones disponibles
+      </h5>
+    </thead>
 
-
+  <tbody>
+    <tr align="center">
+        <th> ID </th>
+        <th> Estado </th>
+        <th> Fecha de inicio </th>
+    </tr>
+        <% @executions.each do |execution|%>
+          <tr align="center">   
+            <td>
+            <%= link_to "#{execution['id'].to_s}", executions_path(execution) %>
+            </td>
+            <td>
+            <%= execution['status'] %>
+            </td>
+            <td >
+            <%= execution['start_date']%>
+            </td>
+          </tr>
+        <% end %>
+    </tbody>
+  </table>
+</div>
   
 
 

@@ -3,7 +3,7 @@ class PriorizationProcessController < ApplicationController
   require 'uri'
   require 'json'
   
-  before_action :find_priorization_process, only: [:show, :execute, :execute_create, :retrive_query_prp ] 
+  before_action :find_priorization_process, only: [:show, :executions, :execute, :execute_create, :retrive_query_prp ] 
   before_action :find_project, only: [:new, :create] 
 
   def retrive_query_prp
@@ -120,8 +120,7 @@ class PriorizationProcessController < ApplicationController
   end
 
   def executions
-    retrieve_algorithms_prp
-    retrieve_criteria_prp
+    @executions = PpExecution.where(priorization_process_id: @pp['id'])
   end
 
   def execute
