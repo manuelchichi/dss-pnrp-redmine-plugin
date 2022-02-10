@@ -23,10 +23,7 @@ class PriorizationProcessController < ApplicationController
     issues = Issue.find(solution.map { |x| x['issue_id'] })
     Rails.logger.debug "#{issues}"
     @sorted_solution = solution.sort_by{ |hash| hash['position'].to_i }
-    
-
-
-    priorities = IssuePriority.all
+    @priorities = IssuePriority.all
     
     
     #Rails.logger.debug "Values"
@@ -67,10 +64,6 @@ class PriorizationProcessController < ApplicationController
       end
     end
 =end
-  end
-
-  def alternatives
-    retrive_query_prp
   end
 
   def find_priorization_process
@@ -115,8 +108,7 @@ class PriorizationProcessController < ApplicationController
   end
 
   def execution
-    retrieve_algorithms_prp
-    retrieve_criteria_prp
+    retrive_query_prp
   end
 
   def executions
@@ -138,6 +130,9 @@ class PriorizationProcessController < ApplicationController
     ppe = PpExecution.create(user: User.current, priorization_process: @pp, created_at: Time.now, updated_at: Time.now)
     
     alg = params[:algorithms][params[:selected]]
+
+
+    Rails.logger.debug "#{alg}"
 
     ppa = PpAlgorithm.find_or_create_by(id: alg["id"]) do | newAlg |
        newAlg.pp_execution_id = ppe.id

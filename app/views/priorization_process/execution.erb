@@ -5,7 +5,7 @@
       <h6>Ranking</h6>
       <div class="rank-issues"> 
         <% @sorted_solution.each do |issue| %>
-          <div class="rank-column" >
+          <div class="rank-column">
             <div class="rank-column-issue">
               <%= link_to "#{'Issue ' + issue["issue_id"].to_s}", issue_path(issue["issue_id"])   %>
             </div>
@@ -19,7 +19,8 @@
         <% end %>
       </div>   
       <div class='buttons'>
-        <%= form.submit "Crear" %>
+        <%= form.button "Rechazar", formmethod: :reject, data: { confirm: "Estas seguro?" } %>
+        <%= form.button "Crear" %>
       </div>         
   </div>
 <% end %>

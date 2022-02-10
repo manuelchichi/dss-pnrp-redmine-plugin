@@ -16,13 +16,13 @@
         <% @executions.each do |execution|%>
           <tr align="center">   
             <td>
-            <%= link_to "#{execution['id'].to_s}", executions_path(execution) %>
+            <%= link_to "#{execution['id'].to_s}", execution_priorization_process_path(id_execution: execution['id']) %>
             </td>
             <td>
             <%= execution['status'] %>
             </td>
             <td >
-            <%= execution['start_date']%>
+            <%= execution['created_at']%>
             </td>
           </tr>
         <% end %>
