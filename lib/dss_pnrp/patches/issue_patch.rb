@@ -2,7 +2,6 @@ require_dependency 'issue'
 
 module DssPnrp
   module Patches
-
     module IssuePatch
       def self.included(base)
         base.send(:include, InstanceMethods)
