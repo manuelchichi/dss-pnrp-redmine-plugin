@@ -8,12 +8,12 @@
           Ejecucion: <%= alternative[0] %> 
         </div>
         <div class="alternative-option"> 
-          Estado: <%= alternative[1] %> 
+          Aplicada: <%= alternative[1] ? 'Si' : 'No' %> 
         </div>
       </div>
       <div class="alternative list">
         <div class="alternative-option"> 
-          <%= radio_button_tag :selected_alternative, alternative[1] %>
+          <%= radio_button_tag :selected_alternative, alternative[2] %>
           <label for="alternative<%= alternative[1] %>"> Alt <%= alternative[2] %> </label>
         </div>
         <div class="alternative-issues"> 

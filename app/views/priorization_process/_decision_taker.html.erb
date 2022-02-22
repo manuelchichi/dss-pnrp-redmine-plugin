@@ -5,12 +5,13 @@
                 <tr style="text-align: center">
                     <th> Nombre </th>
                     <th> Apellido </th>
+                    <th> Seleccionar </th>
                 </tr>
             </thead>
                 
             <tbody>
                 <% @persons.each do |person| %>
-                    <tr>
+                    <tr align="center">
                         <td> <%= person.firstname %> </td>
                         <td> <%= person.lastname %> </td>
                         <td> <%= check_box_tag "persons_ids[]", person['id'], false, :id => "persons_ids_#{person['id']}"  %> </td>

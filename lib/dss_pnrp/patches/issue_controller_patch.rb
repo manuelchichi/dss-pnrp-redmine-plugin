@@ -4,7 +4,6 @@ module DssPnrp
         def self.included(base)
             base.send(:include, InstanceMethods)
             base.class_eval do
-              unloadable
               before_action :save_before_state, :only => [:update]
             end
           end

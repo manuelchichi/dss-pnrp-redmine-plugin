@@ -3,12 +3,17 @@ class PriorizationProcessController < ApplicationController
   require 'uri'
   require 'json'
   
-  before_action :find_priorization_process, only: [:show, :executions, :execute, :execute_create, :retrive_query_prp, :solution_create, :alternatives] 
+  before_action :find_priorization_process, only: [:show, :executions, :execute, :execute_create, :retrive_query_prp, :solution_create, :solution_apply, :alternatives] 
   before_action :find_project, only: [:new, :create] 
+  before_action :find_project_from_prp, only: [:show] 
   before_action :find_execution, only: [:execution] 
 
   def find_project
     @project = Project.find(params[:project_id])
+  end
+
+  def find_project_from_prp
+    @project = PriorizationProcess.find(params[:id]).project
   end
 
   def find_priorization_process
@@ -107,7 +112,7 @@ class PriorizationProcessController < ApplicationController
             end
           end
         end
-        @alternatives << [ execution['id'], solution['status'], solution['id'], board ]
+        @alternatives << [ execution['id'], solution['is_applied'], solution['id'], board ]
       end
     end
   end
@@ -128,7 +133,7 @@ class PriorizationProcessController < ApplicationController
     arrayOfIssuePonderations = []
     arrayOfCriteriaPonderations = []
 
-    ppe = PpExecution.create(user: User.current, priorization_process: @pp, created_at: Time.now, updated_at: Time.now)
+    ppe = PpExecution.create(user: User.current, priorization_process: @pp, is_ready: false)
     
     alg = params[:algorithms][params[:selected]]
 
@@ -169,7 +174,7 @@ class PriorizationProcessController < ApplicationController
   end
 
   def solution_create
-    solution = PpSolution.create(pp_execution_id: params[:execution_id], priorization_process_id: @pp['id'])
+    solution = PpSolution.create(pp_execution_id: params[:execution_id], priorization_process_id: @pp['id'], is_applied: false)
     sol_issues = params[:sol_issues]
     sol_issues.each do |issue|   
       new_sol_issue = PpSolutionIssue.create(issue_id: issue[0], pp_solution_id: solution["id"] ,priority: issue[1]["priority"])
@@ -179,6 +184,17 @@ class PriorizationProcessController < ApplicationController
   end
 
   def solution_apply
+    sol_issues = PpSolutionIssue.where(pp_solution_id: params[:selected_alternative])
+    sol_issues.each do |sol_issue| 
+      issue = sol_issue.issue
+      issue.priority = IssuePriority.find(sol_issue.priority)
+      issue.save
+    end
+
+    PpSolution.update(params[:selected_alternative], is_applied: true)
+    PriorizationProcess.update(@pp['id'], is_ended: true)
+
+    redirect_to(priorization_process_path(@pp))
   end
 
   def new
@@ -188,7 +204,7 @@ class PriorizationProcessController < ApplicationController
 
   def create
     # Si ya existe uno inicializado que de error.
-    pp = PriorizationProcess.create(project_id: @project.id, status: 1, created_at: Time.now, updated_at: Time.now)
+    pp = PriorizationProcess.create(project_id: @project.id, is_ended: false)
         
     arrayOfCriterias = []
 
@@ -209,4 +225,9 @@ class PriorizationProcessController < ApplicationController
   
     redirect_to(index_requeriment_engineering_path())
   end
+ 
+  def is_ended?
+    self.is_ended
+  end
+
 end
