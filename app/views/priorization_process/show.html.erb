@@ -1,28 +1,34 @@
-<h2>Ingenieria de requerimientos</h2>
+<h4>Ingenieria de requerimientos</h4>
+
+<div >
+  <%= link_to "Atras", index_requeriment_engineering_path(@project['id']) %>
+</div>
 
 <hr>
+
+<% if !@pp.is_ended? %>
   <div class="options">
     <div class="div1">
-       <%= link_to '<button type="button" class="btn btn-info optionbutton"> Iniciar proceso </button>'.html_safe, execute_priorization_process_path(@pp) %> 
+        <%= link_to '<button type="button" class="btn btn-info optionbutton">Iniciar proceso</button>'.html_safe, execute_priorization_process_path(@pp) %> 
     </div>
     <div class="div2">
-      <%= link_to '<button type="button" class="btn btn-info optionbutton"> Seleccionar alternativas </button>'.html_safe, alternatives_priorization_process_path(@pp) %> 
+    <%= link_to '<button type="button" class="btn btn-info optionbutton">Seleccionar alternativas</button>'.html_safe, alternatives_priorization_process_path(@pp) %> 
     </div>
     <div class="div3">
-      <a href="#" class="button">Seleccionar tomadores de decision</a>
+      <a href="#" class="button">Ver progreso del proceso actual</a>
     </div>
     <div class="div4">
-     <a href="#" class="button">Ver progreso del proceso actual</a>
-    </div>
-    <div class="div5">
       <a href="#" class="button">Rechazar proceso actual</a>
     </div>
-    <div class="div6">
+    <div class="div5">
         <a href="#" class="button">Replanificar </a>
     </div>
+    <div class="div6">
+      <a href="#" class="button">Seleccionar tomadores de decision</a>
+    </div>
   </div>
-
 <hr>
+<% end %>
 
 <div class="pr-board box row justify-content-center">
   <table class="table table-striped">
@@ -36,7 +42,7 @@
     <tbody>
       <tr align="center">
           <th> ID </th>
-          <th> Estado </th>
+          <th> Finalizado </th>
           <th> Fecha de inicio </th>
           <th> Fecha de actualización </th>
       </tr>
@@ -45,7 +51,7 @@
                 <%= @pp['id'] %>
               </td>
               <td>
-                <%= @pp['status'] %>
+                <%= @pp.is_ended? ? 'Si' : 'No' %>
               </td>
               <td>
                 <%= @pp['created_at'] %>
@@ -58,7 +64,79 @@
   </table>
 </div> 
 
+<div class="pr-board box  row justify-content-center">
+  <table class="table table-striped">
+    <thead class="thead-light">
+      <h5 style="text-align center"> 
+        Ejecuciones
+      </h5>
+    </thead>
+
+  <tbody>
+    <tr align="center">
+        <th> ID </th>
+        <th> Solucion creada </th>
+        <th> Fecha de inicio </th>
+    </tr>
+        <% @ppExecutions.each do |execution|%>
+          <tr align="center">   
+            <td>
+            <% if !execution['is_solution_created'] %>
+              <%= link_to "#{execution['id'].to_s}", execution_priorization_process_path(id_execution: execution['id']) %>
+            <% else %>
+              <%= execution['id'] %>
+            <% end %>
+            </td>
+            <td>
+            <%= execution['is_solution_created'] ? 'Si' : 'No' %>
+            </td>
+            <td >
+            <%= execution['created_at']%>
+            </td>
+          </tr>
+        <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="pr-board box  row justify-content-center">
+  <table class="table table-striped">
+
+    <thead class="thead-light">
+      <h5 style="text-align center"> 
+        Criterios
+      </h5>
+  </thead>
+
+  <tbody>
+    <tr align="center">
+        <th> ID </th>
+        <th> Nombre </th>
+        <th> Descripción </th>
+        <th> Valor por defecto </th>
+    </tr>
+        <% @ppCriterias.each do |cr|%>
+          <tr align="center">   
+            <td>
+            <%= cr['id'] %>
+            </td>
+            <td>
+            <%= cr['name'] %>
+          </td>
+          <td>
+            <%= cr['description'] %>
+          </td>
+          <td>
+          <%= cr['default_value'] %>
+          </td>
+          </tr>
+        <% end %>
+    </tbody>
+  </table>
+</div>
+
 <hr>
+
 <div class="pr-board box  row justify-content-center">
   <table class="table table-striped">
     
@@ -77,7 +155,7 @@
         <th> Fecha de inicio </th>
         <th> Descripción </th>
     </tr>
-        <% @ppRIssues.each do |pr|%>
+        <% @pprIssues.each do |pr|%>
           <tr align="center">   
             <td>
             <%= link_to "#{'Issue#' + pr.issue['id'].to_s}", issue_path(pr.issue) %>
@@ -86,10 +164,10 @@
             <%= pr.issue['subject'] %>
             </td>
             <td >
-            <%= pr.issue['status_id']%>
+            <%= pr.issue.status.name %>
             </td>
             <td>
-            <%= pr.issue['priority_id']%>
+            <%= pr.issue.priority.name %>
             </td>
             <td>
             <%= pr.issue['start_date'] %>
@@ -103,8 +181,7 @@
   </table>
 </div>
 
-<hr>
-  <div class="pr-board box  row justify-content-center">
+<div class="pr-board box  row justify-content-center">
   <table class="table table-striped">
 
   <thead class="thead-light">
@@ -119,9 +196,9 @@
         <th> Nombre </th>
         <th> Apellido </th>
         <th> Administrador </th>
-    </tr align="center">
-        <% @PpDecisionMakers.each do |pdm|%>
-          <tr>   
+    </tr>
+        <% @ppDecisionMakers.each do |pdm|%>
+          <tr align="center">   
             <td>
             <%=link_to "#{'User#' + pdm['user_id'].to_s}", user_path(pdm.user)  %>
             </td>
@@ -141,42 +218,6 @@
 </div>
 
 <hr>
-
-  <div class="pr-board box  row justify-content-center">
-  <table class="table table-striped">
-
-    <thead class="thead-light">
-      <h5 style="text-align center"> 
-        Criterios
-      </h5>
-  </thead>
-
-  <tbody>
-    <tr align="center">
-        <th> ID </th>
-        <th> Nombre </th>
-        <th> Descripción </th>
-        <th> Valor por defecto </th>
-    </tr align="center">
-        <% @criterias.each do |cr|%>
-          <tr>   
-            <td>
-            <%= cr['id'] %>
-            </td>
-            <td>
-            <%= cr['name'] %>
-          </td>
-          <td>
-            <%= cr['description'] %>
-          </td>
-          <td>
-          <%= cr['default_value'] %>
-          </td>
-          </tr>
-        <% end %>
-    </tbody>
-  </table>
-</div>
 
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag "bootstrap", plugin: "dss_pnrp" %>

@@ -1,10 +1,9 @@
-module RedmineChecklists
+module DssPnrp
     module Patches
       module IssuesControllerPatch
-        def self.included(base) # :nodoc:
+        def self.included(base)
             base.send(:include, InstanceMethods)
             base.class_eval do
-              unloadable # Send unloadable so it will not be unloaded in development
               before_action :save_before_state, :only => [:update]
             end
           end
@@ -22,6 +21,6 @@ module RedmineChecklists
     end
 end
 
-unless IssuesController.included_modules.include?(RedmineChecklists::Patches::IssuesControllerPatch)
-    IssuesController.send(:include, RedmineChecklists::Patches::IssuesControllerPatch)
+unless IssuesController.included_modules.include?(DssPnrp::Patches::IssuesControllerPatch)
+    IssuesController.send(:include, DssPnrp::Patches::IssuesControllerPatch)
 end

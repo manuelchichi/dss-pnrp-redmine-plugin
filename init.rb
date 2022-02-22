@@ -1,7 +1,9 @@
+require 'redmine'
+
 Redmine::Plugin.register :dss_pnrp do
-  name 'Requirement engineering plugin'
+  name 'Decision Support System'
   author 'GICIIS'
-  description 'Decision Support System'
+  description 'Requirement engineering plugin'
   version '0.0.5'
   url 'http://example.com/path/to/plugin'
   author_url 'http://example.com/about'
@@ -18,3 +20,5 @@ Redmine::Plugin.register :dss_pnrp do
   # :if => Proc.new { Project.current.root? }
   menu :project_menu, :requeriment_engineering, { controller: 'requeriment_engineering', action: 'index' }, caption: 'Requeriment Engineering', param: :project_id
 end
+
+require 'dss_pnrp'

@@ -51,11 +51,11 @@
             </thead>
 
             <tbody>
-                <% @criterias.each do |criteria| %>
+                <% @ppCriterias.each do |criteria| %>
                 <tr>
                     <td> <%= criteria['name']%> </td>
                     <td> <%= criteria['description']%> </td>
-                    <td> <%=  number_field_tag "criterias[#{criteria['id']}]"  %> </td>
+                    <td> <%= number_field_tag "criterias[#{criteria['id']}]"  %> </td>
                 </tr>
                 <% end %>
                 

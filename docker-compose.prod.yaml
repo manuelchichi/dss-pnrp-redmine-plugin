@@ -3,3 +3,14 @@ services:
   redmine:
     environment:
       - RAILS_ENV=production 
+      - REDMINE_PLUGINS_MIGRATE=1
+      - REDMINE_DB_MYSQL=mariadb
+      - REDMINE_DB_USERNAME=bn_redmine
+      - REDMINE_DB_DATABASE=bitnami_redmine
+      - REDMINE_SECRET_KEY_BASE=supersecretkey
+      - REDMINE_LANG=es
+    volumes:
+      - 'redmine_data:/usr/src/redmine/files'
+  mariadb:
+    volumes:
+      - 'mariadb_data:/bitnami/mariadb/'

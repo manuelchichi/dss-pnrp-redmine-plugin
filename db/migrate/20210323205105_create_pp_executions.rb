@@ -3,6 +3,7 @@ class CreatePpExecutions < ActiveRecord::Migration[5.2]
     create_table :pp_executions do |t|
       t.belongs_to :user
       t.belongs_to :priorization_process
+      t.boolean :is_solution_created
       t.timestamps
     end
   end

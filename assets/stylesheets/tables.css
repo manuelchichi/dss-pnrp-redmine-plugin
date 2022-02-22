@@ -1,7 +1,36 @@
 .pr-board {
     display: grid;
-    grid-gap: 5px;
 }
+
+/* RANKS */
+
+.rank-issues {
+    display: table;
+    justify-content: space-between;
+    overflow-x: hidden;
+    
+}
+
+.rank-column{
+    display: grid;
+    width: auto;
+    text-align: center;
+    grid-auto-flow: column;
+    margin-bottom: 0.5%;
+    box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+    background-color: rgb(250, 182, 157);
+}
+
+.rank-column-issue{
+}
+
+.rank-column-position{
+}
+
+.rank-column-option{
+}
+
+/* ALTERNATIVES */
 
 .alternative {
     display: grid;

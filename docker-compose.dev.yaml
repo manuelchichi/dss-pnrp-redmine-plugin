@@ -2,6 +2,17 @@ version: '3'
 services:
   redmine:
     environment:
-      - RAILS_ENV=production 
+      - RAILS_ENV=development
+      - REDMINE_PLUGINS_MIGRATE=1
+      - REDMINE_DB_MYSQL=mariadb
+      - REDMINE_DB_USERNAME=bn_redmine
+      - REDMINE_DB_DATABASE=bitnami_redmine_development
+      - REDMINE_SECRET_KEY_BASE=supersecretkey
+      - REDMINE_LANG=es
     volumes:
-      - './:/bitnami/redmine/plugins/dss_pnrp'
+      - './:/usr/src/redmine/plugins/dss_pnrp'
+      - 'redmine_data:/usr/src/redmine/files'
+  mariadb:
+    volumes:
+      - 'mariadb_data:/bitnami/mariadb/'
+      - './init-develop-database.sql:/docker-entrypoint-initdb.d/init-develop-database.sql'

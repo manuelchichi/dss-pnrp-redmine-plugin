@@ -1,6 +1,6 @@
 <h5>Alternativas</h5>
 
-<form>
+<%= form_with url: solution_apply_priorization_process_path(), method: :post do |form| %>
   <div class="pr-board box">
     <% @alternatives.each do |alternative| %>
       <div class="alternative list">
@@ -8,12 +8,12 @@
           Ejecucion: <%= alternative[0] %> 
         </div>
         <div class="alternative-option"> 
-          Estado: <%= alternative[1] %> 
+          Aplicada: <%= alternative[1] ? 'Si' : 'No' %> 
         </div>
       </div>
       <div class="alternative list">
         <div class="alternative-option"> 
-          <input type="radio" name="selectAlternative" value="alternative<%= alternative[1] %>">
+          <%= radio_button_tag :selected_alternative, alternative[2] %>
           <label for="alternative<%= alternative[1] %>"> Alt <%= alternative[2] %> </label>
         </div>
         <div class="alternative-issues"> 
@@ -34,22 +34,13 @@
       </div>
     <% end %>
     <div class='buttons'>
-      <input type="submit" value='Seleccionar'>
-    </div>
+        <%= form.button "Aplicar" %>
+    </div>     
   </div>
-
-</form>
+<% end %>
 
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag "tables", plugin: "dss_pnrp" %>
   <%= stylesheet_link_tag "bootstrap", plugin: "dss_pnrp" %>
 <% end %>
   
-
-
-
-
-
-
-
-

@@ -1,11 +1,8 @@
-<h2>Ingeniería de requerimientos</h2>
-
-test2
+<h3>Ingeniería de requerimientos</h3>             
 
 <hr>
 
 <!--Tabla de Priorizacion -->
-
 <table class="table table-striped">
  <thead class="thead-light">
     <h5 style="text-align center"> 
@@ -25,7 +22,7 @@ test2
  <tbody>
   <tr>
       <th class="text-center"> ID </th>
-      <th class="text-center"> Estado (Status) </th>
+      <th class="text-center"> Finalizo </th>
       <th class="text-center"> Fecha de Inicio (Start date) </th>
       <th class="text-center"> Fecha de Actualización (Updated date) </th>
   </tr>
@@ -35,7 +32,7 @@ test2
             <%= link_to "#{'Priorization Process' + ' ' + pp['id'].to_s}", priorization_process_path(pp) %>
           </td>   
           <td align="center">
-          <%= pp['status'] %>
+          <%= pp['is_ended'] ? 'Si' : 'No' %>
           </td>
           <td align="center">
           <%= pp['created_at'] %>

@@ -3,29 +3,29 @@ class PriorizationProcessController < ApplicationController
   require 'uri'
   require 'json'
   
-  before_action :find_priorization_process, only: [:show, :execute, :execute_create, :retrive_query_prp ] 
+  before_action :find_priorization_process, only: [:show, :executions, :execute, :execute_create, :retrive_query_prp, :solution_create, :solution_apply, :alternatives] 
   before_action :find_project, only: [:new, :create] 
+  before_action :find_project_from_prp, only: [:show] 
+  before_action :find_execution, only: [:execution] 
 
-  def posttest
-   
-    uri = URI.parse("http://flask:80/post")
-    request = Net::HTTP::Post.new(uri)
-    request.content_type = "application/json"
-    request.body = JSON.dump({
-      "key1" => "value1",
-      "key2" => "value2"
-    })
-    
-    req_options = {}
-    
-    response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
-      http.request(request)
-    end
+  def find_project
+    @project = Project.find(params[:project_id])
+  end
+
+  def find_project_from_prp
+    @project = PriorizationProcess.find(params[:id]).project
+  end
+
+  def find_priorization_process
+    @pp = PriorizationProcess.find(params[:id])
+  end
+
+  def find_execution
+    @ppExecution = PpExecution.find(params[:id_execution])
   end
 
   def retrive_query_prp
-    # + @pp['id']
-    urlString = "http://flask:80/getSolutions/1" 
+    urlString = "http://fastapi:80/execution/1" 
     uri = URI.parse(urlString)
     request = Net::HTTP::Get.new(uri)
     request.content_type = "application/json"
@@ -37,64 +37,19 @@ class PriorizationProcessController < ApplicationController
       http.request(request)
     end
 
-    data_hash = {}
+    solution = JSON.parse(response.body)["solution"]
+    issues = Issue.find(solution.map { |x| x['issue_id'] })
 
-    data_hash = JSON.parse(response.body)
+    @sorted_solution = solution.sort_by{ |hash| hash['position'].to_i }
+    @priorities = IssuePriority.all
     
-    returned_executions = data_hash['executions']
-
-    #Ordenar la board aca. Issues 
-
-    priorities = IssuePriority.all
-
-    @alternatives = []
-    returned_executions.each do |returned_alternatives|
-      alternatives = returned_alternatives['alternatives']
-      alternatives.each do |alternative|
-
-        board = []
-        priorities.each do |priority|
-          #Inicializar prioridades.
-          board_element = Hash.new
-          board_element[:id] = priority.id
-          board_element[:name] = priority.name
-          board_element[:issues] = []
-          board << board_element 
-        end
-
-        alternative['issues'].each do |issue|
-          
-          new_issue = Issue.find(issue['issue_id']) #Esto deberia hashearse en una tabla, si existe no se busca.
-          new_issue.priority_id = issue['priority_id']
-
-          #Agregar al diccionario ordenado por prioridad. 
-          board.each do |board_element|
-            if (board_element[:id] == new_issue.priority_id)
-              board_element[:issues] = board_element[:issues] << new_issue
-            end
-          end
-
-        end
-        @alternatives << [ returned_alternatives['id'], returned_alternatives['status'], alternative['alternative_id'], board ]
-      end
-    end
     
-  end
-
-  def alternatives
-    retrive_query_prp
-  end
-
-  def find_priorization_process
-    @pp = PriorizationProcess.find(params[:id])
-  end
-
-  def find_project
-    @project = Project.find(params[:project_id])
+    #Rails.logger.debug "Values"
+    #Rails.logger.debug "#{response.body}"
   end
 
   def retrieve_algorithms_prp
-    uri = URI.parse("http://flask:80/getAlgorithms")
+    uri = URI.parse("http://fastapi:80/algorithms")
     request = Net::HTTP::Get.new(uri)
     request.content_type = "application/json"
     request["Accept"] = "application/json"
@@ -117,13 +72,53 @@ class PriorizationProcessController < ApplicationController
   end
   
   def retrieve_criteria_prp
-    @criterias = PpCriteria.where(priorization_process_id: @pp['id'])
+    @ppCriterias = PpCriteria.where(priorization_process_id: @pp['id'])
   end
 
   def show
     retrieve_criteria_prp
-    @PpDecisionMakers = PpDecisionMaker.where(priorization_process_id: @pp['id'])
-    @ppRIssues = PpRelatedIssue.where(priorization_process_id: @pp['id'])
+    @ppDecisionMakers = PpDecisionMaker.where(priorization_process_id: @pp['id'])
+    @pprIssues = PpRelatedIssue.where(priorization_process_id: @pp['id'])
+    @ppExecutions = PpExecution.where(priorization_process_id: @pp['id'])
+  end
+
+  def alternatives
+    priorities = IssuePriority.all
+
+    @alternatives = []
+
+    pp_executions = PpExecution.where(priorization_process_id: @pp['id'])
+    
+    pp_executions.each do |execution|
+      solutions = PpSolution.where(pp_execution_id: execution['id'])
+      solutions.each do |solution|
+
+        board = []
+
+        priorities.each do |priority|
+          #Inicializar prioridades.
+          board_element = Hash.new
+          board_element[:id] = priority.id
+          board_element[:name] = priority.name
+          board_element[:issues] = []
+          board << board_element 
+        end
+
+        issue_solutions = PpSolutionIssue.where(pp_solution_id: solution['id'])
+        issue_solutions.each do |issue_solution|
+          board.each do |board_element|
+            if (board_element[:id] == issue_solution.priority)
+              board_element[:issues] = board_element[:issues] << issue_solution.issue
+            end
+          end
+        end
+        @alternatives << [ execution['id'], solution['is_applied'], solution['id'], board ]
+      end
+    end
+  end
+
+  def execution
+    retrive_query_prp
   end
 
   def execute
@@ -138,7 +133,7 @@ class PriorizationProcessController < ApplicationController
     arrayOfIssuePonderations = []
     arrayOfCriteriaPonderations = []
 
-    ppe = PpExecution.create(user: User.current, priorization_process: @pp, created_at: Time.now, updated_at: Time.now)
+    ppe = PpExecution.create(user: User.current, priorization_process: @pp, is_solution_created: false)
     
     alg = params[:algorithms][params[:selected]]
 
@@ -165,7 +160,7 @@ class PriorizationProcessController < ApplicationController
 
     postJson = {:execution_id => ppe.id, :issue_ponderation => arrayOfIssuePonderations, :priorization_process_id => @pp.id, :priorities => priorities.pluck(:id,:name,:position,:active)  ,:algorithm => {id: ppa.id, parameters: arrayOfParameters}, :ponderations => arrayOfCriteriaPonderations }.to_json
 
-    uri = URI.parse("http://flask:80/execution")
+    uri = URI.parse("http://fastapi:80/execution")
     request = Net::HTTP::Post.new(uri)
     request.content_type = "application/json"
     request.body = postJson
@@ -179,11 +174,29 @@ class PriorizationProcessController < ApplicationController
   end
 
   def solution_create
-    solution = PpSolution.create(pp_execution_id: params[:pp_execution_id])
+    solution = PpSolution.create(pp_execution_id: params[:execution_id], priorization_process_id: @pp['id'], is_applied: false)
     sol_issues = params[:sol_issues]
-    sol_issue.each do |issue|
-      new_sol_issue = PpSolutionIssue.create(issue_id: issue["issue_id"], pp_solution_id: solution["id"] ,priority: issue["priority"])
+    sol_issues.each do |issue|   
+      new_sol_issue = PpSolutionIssue.create(issue_id: issue[0], pp_solution_id: solution["id"] ,priority: issue[1]["priority"])
     end
+
+    PpExecution.update(params[:execution_id], is_solution_created: true)
+
+    redirect_to(priorization_process_path(@pp))
+  end
+
+  def solution_apply
+    sol_issues = PpSolutionIssue.where(pp_solution_id: params[:selected_alternative])
+    sol_issues.each do |sol_issue| 
+      issue = sol_issue.issue
+      issue.priority = IssuePriority.find(sol_issue.priority)
+      issue.save
+    end
+
+    PpSolution.update(params[:selected_alternative], is_applied: true)
+    PriorizationProcess.update(@pp['id'], is_ended: true)
+
+    redirect_to(priorization_process_path(@pp))
   end
 
   def new
@@ -193,7 +206,7 @@ class PriorizationProcessController < ApplicationController
 
   def create
     # Si ya existe uno inicializado que de error.
-    pp = PriorizationProcess.create(project_id: @project.id, status: 1, created_at: Time.now, updated_at: Time.now)
+    pp = PriorizationProcess.create(project_id: @project.id, is_ended: false)
         
     arrayOfCriterias = []
 
@@ -213,6 +226,10 @@ class PriorizationProcessController < ApplicationController
     end
   
     redirect_to(index_requeriment_engineering_path())
+  end
+ 
+  def is_ended?
+    self.is_ended
   end
 
 end

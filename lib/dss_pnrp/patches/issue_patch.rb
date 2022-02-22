@@ -2,12 +2,10 @@ require_dependency 'issue'
 
 module DssPnrp
   module Patches
-
     module IssuePatch
       def self.included(base)
         base.send(:include, InstanceMethods)
         base.class_eval do
-          unloadable
           has_many :pp_criteria_issues
         end
     
