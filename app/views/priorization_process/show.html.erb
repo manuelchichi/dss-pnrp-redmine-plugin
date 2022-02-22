@@ -6,21 +6,18 @@
        <%= link_to '<button type="button" class="btn btn-info optionbutton">Iniciar proceso</button>'.html_safe, execute_priorization_process_path(@pp) %> 
     </div>
     <div class="div2">
-      <%= link_to '<button type="button" class="btn btn-info optionbutton">Ejecuciones disponibles</button>'.html_safe, executions_priorization_process_path(@pp) %> 
+    <%= link_to '<button type="button" class="btn btn-info optionbutton">Seleccionar alternativas</button>'.html_safe, alternatives_priorization_process_path(@pp) %> 
     </div>
     <div class="div3">
-    <%= link_to '<button type="button" class="btn btn-info optionbutton">Seleccionar alternativas</button>'.html_safe, executions_priorization_process_path(@pp) %> 
-    </div>
-    <div class="div4">
      <a href="#" class="button">Ver progreso del proceso actual</a>
     </div>
-    <div class="div5">
+    <div class="div4">
       <a href="#" class="button">Rechazar proceso actual</a>
     </div>
-    <div class="div6">
+    <div class="div5">
         <a href="#" class="button">Replanificar </a>
     </div>
-    <div class="div7">
+    <div class="div6">
       <a href="#" class="button">Seleccionar tomadores de decision</a>
     </div>
   </div>
@@ -61,6 +58,38 @@
   </table>
 </div> 
 
+<div class="pr-board box  row justify-content-center">
+  <table class="table table-striped">
+    
+    <thead class="thead-light">
+      <h5 style="text-align center"> 
+        Ejecuciones disponibles
+      </h5>
+    </thead>
+
+  <tbody>
+    <tr align="center">
+        <th> ID </th>
+        <th> Estado </th>
+        <th> Fecha de inicio </th>
+    </tr>
+        <% @ppExecutions.each do |execution|%>
+          <tr align="center">   
+            <td>
+            <%= link_to "#{execution['id'].to_s}", execution_priorization_process_path(id_execution: execution['id']) %>
+            </td>
+            <td>
+            <%= execution['status'] %>
+            </td>
+            <td >
+            <%= execution['created_at']%>
+            </td>
+          </tr>
+        <% end %>
+    </tbody>
+  </table>
+</div>
+
 <hr>
 <div class="pr-board box  row justify-content-center">
   <table class="table table-striped">
@@ -80,7 +109,7 @@
         <th> Fecha de inicio </th>
         <th> Descripción </th>
     </tr>
-        <% @ppRIssues.each do |pr|%>
+        <% @pprIssues.each do |pr|%>
           <tr align="center">   
             <td>
             <%= link_to "#{'Issue#' + pr.issue['id'].to_s}", issue_path(pr.issue) %>
@@ -123,7 +152,7 @@
         <th> Apellido </th>
         <th> Administrador </th>
     </tr align="center">
-        <% @PpDecisionMakers.each do |pdm|%>
+        <% @ppDecisionMakers.each do |pdm|%>
           <tr>   
             <td>
             <%=link_to "#{'User#' + pdm['user_id'].to_s}", user_path(pdm.user)  %>
@@ -161,7 +190,7 @@
         <th> Descripción </th>
         <th> Valor por defecto </th>
     </tr align="center">
-        <% @criterias.each do |cr|%>
+        <% @ppCriterias.each do |cr|%>
           <tr>   
             <td>
             <%= cr['id'] %>
