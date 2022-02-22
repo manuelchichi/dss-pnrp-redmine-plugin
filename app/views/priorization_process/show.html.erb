@@ -75,16 +75,20 @@
   <tbody>
     <tr align="center">
         <th> ID </th>
-        <th> Disponible </th>
+        <th> Solucion creada </th>
         <th> Fecha de inicio </th>
     </tr>
         <% @ppExecutions.each do |execution|%>
           <tr align="center">   
             <td>
-            <%= link_to "#{execution['id'].to_s}", execution_priorization_process_path(id_execution: execution['id']) %>
+            <% if !execution['is_solution_created'] %>
+              <%= link_to "#{execution['id'].to_s}", execution_priorization_process_path(id_execution: execution['id']) %>
+            <% else %>
+              <%= execution['id'] %>
+            <% end %>
             </td>
             <td>
-            <%= execution['is_ready'] ? 'Si' : 'No' %>
+            <%= execution['is_solution_created'] ? 'Si' : 'No' %>
             </td>
             <td >
             <%= execution['created_at']%>

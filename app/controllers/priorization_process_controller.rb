@@ -133,7 +133,7 @@ class PriorizationProcessController < ApplicationController
     arrayOfIssuePonderations = []
     arrayOfCriteriaPonderations = []
 
-    ppe = PpExecution.create(user: User.current, priorization_process: @pp, is_ready: false)
+    ppe = PpExecution.create(user: User.current, priorization_process: @pp, is_solution_created: false)
     
     alg = params[:algorithms][params[:selected]]
 
@@ -179,6 +179,8 @@ class PriorizationProcessController < ApplicationController
     sol_issues.each do |issue|   
       new_sol_issue = PpSolutionIssue.create(issue_id: issue[0], pp_solution_id: solution["id"] ,priority: issue[1]["priority"])
     end
+
+    PpExecution.update(params[:execution_id], is_solution_created: true)
 
     redirect_to(priorization_process_path(@pp))
   end
