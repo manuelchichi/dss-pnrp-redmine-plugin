@@ -6,7 +6,7 @@ class PriorizationProcessController < ApplicationController
   before_action :find_priorization_process, only: [:show, :executions, :execute, :execute_create, :retrive_query_prp, :solution_create, :solution_apply, :alternatives] 
   before_action :find_project, only: [:new, :create] 
   before_action :find_project_from_prp, only: [:show] 
-  before_action :find_execution, only: [:execution] 
+  before_action :find_execution, only: [:execution, :retrive_query_prp ] 
 
   def find_project
     @project = Project.find(params[:project_id])
@@ -25,7 +25,7 @@ class PriorizationProcessController < ApplicationController
   end
 
   def retrive_query_prp
-    urlString = "http://fastapi:80/execution/1" 
+    urlString = "http://fastapi:80/execution/" + @ppExecution['id'].to_s
     uri = URI.parse(urlString)
     request = Net::HTTP::Get.new(uri)
     request.content_type = "application/json"
@@ -43,9 +43,6 @@ class PriorizationProcessController < ApplicationController
     @sorted_solution = solution.sort_by{ |hash| hash['position'].to_i }
     @priorities = IssuePriority.all
     
-    
-    #Rails.logger.debug "Values"
-    #Rails.logger.debug "#{response.body}"
   end
 
   def retrieve_algorithms_prp
