@@ -42,7 +42,6 @@ class PriorizationProcessController < ApplicationController
 
     @sorted_solution = solution.sort_by{ |hash| hash['position'].to_i }
     @priorities = IssuePriority.all
-    
   end
 
   def retrieve_algorithms_prp
@@ -147,16 +146,15 @@ class PriorizationProcessController < ApplicationController
     
     params[:criterias].each do | criteria |
       PpCriteriaPonderation.create(pp_execution_id: ppe.id,pp_criteria_id: criteria[0],value: criteria[1])
-      arrayOfCriteriaPonderations << { criteria[0] => criteria[1] }
+      arrayOfCriteriaPonderations << { criteria_id: criteria[0].to_i, value: criteria[1].to_f }
       criteriaIssues = PpCriteriaIssue.where(pp_criteria_id: criteria[0])
       criteriaIssues.each do | criteriaIssue |
-        arrayOfIssuePonderations << { criteria_id: criteriaIssue['pp_criteria_id'], issue_id: criteriaIssue['issue_id'], value: criteriaIssue['value'] }
+        arrayOfIssuePonderations << { issue_id: criteriaIssue['issue_id'],  eval: [{ criteria_id: criteriaIssue['pp_criteria_id'], value: criteriaIssue['value'].to_f}] }
       end
     end
-    priorities = IssuePriority.all
 
-    postJson = {:execution_id => ppe.id, :issue_ponderation => arrayOfIssuePonderations, :priorization_process_id => @pp.id, :priorities => priorities.pluck(:id,:name,:position,:active)  ,:algorithm => {id: ppa.id, parameters: arrayOfParameters}, :ponderations => arrayOfCriteriaPonderations }.to_json
-
+    postJson = {:priorization_process_id => @pp.id, :pp_execution_id => ppe.id, :criterias => arrayOfCriteriaPonderations, :issues => arrayOfIssuePonderations }.to_json
+    Rails.logger.debug "#{postJson}"
     uri = URI.parse("http://fastapi:80/execution")
     request = Net::HTTP::Post.new(uri)
     request.content_type = "application/json"
@@ -167,7 +165,12 @@ class PriorizationProcessController < ApplicationController
       http.request(request)
     end
 
-    redirect_to(priorization_process_path(@pp))
+    Rails.logger.debug "#{response.body}"
+    if (response.code == 204)
+      redirect_to(priorization_process_path(@pp))
+    else
+      flash[:notice] ='Hubo un error al enviar la ejecucion'
+    end
   end
 
   def solution_create
