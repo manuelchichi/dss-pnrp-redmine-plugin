@@ -149,12 +149,17 @@ class PriorizationProcessController < ApplicationController
       arrayOfCriteriaPonderations << { criteria_id: criteria[0].to_i, value: criteria[1].to_f }
       criteriaIssues = PpCriteriaIssue.where(pp_criteria_id: criteria[0])
       criteriaIssues.each do | criteriaIssue |
-        arrayOfIssuePonderations << { issue_id: criteriaIssue['issue_id'],  eval: [{ criteria_id: criteriaIssue['pp_criteria_id'], value: criteriaIssue['value'].to_f}] }
+        element = arrayOfIssuePonderations.find { | issueponderation |  issueponderation[:issue_id] == criteriaIssue['issue_id'] }
+        if element.nil?
+          arrayOfIssuePonderations << { issue_id: criteriaIssue['issue_id'],  eval: [{ criteria_id: criteriaIssue['pp_criteria_id'], value: criteriaIssue['value'].to_f}] }
+        else
+          element[:eval] << { criteria_id: criteriaIssue['pp_criteria_id'], value: criteriaIssue['value'].to_f}
+        end
       end
     end
 
     postJson = {:priorization_process_id => @pp.id, :pp_execution_id => ppe.id, :criterias => arrayOfCriteriaPonderations, :issues => arrayOfIssuePonderations }.to_json
-    Rails.logger.debug "#{postJson}"
+   
     uri = URI.parse("http://fastapi:80/execution")
     request = Net::HTTP::Post.new(uri)
     request.content_type = "application/json"
@@ -165,7 +170,6 @@ class PriorizationProcessController < ApplicationController
       http.request(request)
     end
 
-    Rails.logger.debug "#{response.body}"
     if (response.code == 204)
       redirect_to(priorization_process_path(@pp))
     else
