@@ -3,7 +3,7 @@ class PriorizationProcessController < ApplicationController
   require 'uri'
   require 'json'
   
-  before_action :find_priorization_process, only: [:show, :executions, :execute, :execute_create, :retrive_query_pp, :solution_create, :solution_apply, :alternatives] 
+  before_action :find_priorization_process, only: [:show, :executions, :execute, :execute_create, :retrive_query_pp, :solution_create, :solution_apply, :alternatives, :reject] 
   before_action :find_project, only: [:new, :create] 
   before_action :find_project_from_pp, only: [:show] 
   before_action :find_execution, only: [:execution, :retrive_query_pp ] 
@@ -208,6 +208,12 @@ class PriorizationProcessController < ApplicationController
   def new
     @persons = User.find(@project.members.map(&:user_id))
     @issues = Issue.find(@project.issue_ids)
+  end
+
+  def reject
+    PriorizationProcess.update(@pp['id'], is_ended: true)
+
+    redirect_to(priorization_process_path(@pp))
   end
 
   def create

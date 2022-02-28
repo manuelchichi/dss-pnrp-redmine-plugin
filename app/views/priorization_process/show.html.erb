@@ -101,6 +101,46 @@
 
 <div class="pr-board box  row justify-content-center">
   <table class="table table-striped">
+    
+    <thead class="thead-light">
+      <h5 style="text-align center"> 
+        Requerimientos del proceso de priorización 
+      </h5>
+    </thead>
+
+  <tbody>
+    <tr align="center">
+        <th> ID </th>
+        <th> Nombre </th>
+        <th> Estado </th>
+        <th> Prioridad </th>
+        <th> Fecha de inicio </th>
+    </tr>
+        <% @pprIssues.each do |pr|%>
+          <tr align="center">   
+            <td>
+            <%= link_to "#{pr.issue['id'].to_s}", issue_path(pr.issue) %>
+            </td>
+            <td>
+            <%= pr.issue['subject'] %>
+            </td>
+            <td >
+            <%= pr.issue.status.name %>
+            </td>
+            <td>
+            <%= pr.issue.priority.name %>
+            </td>
+            <td>
+            <%= pr.issue['start_date'] %>
+            </td>
+          </tr>
+        <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="pr-board box  row justify-content-center">
+  <table class="table table-striped">
 
     <thead class="thead-light">
       <h5 style="text-align center"> 
@@ -136,50 +176,6 @@
 </div>
 
 <hr>
-
-<div class="pr-board box  row justify-content-center">
-  <table class="table table-striped">
-    
-    <thead class="thead-light">
-      <h5 style="text-align center"> 
-        Requerimientos del proceso de priorización 
-      </h5>
-    </thead>
-
-  <tbody>
-    <tr align="center">
-        <th> ID </th>
-        <th> Nombre </th>
-        <th> Estado </th>
-        <th> Prioridad </th>
-        <th> Fecha de inicio </th>
-        <th> Descripción </th>
-    </tr>
-        <% @pprIssues.each do |pr|%>
-          <tr align="center">   
-            <td>
-            <%= link_to "#{'Issue#' + pr.issue['id'].to_s}", issue_path(pr.issue) %>
-            </td>
-            <td>
-            <%= pr.issue['subject'] %>
-            </td>
-            <td >
-            <%= pr.issue.status.name %>
-            </td>
-            <td>
-            <%= pr.issue.priority.name %>
-            </td>
-            <td>
-            <%= pr.issue['start_date'] %>
-            </td>
-            <td>
-            <%= pr.issue['description'] %>
-            </td>
-          </tr>
-        <% end %>
-    </tbody>
-  </table>
-</div>
 
 <div class="pr-board box  row justify-content-center">
   <table class="table table-striped">
