@@ -8,7 +8,7 @@
         <div> Valor </div>
     </div>
     <% @issue.pp_criteria_issues.each do |criteria| %>
-        <%  if criteria.pp_criteria.priorization_process.status == 1 %>
+        <% if !criteria.pp_criteria.priorization_process.is_ended? %>
             <div>
                 <%= criteria.pp_criteria.priorization_process.id  %> 
                 <%= criteria.pp_criteria.name  %> 

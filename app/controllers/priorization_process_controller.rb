@@ -3,16 +3,16 @@ class PriorizationProcessController < ApplicationController
   require 'uri'
   require 'json'
   
-  before_action :find_priorization_process, only: [:show, :executions, :execute, :execute_create, :retrive_query_prp, :solution_create, :solution_apply, :alternatives] 
+  before_action :find_priorization_process, only: [:show, :executions, :execute, :execute_create, :retrive_query_pp, :solution_create, :solution_apply, :alternatives] 
   before_action :find_project, only: [:new, :create] 
-  before_action :find_project_from_prp, only: [:show] 
-  before_action :find_execution, only: [:execution, :retrive_query_prp ] 
+  before_action :find_project_from_pp, only: [:show] 
+  before_action :find_execution, only: [:execution, :retrive_query_pp ] 
 
   def find_project
     @project = Project.find(params[:project_id])
   end
 
-  def find_project_from_prp
+  def find_project_from_pp
     @project = PriorizationProcess.find(params[:id]).project
   end
 
@@ -24,7 +24,7 @@ class PriorizationProcessController < ApplicationController
     @ppExecution = PpExecution.find(params[:id_execution])
   end
 
-  def retrive_query_prp
+  def retrive_query_pp
     urlString = "http://fastapi:80/execution/" + @ppExecution['id'].to_s
     uri = URI.parse(urlString)
     request = Net::HTTP::Get.new(uri)
@@ -44,8 +44,8 @@ class PriorizationProcessController < ApplicationController
     @priorities = IssuePriority.all
   end
 
-  def retrieve_algorithms_prp
-    uri = URI.parse("http://fastapi:80/algorithms")
+  def retrieve_algorithms_pp
+    uri = URI.parse("http://fastapi:80/algorithms/pp")
     request = Net::HTTP::Get.new(uri)
     request.content_type = "application/json"
     request["Accept"] = "application/json"
@@ -67,12 +67,12 @@ class PriorizationProcessController < ApplicationController
     end 
   end
   
-  def retrieve_criteria_prp
+  def retrieve_criteria_pp
     @ppCriterias = PpCriteria.where(priorization_process_id: @pp['id'])
   end
 
   def show
-    retrieve_criteria_prp
+    retrieve_criteria_pp
     @ppDecisionMakers = PpDecisionMaker.where(priorization_process_id: @pp['id'])
     @pprIssues = PpRelatedIssue.where(priorization_process_id: @pp['id'])
     @ppExecutions = PpExecution.where(priorization_process_id: @pp['id'])
@@ -114,12 +114,12 @@ class PriorizationProcessController < ApplicationController
   end
 
   def execution
-    retrive_query_prp
+    retrive_query_pp
   end
 
   def execute
-    retrieve_algorithms_prp
-    retrieve_criteria_prp
+    retrieve_algorithms_pp
+    retrieve_criteria_pp
   end
 
   def execute_create
@@ -130,19 +130,6 @@ class PriorizationProcessController < ApplicationController
     arrayOfCriteriaPonderations = []
 
     ppe = PpExecution.create(user: User.current, priorization_process: @pp, is_solution_created: false)
-    
-    alg = params[:algorithms][params[:selected]]
-
-    ppa = PpAlgorithm.find_or_create_by(id: alg["id"]) do | newAlg |
-       newAlg.pp_execution_id = ppe.id
-       newAlg.name = alg["name"]
-       newAlg.version = alg["version"]
-    end
-
-    alg["parameters"].each do | param |
-      PpAlgorithmParameter.create(pp_algorithm_id: ppa.id, name: param[0], value: param[1]["value"])
-      arrayOfParameters << { param[1]["id"] => param[1]["value"] }
-    end
     
     params[:criterias].each do | criteria |
       PpCriteriaPonderation.create(pp_execution_id: ppe.id,pp_criteria_id: criteria[0],value: criteria[1])
@@ -155,6 +142,21 @@ class PriorizationProcessController < ApplicationController
         else
           element[:eval] << { criteria_id: criteriaIssue['pp_criteria_id'], value: criteriaIssue['value'].to_f}
         end
+      end
+    end
+    
+    if !params[:selected].nil?
+      alg = params[:algorithms][params[:selected]]
+
+      ppa = PpAlgorithm.find_or_create_by(id: alg["id"]) do | newAlg |
+        newAlg.pp_execution_id = ppe.id
+        newAlg.name = alg["name"]
+        newAlg.version = alg["version"]
+      end
+    
+      alg["parameters"].each do | param |
+        PpAlgorithmParameter.create(pp_algorithm_id: ppa.id, name: param[0], value: param[1]["value"])
+        arrayOfParameters << { param[1]["id"] => param[1]["value"] }
       end
     end
 
@@ -170,10 +172,10 @@ class PriorizationProcessController < ApplicationController
       http.request(request)
     end
 
-    if (response.code == 204)
+    if (response.code == "200")
       redirect_to(priorization_process_path(@pp))
     else
-      flash[:notice] ='Hubo un error al enviar la ejecucion'
+      flash[:notice] ='Error al enviar ejecucion.'
     end
   end
 
