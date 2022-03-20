@@ -10,6 +10,7 @@ services:
       - REDMINE_SECRET_KEY_BASE=supersecretkey
       - REDMINE_LANG=es
     volumes:
+      - './always_restart.txt:/usr/src/redmine/plugins/tmp/always_restart.txt'
       - './:/usr/src/redmine/plugins/dss_pnrp'
       - 'redmine_data:/usr/src/redmine/files'
   mariadb:

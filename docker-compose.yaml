@@ -2,6 +2,7 @@ version: '3'
 services:
   mariadb:
     image: 'bitnami/mariadb:10.4'
+    restart: on-failure
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
       - MARIADB_USER=bn_redmine

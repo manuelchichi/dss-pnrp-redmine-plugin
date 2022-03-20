@@ -1,7 +1,11 @@
 <%  if !@issue.blank? && @issue.pp_criteria_issues.any? %>
-<div id="pp_criteria_issue">
-    <div class="label"> Criterios: </div>
-        <table id="criteria-table" class="table w-50 mt-10">
+<hr>
+<div class="requeriment-engineering">
+    <p> 
+        <strong> Ingenieria de requerimientos </strong>
+    </p>
+    <div id="pp_criteria_issue" class="pp-issues-criteria-list">
+        <table id="criteria-table" class="table table-pp">
             <thead class="thead-light">
                 <tr style="text-align: center">
                     <th> Proceso de priorizacion </th>
@@ -21,5 +25,10 @@
                 <% end %>
             </tbody>
         </table>
+    </div>
 </div>
+<% end %>
+
+<% content_for :header_tags do %>
+    <%= stylesheet_link_tag "tables", plugin: "dss_pnrp" %>
 <% end %>

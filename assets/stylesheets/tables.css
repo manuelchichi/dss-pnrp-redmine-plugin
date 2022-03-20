@@ -78,5 +78,15 @@ and (max-device-width : 400px) {
 
 .issue-column-subject { 
     
+}
 
+.pp-issues-criteria-list{
+    width: 50%;
+    box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+    background-color: rgb(230, 230, 230);
+}
+
+.table-pp{
+    text-align: center;
+    width: 100%;
 }
