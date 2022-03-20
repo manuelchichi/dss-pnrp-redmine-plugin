@@ -25,8 +25,7 @@ class PriorizationProcessController < ApplicationController
   end
 
   def retrive_query_pp
-    urlString = "http://fastapi:80/execution/" + @ppExecution['id'].to_s
-    uri = URI.parse(urlString)
+    uri = URI.parse(Setting.plugin_dss_pnrp['backend_address'] + "/execution/" + @ppExecution['id'].to_s)
     request = Net::HTTP::Get.new(uri)
     request.content_type = "application/json"
     request["Accept"] = "application/json"
@@ -45,7 +44,7 @@ class PriorizationProcessController < ApplicationController
   end
 
   def retrieve_algorithms_pp
-    uri = URI.parse("http://fastapi:80/algorithms/pp")
+    uri = URI.parse(Setting.plugin_dss_pnrp['backend_address'] + "/algorithms/pp")
     request = Net::HTTP::Get.new(uri)
     request.content_type = "application/json"
     request["Accept"] = "application/json"
@@ -162,7 +161,7 @@ class PriorizationProcessController < ApplicationController
 
     postJson = {:priorization_process_id => @pp.id, :pp_execution_id => ppe.id, :criterias => arrayOfCriteriaPonderations, :issues => arrayOfIssuePonderations }.to_json
    
-    uri = URI.parse("http://fastapi:80/execution")
+    uri = URI.parse(Setting.plugin_dss_pnrp['backend_address'] + "/execution")
     request = Net::HTTP::Post.new(uri)
     request.content_type = "application/json"
     request.body = postJson
