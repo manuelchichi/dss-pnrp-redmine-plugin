@@ -1,3 +1,3 @@
 class PpCriteria < ActiveRecord::Base
-    belongs_to :priorization_process
+    belongs_to :prioritization_process
 end

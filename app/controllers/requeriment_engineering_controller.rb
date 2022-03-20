@@ -2,7 +2,7 @@ class RequerimentEngineeringController < ApplicationController
   before_action :find_project, only: [:index] 
 
   def index
-    @pps = PriorizationProcess.where(project_id: @project['id'])  
+    @pps = PrioritizationProcess.where(project_id: @project['id'])  
     @nrp = Issue.all  #ProximoLanzamiento
   end
 

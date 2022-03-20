@@ -14,7 +14,7 @@
             text-align: center;
             line-height: 0px;
             padding: 0px;
-            color: white;">+</button>'.html_safe, new_project_priorization_process_path(@project), class: "text-light font-weight-bold" %>
+            color: white;">+</button>'.html_safe, new_project_prioritization_process_path(@project), class: "text-light font-weight-bold" %>
     
     </h5>
  </thead>
@@ -29,7 +29,7 @@
       <% @pps.each do |pp|%>
         <tr>
           <td align="center">
-            <%= link_to "#{'Priorization Process' + ' ' + pp['id'].to_s}", priorization_process_path(pp) %>
+            <%= link_to "#{'Prioritization Process' + ' ' + pp['id'].to_s}", prioritization_process_path(pp) %>
           </td>   
           <td align="center">
           <%= pp['is_ended'] ? 'Si' : 'No' %>

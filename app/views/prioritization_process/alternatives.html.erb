@@ -1,6 +1,6 @@
 <h5>Alternativas</h5>
 
-<%= form_with url: solution_apply_priorization_process_path(), method: :post do |form| %>
+<%= form_with url: solution_apply_prioritization_process_path(), method: :post do |form| %>
   <div class="pr-board box">
     <% @alternatives.each do |alternative| %>
       <div class="alternative list">
@@ -25,7 +25,7 @@
 
             <% column[:issues].each do |row| %>
               <div class="issue-column-subject">
-                <%= row.subject %>
+                <%= link_to row.subject, issue_path(row) %>
               </div>
             <% end %>
           </div>

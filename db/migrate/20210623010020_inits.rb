@@ -15,7 +15,7 @@ class Inits < ActiveRecord::Migration[5.2]
   end
 
   def down
-    PriorizationProcess.delete_all
+    PrioritizationProcess.delete_all
     PPRelatedIssue.delete_all
     PPCriteria.delete_all
     PpDecisionMaker.delete_all
