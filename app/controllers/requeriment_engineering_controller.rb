@@ -3,10 +3,8 @@ class RequerimentEngineeringController < ApplicationController
 
   def index
     @pps = PrioritizationProcess.where(project_id: @project['id'])  
-    @nrp = Issue.all  #ProximoLanzamiento
+    @nrp = Issue.all  #NrpProcess.where(project_id: @project['id'])  
   end
-
-  #En el controlador de donde listo los criterios 
 
   def find_project
     @project = Project.find(params[:project_id])
