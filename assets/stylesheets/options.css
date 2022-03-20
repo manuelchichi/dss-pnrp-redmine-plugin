@@ -42,3 +42,18 @@ a.button:hover {
     color: white;
     font-weight: bold;
 }
+
+.titlewrapper{
+    display: grid;
+}
+
+.title{
+    grid-column: 1 / 3;
+    grid-row: 1;
+}
+
+.backbutton{
+    text-align: right;
+    grid-column: 3;
+    grid-row: 1;
+}

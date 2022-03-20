@@ -55,27 +55,25 @@
 
   <tbody> 
     <tr>
-        <th class="text-center"> ID </th>
-        <th class="text-center"> Estado (Status) </th>
-        <th class="text-center"> Fecha de Inicio (Start date) </th>
-        <th> Descripción (Description) </th>
+      <th class="text-center"> ID </th>
+      <th class="text-center"> Finalizo </th>
+      <th class="text-center"> Fecha de Inicio (Start date) </th>
+      <th class="text-center"> Fecha de Actualización (Updated date) </th>
     </tr>
-        <% @nrp.each do |issue|%>
           <tr>   
             <td align="center">
-            <%= issue['id'] %>
+            Next Release Process 1
             </td>
             <td align="center">
-            <%= issue['status_id'] %>
+            Si
             </td>
             <td align="center">
-            <%= issue['start_date'] %>
+            2022-03-20 20:01:40 UTC
             </td>
-            <td>
-            <%= issue['description'] %>
+            <td align="center">
+            2022-03-20 20:05:23 UTC
             </td>
           </tr>
-        <% end %>
   </tbody>
 
 </table>

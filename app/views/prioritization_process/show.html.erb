@@ -1,10 +1,12 @@
-<h4>Ingenieria de requerimientos</h4>
 
-<div >
-  <%= link_to "Atras", index_requeriment_engineering_path(@project['id']) %>
+<div class="titlewrapper">
+  <div class="title">
+    <h4>Proceso de priorizacion</h4>
+  </div>
+  <div class="backbutton">
+    <%= link_to "Atras", index_requeriment_engineering_path(@project['id']) %>
+  </div>
 </div>
-
-<hr>
 
 <% if !@pp.is_ended? %>
   <div class="options">
