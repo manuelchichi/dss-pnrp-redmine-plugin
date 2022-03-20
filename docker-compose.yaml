@@ -8,7 +8,6 @@ services:
       - MARIADB_USER=bn_redmine
       - MARIADB_DATABASE=bitnami_redmine
   redmine:
-    build: .
     restart: on-failure
     ports:
       - '8080:3000'

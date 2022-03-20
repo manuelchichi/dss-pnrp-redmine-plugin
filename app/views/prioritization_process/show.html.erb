@@ -82,7 +82,7 @@
           <tr align="center">   
             <td>
             <% if !execution['is_solution_created'] %>
-              <%= link_to "#{execution['id'].to_s}", execution_priorization_process_path(id_execution: execution['id']) %>
+              <%= link_to "#{execution['id'].to_s}", execution_prioritization_process_path(id_execution: execution['id']) %>
             <% else %>
               <%= execution['id'] %>
             <% end %>

@@ -1,6 +1,10 @@
 version: '3'
 services:
   redmine:
+    image: redmine-dev
+    build:
+      context: .
+      target: base
     environment:
       - RAILS_ENV=development
       - REDMINE_PLUGINS_MIGRATE=1
