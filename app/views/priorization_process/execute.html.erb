@@ -11,27 +11,32 @@
             </thead>
                 
             <tbody>
-                <% @algorithms.each do |algorithm| %>
-                <tr>
-                    <td>        
-                        <%= radio_button_tag "selected", algorithm['name'] %>
-                        <%= hidden_field_tag "algorithms[#{algorithm['name']}][id]", algorithm['id'] %>
-                        <%= hidden_field_tag "algorithms[#{algorithm['name']}][name]", algorithm['name'] %>
-                        <%= hidden_field_tag "algorithms[#{algorithm['name']}][version]", algorithm['version'] %>
-                        <%= algorithm['name'] + ' ' + algorithm['version']%> 
-                    </td>
-                    <table>
+                <%  if @algorithms.any? %>
+                    <% @algorithms.each do |algorithm| %>
                     <tr>
-                        <% algorithm['parameters'].each do |param| %>
-                            <td>
-                                <%= param['name'] %>
-                                <%= hidden_field_tag "algorithms[#{algorithm['name']}][parameters][#{param['name']}][id]", param['id'] %>
-                                <%= number_field_tag "algorithms[#{algorithm['name']}][parameters][#{param['name']}][value]", param['defaultValue'], :step => 'any'  %>
-                            </td>
+                        <td>        
+                            <%= radio_button_tag "selected", algorithm['name'] %>
+                            <%= hidden_field_tag "algorithms[#{algorithm['name']}][id]", algorithm['id'] %>
+                            <%= hidden_field_tag "algorithms[#{algorithm['name']}][name]", algorithm['name'] %>
+                            <%= hidden_field_tag "algorithms[#{algorithm['name']}][version]", algorithm['version'] %>
+                            <%= algorithm['name'] + ' ' + algorithm['version']%> 
+                        </td>
+                        <table>
+                        <tr>
+                            <% algorithm['parameters'].each do |param| %>
+                                <td>
+                                    <%= param['name'] %>
+                                    <%= hidden_field_tag "algorithms[#{algorithm['name']}][parameters][#{param['name']}][id]", param['id'] %>
+                                    <%= number_field_tag "algorithms[#{algorithm['name']}][parameters][#{param['name']}][value]", param['defaultValue'], :step => 'any'  %>
+                                </td>
+                        </tr>
+                        <% end %>
+                    </table>
                     </tr>
                     <% end %>
-                </table>
-                    
+                <% else %>
+                <tr>
+                    <td> No hay algoritmos disponibles para seleccionar. </td>
                 </tr>
                 <% end %>
             </tbody>

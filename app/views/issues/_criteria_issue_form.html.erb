@@ -1,10 +1,25 @@
 <%  if !@issue.blank? && @issue.pp_criteria_issues.any? %>
 <div id="pp_criteria_issue">
-    <% @issue.pp_criteria_issues.each do |criteria| %>
-        <%= criteria.pp_criteria.priorization_process.id %>
-        <%= criteria.pp_criteria.name %>
-        <%= criteria.pp_criteria.description %>
-        Value: <%= number_field_tag "pp_criteria_issue[#{criteria.id}][value]", criteria['value'] %>
-    <% end %>
+    <div class="label"> Criterios: </div>
+        <table id="criteria-table" class="table w-50 mt-10">
+            <thead class="thead-light">
+                <tr style="text-align: center">
+                    <th> Proceso de priorizacion </th>
+                    <th> Criterio </th>
+                    <th> Valor </th>
+                </tr>
+            </thead>
+            <tbody>
+                <% @issue.pp_criteria_issues.each do |criteria| %>
+                        <% if !criteria.pp_criteria.priorization_process.is_ended? %>
+                            <tr style="text-align: center">
+                                <td> <%= link_to "#{criteria.pp_criteria.priorization_process.id.to_s}", priorization_process_path(criteria.pp_criteria.priorization_process.id)   %> </td>
+                                <td> <%= criteria.pp_criteria.name  %> </td>
+                                <td> <%= number_field_tag "pp_criteria_issue[#{criteria.id}][value]", criteria['value'] %> </td>
+                            </tr>
+                        <% end %>
+                <% end %>
+            </tbody>
+        </table>
 </div>
 <% end %>

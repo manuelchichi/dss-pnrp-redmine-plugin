@@ -19,6 +19,8 @@ Redmine::Plugin.register :dss_pnrp do
   #Usar PROC para que solo se pueda ver si es el raiz. 
   # :if => Proc.new { Project.current.root? }
   menu :project_menu, :requeriment_engineering, { controller: 'requeriment_engineering', action: 'index' }, caption: 'Requeriment Engineering', param: :project_id
+  settings default: {'backend_address' => "http://fastapi:80"}, partial: 'settings/pnrp_settings'
+
 end
 
 require 'dss_pnrp'

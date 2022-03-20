@@ -3,16 +3,16 @@ class PriorizationProcessController < ApplicationController
   require 'uri'
   require 'json'
   
-  before_action :find_priorization_process, only: [:show, :executions, :execute, :execute_create, :retrive_query_prp, :solution_create, :solution_apply, :alternatives] 
+  before_action :find_priorization_process, only: [:show, :executions, :execute, :execute_create, :retrive_query_pp, :solution_create, :solution_apply, :alternatives, :reject] 
   before_action :find_project, only: [:new, :create] 
-  before_action :find_project_from_prp, only: [:show] 
-  before_action :find_execution, only: [:execution] 
+  before_action :find_project_from_pp, only: [:show] 
+  before_action :find_execution, only: [:execution, :retrive_query_pp ] 
 
   def find_project
     @project = Project.find(params[:project_id])
   end
 
-  def find_project_from_prp
+  def find_project_from_pp
     @project = PriorizationProcess.find(params[:id]).project
   end
 
@@ -24,9 +24,8 @@ class PriorizationProcessController < ApplicationController
     @ppExecution = PpExecution.find(params[:id_execution])
   end
 
-  def retrive_query_prp
-    urlString = "http://fastapi:80/execution/1" 
-    uri = URI.parse(urlString)
+  def retrive_query_pp
+    uri = URI.parse(Setting.plugin_dss_pnrp['backend_address'] + "/execution/" + @ppExecution['id'].to_s)
     request = Net::HTTP::Get.new(uri)
     request.content_type = "application/json"
     request["Accept"] = "application/json"
@@ -42,14 +41,10 @@ class PriorizationProcessController < ApplicationController
 
     @sorted_solution = solution.sort_by{ |hash| hash['position'].to_i }
     @priorities = IssuePriority.all
-    
-    
-    #Rails.logger.debug "Values"
-    #Rails.logger.debug "#{response.body}"
   end
 
-  def retrieve_algorithms_prp
-    uri = URI.parse("http://fastapi:80/algorithms")
+  def retrieve_algorithms_pp
+    uri = URI.parse(Setting.plugin_dss_pnrp['backend_address'] + "/algorithms/pp")
     request = Net::HTTP::Get.new(uri)
     request.content_type = "application/json"
     request["Accept"] = "application/json"
@@ -71,12 +66,12 @@ class PriorizationProcessController < ApplicationController
     end 
   end
   
-  def retrieve_criteria_prp
+  def retrieve_criteria_pp
     @ppCriterias = PpCriteria.where(priorization_process_id: @pp['id'])
   end
 
   def show
-    retrieve_criteria_prp
+    retrieve_criteria_pp
     @ppDecisionMakers = PpDecisionMaker.where(priorization_process_id: @pp['id'])
     @pprIssues = PpRelatedIssue.where(priorization_process_id: @pp['id'])
     @ppExecutions = PpExecution.where(priorization_process_id: @pp['id'])
@@ -118,12 +113,12 @@ class PriorizationProcessController < ApplicationController
   end
 
   def execution
-    retrive_query_prp
+    retrive_query_pp
   end
 
   def execute
-    retrieve_algorithms_prp
-    retrieve_criteria_prp
+    retrieve_algorithms_pp
+    retrieve_criteria_pp
   end
 
   def execute_create
@@ -135,32 +130,38 @@ class PriorizationProcessController < ApplicationController
 
     ppe = PpExecution.create(user: User.current, priorization_process: @pp, is_solution_created: false)
     
-    alg = params[:algorithms][params[:selected]]
-
-    ppa = PpAlgorithm.find_or_create_by(id: alg["id"]) do | newAlg |
-       newAlg.pp_execution_id = ppe.id
-       newAlg.name = alg["name"]
-       newAlg.version = alg["version"]
-    end
-
-    alg["parameters"].each do | param |
-      PpAlgorithmParameter.create(pp_algorithm_id: ppa.id, name: param[0], value: param[1]["value"])
-      arrayOfParameters << { param[1]["id"] => param[1]["value"] }
-    end
-    
     params[:criterias].each do | criteria |
       PpCriteriaPonderation.create(pp_execution_id: ppe.id,pp_criteria_id: criteria[0],value: criteria[1])
-      arrayOfCriteriaPonderations << { criteria[0] => criteria[1] }
+      arrayOfCriteriaPonderations << { criteria_id: criteria[0].to_i, value: criteria[1].to_f }
       criteriaIssues = PpCriteriaIssue.where(pp_criteria_id: criteria[0])
       criteriaIssues.each do | criteriaIssue |
-        arrayOfIssuePonderations << { criteria_id: criteriaIssue['pp_criteria_id'], issue_id: criteriaIssue['issue_id'], value: criteriaIssue['value'] }
+        element = arrayOfIssuePonderations.find { | issueponderation |  issueponderation[:issue_id] == criteriaIssue['issue_id'] }
+        if element.nil?
+          arrayOfIssuePonderations << { issue_id: criteriaIssue['issue_id'],  eval: [{ criteria_id: criteriaIssue['pp_criteria_id'], value: criteriaIssue['value'].to_f}] }
+        else
+          element[:eval] << { criteria_id: criteriaIssue['pp_criteria_id'], value: criteriaIssue['value'].to_f}
+        end
       end
     end
-    priorities = IssuePriority.all
+    
+    if !params[:selected].nil?
+      alg = params[:algorithms][params[:selected]]
 
-    postJson = {:execution_id => ppe.id, :issue_ponderation => arrayOfIssuePonderations, :priorization_process_id => @pp.id, :priorities => priorities.pluck(:id,:name,:position,:active)  ,:algorithm => {id: ppa.id, parameters: arrayOfParameters}, :ponderations => arrayOfCriteriaPonderations }.to_json
+      ppa = PpAlgorithm.find_or_create_by(id: alg["id"]) do | newAlg |
+        newAlg.pp_execution_id = ppe.id
+        newAlg.name = alg["name"]
+        newAlg.version = alg["version"]
+      end
+    
+      alg["parameters"].each do | param |
+        PpAlgorithmParameter.create(pp_algorithm_id: ppa.id, name: param[0], value: param[1]["value"])
+        arrayOfParameters << { param[1]["id"] => param[1]["value"] }
+      end
+    end
 
-    uri = URI.parse("http://fastapi:80/execution")
+    postJson = {:priorization_process_id => @pp.id, :pp_execution_id => ppe.id, :criterias => arrayOfCriteriaPonderations, :issues => arrayOfIssuePonderations }.to_json
+   
+    uri = URI.parse(Setting.plugin_dss_pnrp['backend_address'] + "/execution")
     request = Net::HTTP::Post.new(uri)
     request.content_type = "application/json"
     request.body = postJson
@@ -170,7 +171,11 @@ class PriorizationProcessController < ApplicationController
       http.request(request)
     end
 
-    redirect_to(priorization_process_path(@pp))
+    if (response.code == "200")
+      redirect_to(priorization_process_path(@pp))
+    else
+      flash[:notice] ='Error al enviar ejecucion.'
+    end
   end
 
   def solution_create
@@ -202,6 +207,12 @@ class PriorizationProcessController < ApplicationController
   def new
     @persons = User.find(@project.members.map(&:user_id))
     @issues = Issue.find(@project.issue_ids)
+  end
+
+  def reject
+    PriorizationProcess.update(@pp['id'], is_ended: true)
+
+    redirect_to(priorization_process_path(@pp))
   end
 
   def create
