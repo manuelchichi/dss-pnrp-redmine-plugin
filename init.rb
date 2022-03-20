@@ -9,10 +9,10 @@ Redmine::Plugin.register :dss_pnrp do
   author_url 'http://example.com/about'
   
   permission :requeriment_engineering, { requeriment_engineering: [:index] }, public: true
-  permission :priorization_process, { priorization_process: [:index,:show] }, public: true
+  permission :prioritization_process, { prioritization_process: [:index,:show] }, public: true
 
-  project_module :priorization_process do
-    permission :see_priorization_process, priorization_process: :show
+  project_module :prioritization_process do
+    permission :see_prioritization_process, prioritization_process: :show
   end
 
 

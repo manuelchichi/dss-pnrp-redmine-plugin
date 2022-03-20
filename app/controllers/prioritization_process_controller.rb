@@ -1,9 +1,9 @@
-class PriorizationProcessController < ApplicationController
+class PrioritizationProcessController < ApplicationController
   require 'net/http'
   require 'uri'
   require 'json'
   
-  before_action :find_priorization_process, only: [:show, :executions, :execute, :execute_create, :retrive_query_pp, :solution_create, :solution_apply, :alternatives, :reject] 
+  before_action :find_prioritization_process, only: [:show, :executions, :execute, :execute_create, :retrive_query_pp, :solution_create, :solution_apply, :alternatives, :reject] 
   before_action :find_project, only: [:new, :create] 
   before_action :find_project_from_pp, only: [:show] 
   before_action :find_execution, only: [:execution, :retrive_query_pp ] 
@@ -13,11 +13,11 @@ class PriorizationProcessController < ApplicationController
   end
 
   def find_project_from_pp
-    @project = PriorizationProcess.find(params[:id]).project
+    @project = PrioritizationProcess.find(params[:id]).project
   end
 
-  def find_priorization_process
-    @pp = PriorizationProcess.find(params[:id])
+  def find_prioritization_process
+    @pp = PrioritizationProcess.find(params[:id])
   end
 
   def find_execution
@@ -67,14 +67,14 @@ class PriorizationProcessController < ApplicationController
   end
   
   def retrieve_criteria_pp
-    @ppCriterias = PpCriteria.where(priorization_process_id: @pp['id'])
+    @ppCriterias = PpCriteria.where(prioritization_process_id: @pp['id'])
   end
 
   def show
     retrieve_criteria_pp
-    @ppDecisionMakers = PpDecisionMaker.where(priorization_process_id: @pp['id'])
-    @pprIssues = PpRelatedIssue.where(priorization_process_id: @pp['id'])
-    @ppExecutions = PpExecution.where(priorization_process_id: @pp['id'])
+    @ppDecisionMakers = PpDecisionMaker.where(prioritization_process_id: @pp['id'])
+    @pprIssues = PpRelatedIssue.where(prioritization_process_id: @pp['id'])
+    @ppExecutions = PpExecution.where(prioritization_process_id: @pp['id'])
   end
 
   def alternatives
@@ -82,7 +82,7 @@ class PriorizationProcessController < ApplicationController
 
     @alternatives = []
 
-    pp_executions = PpExecution.where(priorization_process_id: @pp['id'])
+    pp_executions = PpExecution.where(prioritization_process_id: @pp['id'])
     
     pp_executions.each do |execution|
       solutions = PpSolution.where(pp_execution_id: execution['id'])
@@ -128,7 +128,7 @@ class PriorizationProcessController < ApplicationController
     arrayOfIssuePonderations = []
     arrayOfCriteriaPonderations = []
 
-    ppe = PpExecution.create(user: User.current, priorization_process: @pp, is_solution_created: false)
+    ppe = PpExecution.create(user: User.current, prioritization_process: @pp, is_solution_created: false)
     
     params[:criterias].each do | criteria |
       PpCriteriaPonderation.create(pp_execution_id: ppe.id,pp_criteria_id: criteria[0],value: criteria[1])
@@ -159,7 +159,7 @@ class PriorizationProcessController < ApplicationController
       end
     end
 
-    postJson = {:priorization_process_id => @pp.id, :pp_execution_id => ppe.id, :criterias => arrayOfCriteriaPonderations, :issues => arrayOfIssuePonderations }.to_json
+    postJson = {:prioritization_process_id => @pp.id, :pp_execution_id => ppe.id, :criterias => arrayOfCriteriaPonderations, :issues => arrayOfIssuePonderations }.to_json
    
     uri = URI.parse(Setting.plugin_dss_pnrp['backend_address'] + "/execution")
     request = Net::HTTP::Post.new(uri)
@@ -172,14 +172,14 @@ class PriorizationProcessController < ApplicationController
     end
 
     if (response.code == "200")
-      redirect_to(priorization_process_path(@pp))
+      redirect_to(prioritization_process_path(@pp))
     else
       flash[:notice] ='Error al enviar ejecucion.'
     end
   end
 
   def solution_create
-    solution = PpSolution.create(pp_execution_id: params[:execution_id], priorization_process_id: @pp['id'], is_applied: false)
+    solution = PpSolution.create(pp_execution_id: params[:execution_id], prioritization_process_id: @pp['id'], is_applied: false)
     sol_issues = params[:sol_issues]
     sol_issues.each do |issue|   
       new_sol_issue = PpSolutionIssue.create(issue_id: issue[0], pp_solution_id: solution["id"] ,priority: issue[1]["priority"])
@@ -187,7 +187,7 @@ class PriorizationProcessController < ApplicationController
 
     PpExecution.update(params[:execution_id], is_solution_created: true)
 
-    redirect_to(priorization_process_path(@pp))
+    redirect_to(prioritization_process_path(@pp))
   end
 
   def solution_apply
@@ -199,9 +199,9 @@ class PriorizationProcessController < ApplicationController
     end
 
     PpSolution.update(params[:selected_alternative], is_applied: true)
-    PriorizationProcess.update(@pp['id'], is_ended: true)
+    PrioritizationProcess.update(@pp['id'], is_ended: true)
 
-    redirect_to(priorization_process_path(@pp))
+    redirect_to(prioritization_process_path(@pp))
   end
 
   def new
@@ -210,30 +210,30 @@ class PriorizationProcessController < ApplicationController
   end
 
   def reject
-    PriorizationProcess.update(@pp['id'], is_ended: true)
+    PrioritizationProcess.update(@pp['id'], is_ended: true)
 
-    redirect_to(priorization_process_path(@pp))
+    redirect_to(prioritization_process_path(@pp))
   end
 
   def create
     # Si ya existe uno inicializado que de error.
-    pp = PriorizationProcess.create(project_id: @project.id, is_ended: false)
+    pp = PrioritizationProcess.create(project_id: @project.id, is_ended: false)
         
     arrayOfCriterias = []
 
     params[:criterias].each do | criteria |
-      arrayOfCriterias << PpCriteria.create(priorization_process_id: pp.id, name: criteria[:name], description: criteria[:description], default_value: criteria[:value])
+      arrayOfCriterias << PpCriteria.create(prioritization_process_id: pp.id, name: criteria[:name], description: criteria[:description], default_value: criteria[:value])
     end
     
     params[:issues_ids].each do | id |
-      PpRelatedIssue.create(priorization_process_id: pp.id, issue_id: id, old_priority: 0, new_priority: 0, status:0)
+      PpRelatedIssue.create(prioritization_process_id: pp.id, issue_id: id, old_priority: 0, new_priority: 0, status:0)
       arrayOfCriterias.each do | criteria |
         PpCriteriaIssue.create(issue_id: id,pp_criteria_id: criteria.id,value: criteria.default_value)
       end
     end
 
     params[:persons_ids].each do | id |
-      PpDecisionMaker.create(priorization_process_id: pp.id, user_id: id, admin: false)
+      PpDecisionMaker.create(prioritization_process_id: pp.id, user_id: id, admin: false)
     end
   
     redirect_to(index_requeriment_engineering_path())
