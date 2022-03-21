@@ -1,15 +1,21 @@
-<h2>Ejecutar proceso de priorizacion</h2>
+<div class="titlewrapper">
+  <div class="title">
+    <h4>Ejecutar proceso de priorizacion</h4>
+  </div>
+  <div class="backbutton">
+    <%= link_to "Atras", prioritization_process_path(@pp['id']) %>
+  </div>
+</div>
 
 <%= form_with url: execute_create_prioritization_process_path(), method: :post do |form| %>
     <div class="pr-board box">
-        <h2>Seleccionar algoritmo</h2>
-        <table class="table w-50 mt-5">
+        <h5>Seleccionar algoritmo</h5>
+        <table class="table w-50">
             <thead class="thead-dark"
                 <tr>
                     <th> Algoritmos </th>
                 </tr>
             </thead>
-                
             <tbody>
                 <%  if @algorithms.any? %>
                     <% @algorithms.each do |algorithm| %>
@@ -45,8 +51,8 @@
     </div>
 
     <div class="pr-board box">
-        <h2>Ponderacion de criterios</h2>
-        <table class="table w-50 mt-5">
+        <h5>Ponderacion de criterios</h5>
+        <table class="table w-50">
             <thead class="thead-dark">
                 <tr>
                     <th> Nombre </th>
@@ -72,4 +78,9 @@
         <%= form.submit "Crear" %>
     </div>
     
+<% end %>
+
+<% content_for :header_tags do %>
+    <%= stylesheet_link_tag "bootstrap", plugin: "dss_pnrp" %>
+    <%= stylesheet_link_tag "options", plugin: "dss_pnrp" %>
 <% end %>

@@ -1,4 +1,11 @@
-<h2> Nuevo proceso de priorización </h2>
+<div class="titlewrapper">
+  <div class="title">
+    <h4>Nuevo proceso de priorizacion</h4>
+  </div>
+  <div class="backbutton">
+    <%= link_to "Atras", index_requeriment_engineering_path(@project['id']) %>
+  </div>
+</div>
 
 <%= form_with url: project_prioritization_process_index_path(), method: :post do |form| %>
     
@@ -14,6 +21,6 @@
 
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag "bootstrap", plugin: "dss_pnrp" %>
-  <%# stylesheet_link_tag "fontawesome", plugin: "dss_pnrp" %>
+  <%= stylesheet_link_tag "options", plugin: "dss_pnrp" %>
   <%= javascript_include_tag "new_process", plugin: "dss_pnrp" %>
 <% end %>

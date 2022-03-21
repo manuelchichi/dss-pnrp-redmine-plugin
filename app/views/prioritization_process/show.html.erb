@@ -1,4 +1,3 @@
-
 <div class="titlewrapper">
   <div class="title">
     <h4>Proceso de priorizacion</h4>
@@ -198,7 +197,7 @@
         <% @ppDecisionMakers.each do |pdm|%>
           <tr align="center">   
             <td>
-            <%=link_to "#{'User#' + pdm['user_id'].to_s}", user_path(pdm.user)  %>
+            <%=link_to pdm['user_id'].to_s, user_path(pdm.user)  %>
             </td>
             <td>
             <%= pdm.user['firstname'] %>
