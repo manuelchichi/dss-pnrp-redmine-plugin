@@ -1,19 +1,30 @@
 # dss-pnrp-redmine-plugin
 
-Repositorio que contiene el codigo fuente al plugin Redmine de soporte a la toma de decisiones en proyectos de desarrollo de software.
-
-# Desarrollo
+Repositorio que contiene el codigo fuente al plugin Redmine de soporte a la toma
+de decisiones en proyectos de desarrollo de software.
 
 ## Herramientas necesarias
 
--[Docker](https://docs.docker.com/engine/install/ubuntu/)
--[Docker-Compose](https://docs.docker.com/compose/install/)
--[Direnv](https://direnv.net/)
+* [Docker](https://docs.docker.com/engine/install/ubuntu/)
+* [Docker-Compose](https://docs.docker.com/compose/install/)
+* [Direnv](https://direnv.net/)
 
-### Ejecutar proyecto en modo desarrollo.
+## Produccion
+
+### Ejecutar Redmine en modo produccion
+```
+# Para iniciar las imagenes Docker
+docker-prod up -d
+
+# Una vez que finalizamos el trabajo
+docker-prod down -v
+```
+## Desarrollo
+
+### Ejecutar proyecto en modo desarrollo
 ```
 # Para levantar las imagenes Docker
-docker-dev up -d 
+docker-dev up -d
 
 # Ejecutamos los siguientes comandos para instalar los plugins
 bundle config unset deployment
