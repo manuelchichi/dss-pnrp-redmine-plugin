@@ -1,6 +1,6 @@
-# Decision Suport System | Redmine Plugin
+# Decision Support System | Redmine Plugin
 
-##  Priorization Problem - Next Release Problem
+##  Prioritization Problem - Next Release Problem
 
 Plugin [Redmine](https://www.redmine.org/) que se encarga de crear las vistas y
 logica de comunicacion con la api para resolver el **problema de priorizacion de
