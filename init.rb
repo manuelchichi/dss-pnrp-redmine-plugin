@@ -1,5 +1,3 @@
-require 'redmine'
-
 Redmine::Plugin.register :dss_pnrp do
   name 'Decision Support System'
   author 'GICIIS'
@@ -7,6 +5,7 @@ Redmine::Plugin.register :dss_pnrp do
   version '0.0.5'
   url 'http://example.com/path/to/plugin'
   author_url 'http://example.com/about'
+  requires_redmine version_or_higher: '5.0.0'
   
   permission :requeriment_engineering, { requeriment_engineering: [:index] }, public: true
   permission :prioritization_process, { prioritization_process: [:index,:show] }, public: true
@@ -23,4 +22,4 @@ Redmine::Plugin.register :dss_pnrp do
 
 end
 
-require 'dss_pnrp'
+require File.expand_path('../lib/dss_pnrp', __FILE__)

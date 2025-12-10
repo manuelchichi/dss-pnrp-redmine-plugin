@@ -6,15 +6,22 @@ desarrollo del proyecto.
 ## Herramientas necesarias
 
 * [Docker](https://docs.docker.com/engine/install/ubuntu/)
-* [Docker-Compose](https://docs.docker.com/compose/install/)
-* [Direnv](https://direnv.net/)
+* [Mise](https://mise.jdx.dev/installing-mise.html/)
 
 ## Produccion
 
 ### Comandos
 ```
+# Para que mise confie en la carpeta actual
+mise trust
+
 # Para iniciar las imagenes Docker
 docker-prod up -d
+
+docker-prod exec redmine bundle exec rails console
+
+Redmine::DefaultData::Loader.load('en')
+DssPnrp::InitsLoader.run
 
 # Una vez que finalizamos el trabajo
 docker-prod down -v
@@ -26,11 +33,10 @@ docker-prod down -v
 # Para levantar las imagenes Docker
 docker-dev up -d
 
-# Ejecutamos los siguientes comandos para instalar los plugins
-bundle config unset deployment
-bundle install --no-deployment
+bundle exec rails console
 
-# Una vez que finalizamos el trabajo
+Redmine::DefaultData::Loader.load('en')
+DssPnrp::InitsLoader.run
 
 docker-dev down -v
 ```

@@ -1,4 +1,4 @@
-class CreatePpAlgorithmParameter < ActiveRecord::Migration[5.2]
+class CreatePpAlgorithmParameter < ActiveRecord::Migration[6.1]
   def change
     create_table :pp_algorithm_parameters do |t|
       t.belongs_to :pp_algorithm
