@@ -10,7 +10,7 @@ services:
       - REDMINE_DB_USERNAME=bn_redmine
       - REDMINE_DB_DATABASE=bitnami_redmine
       - REDMINE_DB_PASSWORD=test1234!
-      - REDMINE_SECRET_KEY_BASE=supersecretkey
+      - SECRET_KEY_BASE=supersecretkey
       - REDMINE_LANG=es
     volumes:
       - 'redmine_data:/usr/src/redmine/files'

@@ -3,15 +3,15 @@ services:
     image: redmine-dev
     build:
       context: .
-      target: base
+      target: base 
     environment:
-      - RAILS_ENV=development
+      - RAILS_ENV=production
       - REDMINE_PLUGINS_MIGRATE=1
       - REDMINE_DB_MYSQL=mariadb
       - REDMINE_DB_USERNAME=bn_redmine
       - REDMINE_DB_DATABASE=bitnami_redmine_development
       - REDMINE_DB_PASSWORD=test1234!
-      - REDMINE_SECRET_KEY_BASE=supersecretkey
+      - SECRET_KEY_BASE=supersecretkey
       - REDMINE_LANG=es
     volumes:
       - './always_restart.txt:/usr/src/redmine/plugins/tmp/always_restart.txt'

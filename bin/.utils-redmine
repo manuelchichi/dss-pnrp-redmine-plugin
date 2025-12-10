@@ -2,5 +2,5 @@
 
 set -e 
 
-docker-compose -f docker-compose.yaml -f docker-compose.dev.yaml exec redmine \
+docker compose -f docker-compose.yaml -f docker-compose.dev.yaml exec redmine \
   $(basename $0) $@
