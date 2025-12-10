@@ -6,13 +6,15 @@ desarrollo del proyecto.
 ## Herramientas necesarias
 
 * [Docker](https://docs.docker.com/engine/install/ubuntu/)
-* [Docker-Compose](https://docs.docker.com/compose/install/)
-* [Direnv](https://direnv.net/)
+* [Mise](https://mise.jdx.dev/installing-mise.html/)
 
 ## Produccion
 
 ### Comandos
 ```
+# Para que mise confie en la carpeta actual
+mise trust
+
 # Para iniciar las imagenes Docker
 docker-prod up -d
 

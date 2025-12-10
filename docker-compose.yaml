@@ -1,12 +1,13 @@
-version: "3.8"
 services:
   mariadb:
-    image: 'bitnami/mariadb:10.4'
+    image: 'mariadb:12'
     restart: on-failure
     environment:
+      - MARIADB_RANDOM_ROOT_PASSWORD=1
       - ALLOW_EMPTY_PASSWORD=yes
       - MARIADB_USER=bn_redmine
       - MARIADB_DATABASE=bitnami_redmine
+      - MARIADB_PASSWORD=test1234!
   redmine:
     restart: on-failure
     ports:

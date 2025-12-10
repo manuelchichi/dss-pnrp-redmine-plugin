@@ -1,4 +1,4 @@
-class CreatePpCriteriaIssues < ActiveRecord::Migration[5.2]
+class CreatePpCriteriaIssues < ActiveRecord::Migration[6.1]
   def change
     create_table :pp_criteria_issues do |t|
       t.belongs_to :pp_criteria

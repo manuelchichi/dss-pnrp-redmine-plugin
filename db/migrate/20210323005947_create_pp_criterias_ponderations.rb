@@ -1,4 +1,4 @@
-class CreatePpCriteriasPonderations < ActiveRecord::Migration[5.2]
+class CreatePpCriteriasPonderations < ActiveRecord::Migration[6.1]
   def change
     create_table :pp_criterias_ponderations do |t|
       t.belongs_to :pp_criteria

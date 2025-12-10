@@ -1,9 +1,9 @@
-class Inits < ActiveRecord::Migration[5.2]
+class Inits < ActiveRecord::Migration[6.1]
   def up
     
     #Project 1
     project1 = Project.create(identifier: "project-1",name: "Proyecto 1")
-    Member.create_principal_memberships(User.find_by_id(1), project_ids: [1], role_ids: [3])
+    Member.create_principal_memberships(User.find_by_id(1), project_ids: [1], role_ids: [1])
     ppp1 = PrioritizationProcess.create(project_id: project1.id, is_ended: false)
     criteriasp1 = [{name: "Beneficio", description:"", default_value: 20},{name: "Complejidad", description:"", default_value: 30},{name: "Interaccion", description:"", default_value: 50}]
     criteriasvaluep1 = [[80,70,50],[100,80,20],[20,50,70],[10,40,50],[10,50,70],[5,30,5],[30,100,100],[90,20,90],[15,15,10],[40,15,5]]
@@ -26,7 +26,7 @@ class Inits < ActiveRecord::Migration[5.2]
 
     #Project 2
     project2 = Project.create(identifier: "project-2",name: "Proyecto 2")
-    Member.create_principal_memberships(User.find_by_id(1), project_ids: [2], role_ids: [3])
+    Member.create_principal_memberships(User.find_by_id(1), project_ids: [2], role_ids: [1])
     ppp2 = PrioritizationProcess.create(project_id: project2.id, is_ended: false)
     criteriasp2 = [{name: "Beneficio", description:"", default_value: 20},{name: "Complejidad", description:"", default_value: 30},{name: "Interaccion", description:"", default_value: 50}]
     criteriasvaluep2 = [[80,70,50],[100,80,20],[20,50,70],[10,40,50],[10,50,70],[5,30,5],[30,100,100],[20,15,60],[10,100,50],[35,45,80],

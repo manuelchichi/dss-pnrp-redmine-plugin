@@ -1,4 +1,4 @@
-class CreatePpSolutionIssues < ActiveRecord::Migration[5.2]
+class CreatePpSolutionIssues < ActiveRecord::Migration[6.1]
   def change
     create_table :pp_solution_issues do |t|
       t.belongs_to :issue

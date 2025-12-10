@@ -24,3 +24,5 @@ end
 unless IssuesController.included_modules.include?(DssPnrp::Patches::IssuesControllerPatch)
     IssuesController.send(:include, DssPnrp::Patches::IssuesControllerPatch)
 end
+
+
