@@ -171,10 +171,11 @@ class PrioritizationProcessController < ApplicationController
       http.request(request)
     end
 
-    if (response.code == "200")
+    if response.code.to_i.between?(200, 299)
       redirect_to(prioritization_process_path(@pp))
     else
       flash[:notice] ='Error al enviar ejecucion.'
+      redirect_to(prioritization_process_path(@pp))
     end
   end
 

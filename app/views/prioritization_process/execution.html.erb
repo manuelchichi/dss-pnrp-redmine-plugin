@@ -3,7 +3,7 @@
     <h4>Nueva solucion</h4>
   </div>
   <div class="backbutton">
-    <%= link_to "Atras", prioritization_process_path(@ppExecution['id']) %>
+    <%= link_to "Atras", prioritization_process_path(@ppExecution['prioritization_process_id']) %>
   </div>
 </div>
 
@@ -20,7 +20,7 @@
               Posicion <%= issue["position"] %>
             </div>
             <div class="rank-column-option">
-              <%= select_tag "sol_issues[[#{issue['issue_id']}][priority]", options_from_collection_for_select(@priorities,"id","name") %>
+              <%= select_tag "sol_issues[#{issue['issue_id']}][priority]", options_from_collection_for_select(@priorities,"id","name") %>
             </div>
           </div>
         <% end %>
