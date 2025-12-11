@@ -19,7 +19,10 @@ mise trust
 docker-prod up -d
 
 # Inicializar los proyectos
-docker-prod exec redmine bundle exec rails console -e "Redmine::DefaultData::Loader.load('es'); DssPnrp::InitsLoader.run"
+docker-prod exec redmine bundle exec rails console 
+
+Redmine::DefaultData::Loader.load('es'); 
+DssPnrp::InitsLoader.run;
 
 # Una vez que finalizamos el trabajo
 docker-prod down -v
@@ -31,7 +34,10 @@ docker-prod down -v
 # Para levantar las imagenes Docker
 docker-dev up -d
 
-bundle exec rails console -e "Redmine::DefaultData::Loader.load('es'); DssPnrp::InitsLoader.run"
+# Inicializar los proyectos
+bundle exec rails console 
+Redmine::DefaultData::Loader.load('es')
+DssPnrp::InitsLoader.run
 
 docker-dev down -v
 ```

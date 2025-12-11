@@ -26,7 +26,7 @@ module DssPnrp
 
             #Issues 1
             for i in 0..9 do
-            issue = Issue.new(tracker: tracker, project: project1, subject: "Issue "+ i.to_s, description: "test issue", status: status, priority: priority, author: admin_user)
+              issue = Issue.new(tracker: tracker, project: project1, subject: "Issue "+ (i+1).to_s, description: "test issue", status: status, priority: priority, author: admin_user)
             unless issue.save
                 raise "Issue not created: #{issue.errors.full_messages.join(', ')}"
             end
@@ -57,7 +57,7 @@ module DssPnrp
             #Issues 2
             for i in 0..49 do
             
-            issue = Issue.new(tracker:  tracker, project: project2, subject: "Issue "+ i.to_s, description: "test issue", status: status, priority: priority, author: admin_user)
+              issue = Issue.new(tracker:  tracker, project: project2, subject: "Issue "+ (i+11).to_s, description: "test issue", status: status, priority: priority, author: admin_user)
             unless issue.save
                 raise "Issue not created: #{issue.errors.full_messages.join(', ')}"
             end
