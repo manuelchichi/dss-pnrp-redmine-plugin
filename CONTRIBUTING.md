@@ -20,8 +20,12 @@ docker-prod up -d
 
 docker-prod exec redmine bundle exec rails console
 
-Redmine::DefaultData::Loader.load('en')
+# En la consola ejecuta los dos siguientes comandos para cargar el proyecto
+
+Redmine::DefaultData::Loader.load('es')
 DssPnrp::InitsLoader.run
+
+# Puedes salir de la consola con CTRL+D
 
 # Una vez que finalizamos el trabajo
 docker-prod down -v
