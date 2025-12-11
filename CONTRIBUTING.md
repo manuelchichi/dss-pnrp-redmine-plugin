@@ -18,14 +18,8 @@ mise trust
 # Para iniciar las imagenes Docker
 docker-prod up -d
 
-docker-prod exec redmine bundle exec rails console
-
-# En la consola ejecuta los dos siguientes comandos para cargar el proyecto
-
-Redmine::DefaultData::Loader.load('es')
-DssPnrp::InitsLoader.run
-
-# Puedes salir de la consola con CTRL+D
+# Inicializar los proyectos
+docker-prod exec redmine bundle exec rails console -e "Redmine::DefaultData::Loader.load('es'); DssPnrp::InitsLoader.run"
 
 # Una vez que finalizamos el trabajo
 docker-prod down -v
@@ -37,10 +31,7 @@ docker-prod down -v
 # Para levantar las imagenes Docker
 docker-dev up -d
 
-bundle exec rails console
-
-Redmine::DefaultData::Loader.load('en')
-DssPnrp::InitsLoader.run
+bundle exec rails console -e "Redmine::DefaultData::Loader.load('es'); DssPnrp::InitsLoader.run"
 
 docker-dev down -v
 ```
