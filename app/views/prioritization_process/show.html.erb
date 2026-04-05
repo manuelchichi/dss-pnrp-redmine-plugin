@@ -1,13 +1,12 @@
 <div class="titlewrapper">
-  <div class="title">
-    <h4>Proceso de priorizacion</h4>
-  </div>
-  <div class="backbutton">
-    <%= link_to "Atras", index_requeriment_engineering_path(@project['id']) %>
-  </div>
+  <h4>
+    <span>Proceso de priorizacion</span>
+    <%= link_to "", index_requeriment_engineering_path(@project['id']), class: "icon icon-cancel icon-only backbutton" %>
+  </h4>
 </div>
 
 <% if !@pp.is_ended? %>
+<div class="pr-board box row justify-content-center">
   <div class="options">
     <div class="div1">
         <%= link_to '<button type="button" class="btn btn-info optionbutton">Iniciar proceso</button>'.html_safe, execute_prioritization_process_path(@pp) %> 
@@ -22,6 +21,7 @@
       <a href="#" class="button">Seleccionar tomadores de decision</a>
     </div>
   </div>
+</div>
 <hr>
 <% end %>
 
@@ -213,4 +213,5 @@
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag "bootstrap", plugin: "dss_pnrp" %>
   <%= stylesheet_link_tag "options", plugin: "dss_pnrp" %>
+  <%= stylesheet_link_tag "titles", plugin: "dss_pnrp" %>
 <% end %>

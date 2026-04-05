@@ -6,10 +6,10 @@
                     <th> ID </th>
                     <th> Asunto </th>
                     <th> Descripcion </th>
-                    <td> 
-                        <div> Seleccionar todos </div>
-                        <input type="checkbox" id="select-all-chk">
-                    </td>
+                    <th> 
+                      <span>Seleccionar todos</span>
+                      <input type="checkbox" id="select-all-chk">
+                    </th>
                 </tr>
             </thead>
                 
@@ -18,10 +18,10 @@
                     <tr style="text-align: center">
                         <td> <%= issue.id %> </td>
                         <td> <%= issue.subject %> </td>
-                        <td style="text-align: left!important;"> <%= issue.description %> </td>
+                        <td> <%= issue.description %> </td>
                         <td> <%= check_box_tag "issues_ids[]", issue['id'], false, :id => "issues_ids_#{issue['id']}"  %> </td>
                     </tr>
                 <% end %>
             </tbody>
         </table>
-    </div>
+</div>

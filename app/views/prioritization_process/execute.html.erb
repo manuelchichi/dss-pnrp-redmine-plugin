@@ -1,10 +1,8 @@
 <div class="titlewrapper">
-  <div class="title">
-    <h4>Ejecutar proceso de priorizacion</h4>
-  </div>
-  <div class="backbutton">
-    <%= link_to "Atras", prioritization_process_path(@pp['id']) %>
-  </div>
+  <h4>
+    <span>Ejecutar proceso de priorizacion</span>
+    <%= link_to "", prioritization_process_path(@pp['id']), class: "icon icon-cancel icon-only backbutton" %>
+  </h4>
 </div>
 
 <%= form_with url: execute_create_prioritization_process_path(), method: :post do |form| %>
@@ -83,4 +81,5 @@
 <% content_for :header_tags do %>
     <%= stylesheet_link_tag "bootstrap", plugin: "dss_pnrp" %>
     <%= stylesheet_link_tag "options", plugin: "dss_pnrp" %>
+    <%= stylesheet_link_tag "titles", plugin: "dss_pnrp" %>
 <% end %>

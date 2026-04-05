@@ -1,10 +1,8 @@
 <div class="titlewrapper">
-  <div class="title">
-    <h4>Seleccionar alternativas</h4>
-  </div>
-  <div class="backbutton">
-    <%= link_to "Atras", prioritization_process_path(@pp['id']) %>
-  </div>
+  <h4>
+    <span>Seleccionar alternativas</span>
+    <%= link_to "", prioritization_process_path(@pp['id']), class: "icon icon-cancel icon-only backbutton" %>
+  </h4>
 </div>
 
 <%= form_with url: solution_apply_prioritization_process_path(), method: :post do |form| %>
@@ -50,5 +48,6 @@
   <%= stylesheet_link_tag "tables", plugin: "dss_pnrp" %>
   <%= stylesheet_link_tag "bootstrap", plugin: "dss_pnrp" %>
   <%= stylesheet_link_tag "options", plugin: "dss_pnrp" %>
+  <%= stylesheet_link_tag "titles", plugin: "dss_pnrp" %>
 <% end %>
   

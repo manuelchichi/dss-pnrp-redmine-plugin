@@ -1,10 +1,8 @@
 <div class="titlewrapper">
-  <div class="title">
-    <h4>Nuevo proceso de priorizacion</h4>
-  </div>
-  <div class="backbutton">
-    <%= link_to "Atras", index_requeriment_engineering_path(@project['id']) %>
-  </div>
+  <h4>
+    <span>Nuevo proceso de priorizacion</span>
+    <%= link_to "", index_requeriment_engineering_path(@project['id']), class: "icon icon-cancel icon-only backbutton" %>
+  </h4>
 </div>
 
 <%= form_with url: project_prioritization_process_index_path(), method: :post do |form| %>
@@ -23,4 +21,6 @@
   <%= stylesheet_link_tag "bootstrap", plugin: "dss_pnrp" %>
   <%= stylesheet_link_tag "options", plugin: "dss_pnrp" %>
   <%= javascript_include_tag "new_process", plugin: "dss_pnrp" %>
+  <%= stylesheet_link_tag "icons", plugin: "dss_pnrp" %>
+  <%= stylesheet_link_tag "titles", plugin: "dss_pnrp" %>
 <% end %>
